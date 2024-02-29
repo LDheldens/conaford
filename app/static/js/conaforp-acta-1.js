@@ -1,15 +1,37 @@
+// navbar
 const btnDropdownNavbarLink = document.getElementById('dropdownNavbarLink')
 const dropdownNavbar = document.getElementById('dropdownNavbar')
-
 btnDropdownNavbarLink.addEventListener('click', () => {
     dropdownNavbar.classList.toggle('hidden')
 })
-
 document.addEventListener('click', event => {
     if (!dropdownNavbar.contains(event.target) && event.target !== btnDropdownNavbarLink) {
         dropdownNavbar.classList.add('hidden');
     }
 });
+
+// data backend
+let ubigeoData = { }
+const allUbigeosPe = () => {
+    const payload = {
+        allData: true
+    };
+    const urlBase = '/tools/search-all-ubigeos-pe/'
+    fetch(urlBase, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json().then(data => {
+        ubigeoData = data
+        const main = document.getElementById('main');
+        main.classList.remove("hidden");
+    }))
+    .catch(console.log);
+}
+allUbigeosPe();
 
 const toggleContent = (li, elementToActivateIds) => {
     // li
@@ -234,7 +256,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return formTitularRepresentante;
     }
 
-
     
     function capitalize(str) {
         return str.replace(/\b\w/g, function(l) {
@@ -256,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const dni = document.getElementById(`${indexFormTitularRepresentante}-titular-dni`).value;
             const apellidos = document.getElementById(`${indexFormTitularRepresentante}-titular-apellidos`);
             const nombres = document.getElementById(`${indexFormTitularRepresentante}-titular-nombres`);
-            const urlBase = "http://127.0.0.1:8000/tools/search-dni/";
+            const urlBase = "/tools/search-dni-pe/";
             const payload = {
                 dni,
             };
@@ -265,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             })
             .then(res => {
                 if (res.status === 200) {
@@ -297,7 +318,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     })
 
-
     
     // selectores
     // const btn = document.getElementById("button");
@@ -309,7 +329,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     celWssp.addEventListener('input', event => event.target.value = event.target.value.replace(/\D/g, ''));
     numeroLotes.addEventListener('input', event => event.target.value = event.target.value.replace(/\D/g, ''));
-
 
     const setDate = () => {
         let currentDate = new Date().toLocaleString('es-PE', {
