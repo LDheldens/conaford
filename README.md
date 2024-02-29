@@ -26,7 +26,7 @@
    pip install -r requirements.txt
    ```
 
-5. Ejecuta la aplicación:
+5. Ejecuta la aplicación desde el directorio "app":
    ```bash
    python manage.py runserver
    ```
