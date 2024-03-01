@@ -1,14 +1,14 @@
 import json
-from django.shortcuts import render
-from django.views import View
-from django.contrib.auth.models import Group
-from django.db import transaction
+# from django.shortcuts import render
+# from django.views import View
+# from django.contrib.auth.models import Group
+# from django.db import transaction
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, UpdateView, DeleteView, TemplateView
-from config import settings
-from core.pos.forms import ClientForm, User, Client
-from core.security.mixins import ModuleMixin, PermissionMixin
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
+# from config import settings
+# from core.pos.forms import ClientForm, User, Client
+# from core.security.mixins import ModuleMixin, PermissionMixin
 
 from core.pos.models import Titular, Acta, Colindancia
 # vistas creadas por Daniel
@@ -33,7 +33,7 @@ class TitularListView(TemplateView):
         context['title'] = 'Listado de Titulares'
         return context
 
-class TitularCreateView(CreateView):
+class TitularCreateView(TemplateView):
     model = Titular
     template_name = 'crm/titular/create.html'
     success_url = reverse_lazy('titular_list')

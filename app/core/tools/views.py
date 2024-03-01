@@ -41,7 +41,7 @@ class SearchUbigeosPe(View):
         if allData == True:
             api = UbigeoPe
             data = api.getAllUbigeos()
-            print(data)
+            # print(data)
         return JsonResponse(data)
     def get(self, request):
         data = { 'msg': 'Welcome Ubigeo' }
