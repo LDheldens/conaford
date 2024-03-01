@@ -155,7 +155,6 @@ class Client(models.Model):
         ordering = ['-id']
 
 
-
 class Sale(models.Model):
     client = models.ForeignKey(Client, on_delete=models.PROTECT, null=True, blank=True)
     employee = models.ForeignKey(User, on_delete=models.PROTECT, null=True, blank=True)
@@ -390,7 +389,7 @@ class Acta(models.Model):
     libre_de_riesgo = models.BooleanField(default=False)
     req_transf_de_titular = models.BooleanField(default=False)
     litigio_denuncia = models.BooleanField(default=False)
-    area_según_el_titular_representante = models.DecimalField(max_digits=10, decimal_places=2)
+    area_segun_el_titular_representante = models.DecimalField(max_digits=10, decimal_places=2)
     comentario1 = models.TextField()
     codigo_dlt = models.CharField(max_length=200)
     hora = models.TimeField()
@@ -402,7 +401,7 @@ class Acta(models.Model):
     comentario2 = models.TextField()
     
     #relacion de muchos a muchos 
-    titulares = models.ManyToManyField(Titular, related_name='actas')
+    titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
 
 class Colindancia(models.Model):
     frente_nombre = models.CharField(max_length=100)
