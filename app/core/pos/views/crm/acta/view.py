@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, CreateView, UpdateView, DeleteVie
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
-from core.pos.models import Acta, Colindancia
+from core.pos.models import Acta, Colindancia, ImagenActa
 from django.shortcuts import get_object_or_404
 
 
@@ -124,34 +124,79 @@ class ActaCreateView(TemplateView):
             izquierda_nombre=request.POST.get('nombres_apellidos_colindancia_izquierda'),
             izquierda_distancia=request.POST.get('distancia_izquierda')
         )
-
+        # Crear una instancia de ImagenActa con los datos del formulario
+        imagen_acta = ImagenActa.objects.create(
+            acta=acta,
+            boceto=request.FILES.get('boceto_predio'),
+            firma_topografo=request.FILES.get('firma_operador'),
+            firma_representante_comision=request.FILES.get('firma_representante'),
+            firma_supervisor_campo=request.FILES.get('firma_supervisor'),
+            comentario3=request.POST.get('comentario3'),
+        )
         # Redirigir a la página de éxito
         return redirect(self.success_url)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Agregar los datos al contexto que deseas pasar al template
         context['list_url'] = self.success_url
+        return context
 
-@method_decorator(csrf_exempt, name='dispatch')
+# @method_decorator(csrf_exempt, name='dispatch')
 class ActaUpdateView(TemplateView):
-    model = Acta
-    template_name = 'crm/acta/update.html'
+    template_name = 'crm/acta/create.html'
     success_url = reverse_lazy('acta_list')
-    # fields = ['fecha', 'cel_wsp', 'departamento', 'provincia', 'distrito', 'posesion_informal', 'sector', 'etapa', 'direccion_fiscal', 'descripcion_fisica', 'tipo_uso', 'servicios_basicos', 'carta_poder', 'hitos_consolidados', 'acceso_a_via', 'cantidad_lotes', 'requiere_subdivision', 'requiere_alineamiento', 'apertura_de_via', 'libre_de_riesgo', 'req_transf_de_titular', 'litigio_denuncia', 'area_segun_el_titular_representante', 'comentario1', 'codigo_dlt', 'hora', 'n_punto', 'operador', 'equipo_tp', 'adjunta_toma_topografica', 'tiempo_atmosferico', 'comentario2']
-    # def get(self, request, *args, **kwargs):
-    #     pass
-
+    
     def post(self, request, *args, **kwargs):
+        # Obtener el objeto Acta a actualizar
         pk = self.kwargs.get('pk')
         acta = get_object_or_404(Acta, pk=pk)
-        data = model_to_dict(acta)
+        
+        # Actualizar los campos del objeto Acta con los datos del formulario enviado
+        acta.fecha = request.POST.get('fecha')
+        acta.cel_wsp = request.POST.get('cel_wsp')
+        acta.departamento = request.POST.get('departamento')
+        acta.provincia = request.POST.get('provincia')
+        acta.distrito = request.POST.get('distrito')
+        acta.posesion_informal = request.POST.get('posesion_informal')
+        acta.sector = request.POST.get('sector')
+        acta.etapa = request.POST.get('etapa')
+        acta.direccion_fiscal = request.POST.get('direccion_fiscal_referencia')
+        acta.descripcion_fisica = request.POST.get('list_radio_descripcion_fisica_predio')
+        acta.tipo_uso = request.POST.get('list_radio_uso')
+        acta.servicios_basicos = request.POST.get('list-radio-serv-bas')
+        acta.carta_poder = request.POST.get('list_radio_carta_poder')
+        acta.hitos_consolidados = request.POST.get('list_radio_hitos_consolidado')
+        acta.acceso_a_via = request.POST.get('list_radio_acceso_via')
+        acta.cantidad_lotes = request.POST.get('numero_lotes')
+        acta.requiere_subdivision = request.POST.get('list_radio_subdivion')
+        acta.requiere_alineamiento = request.POST.get('list_radio_alineamiento')
+        acta.apertura_de_via = request.POST.get('list_radio_apertura_via')
+        acta.libre_de_riesgo = request.POST.get('list_radio_libre_riesgo')
+        acta.req_transf_de_titular = request.POST.get('list_radio_transf_titular')
+        acta.litigio_denuncia = request.POST.get('list_radio_litigio_denuncia_etc')
+        acta.area_segun_el_titular_representante = request.POST.get('area_segun_titular_representante')
+        acta.comentario1 = request.POST.get('comentario1')
+        acta.codigo_dlt = request.POST.get('codigo')
+        acta.hora = request.POST.get('hora')
+        acta.n_punto = request.POST.get('numero_puntos')
+        acta.operador = request.POST.get('operador')
+        acta.equipo_tp = request.POST.get('equipo_tp')
+        acta.tiempo_atmosferico = request.POST.get('list_radio_tiempo_atmosferico')
+        acta.comentario2 = request.POST.get('comentario2')
+        
+        # Guardar los cambios en el objeto Acta
+        acta.save()
+
+        # Redirigir a la página de éxito
+        return redirect(self.success_url)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['acta_id'] = self.kwargs['pk']
-        # context['title'] = 'Edición de Acta'
-        context['action'] = 'edit'
-        context['list_url'] = self.success_url  
+        # Obtener el objeto Acta y agregarlo al contexto
+        pk = self.kwargs.get('pk')
+        acta = get_object_or_404(Acta, pk=pk)
+        context['list_url'] = self.success_url
+        context['acta'] = acta
         return context
 
 class ActaDeleteView(DeleteView):

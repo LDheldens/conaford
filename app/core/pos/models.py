@@ -432,8 +432,8 @@ class Colindancia(models.Model):
     
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
-    boceto = models.ImageField(upload_to='imagenes/')
-    firma_topografo = models.ImageField(upload_to='imagenes/')
-    firma_representante_comision = models.ImageField(upload_to='imagenes/')
-    firma_supervisor_campo = models.ImageField(upload_to='imagenes/')
+    boceto = models.ImageField(upload_to='actas/')
+    firma_topografo = models.ImageField(upload_to='actas/')
+    firma_representante_comision = models.ImageField(upload_to='actas/')
+    firma_supervisor_campo = models.ImageField(upload_to='actas/')
     comentario3 = models.TextField()

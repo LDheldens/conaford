@@ -21,6 +21,7 @@ function getData() {
             {"data": "cel_wsp"},
             {"data": "departamento"},
             {"data": "posesion_informal"},
+            
         ],        
         columnDefs: [
             {
@@ -33,8 +34,6 @@ function getData() {
                         type,
                         row
                     })
-                    // var buttons = '<a href="/pos/crm/client/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-                    // buttons += '<a href="/pos/crm/client/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
 
                     var buttons = '<a href="/pos/crm/acta/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
                     buttons += '<a href="/pos/crm/acta/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';

@@ -12,9 +12,8 @@ from core.security.mixins import ModuleMixin, PermissionMixin
 
 from core.pos.models import Titular
 
-
 class ClientListView(PermissionMixin, TemplateView):
-    template_name = 'crm/titular/list.html'
+    template_name = 'crm/client/list.html'
     permission_required = 'view_client'
 
     def post(self, request, *args, **kwargs):
@@ -40,7 +39,7 @@ class ClientListView(PermissionMixin, TemplateView):
 
 class ClientCreateView(PermissionMixin, CreateView):
     model = Client
-    template_name = 'crm/titular/create.html'
+    template_name = 'crm/client/create.html'
     form_class = ClientForm
     success_url = reverse_lazy('client_list')
     permission_required = 'add_client'
@@ -108,7 +107,7 @@ class ClientCreateView(PermissionMixin, CreateView):
 
 class ClientUpdateView(PermissionMixin, UpdateView):
     model = Client
-    template_name = 'crm/titular/create.html'
+    template_name = 'crm/client/create.html'
     form_class = ClientForm
     success_url = reverse_lazy('client_list')
     permission_required = 'change_client'
@@ -191,7 +190,7 @@ class ClientUpdateView(PermissionMixin, UpdateView):
 
 class ClientDeleteView(PermissionMixin, DeleteView):
     model = Client
-    template_name = 'crm/titular/delete.html'
+    template_name = 'crm/client/delete.html'
     success_url = reverse_lazy('client_list')
     permission_required = 'delete_client'
 

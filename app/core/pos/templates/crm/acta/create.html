@@ -324,16 +324,27 @@
                     <!-- <input type="text" id="fecha" name="fecha"
                       placeholder="dd/mm/aaaa"
                       class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"> -->
-                    <input type="date" id="fecha" name="fecha" class="w-full px-4 mt-1 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]
+                    <input 
+                        type="date"  
+                        id="fecha" 
+                        name="fecha" 
+                        value="{% if acta %}{{acta.fecha}}{% endif %}"
+                        class="w-full px-4 mt-1 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]
                       ">
+                      
                 </div>
                 <!-- Cel. Wssp -->
                 <div class="flex-1">
                     <label for="cel-wssp" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Cel.
                         Wssp:</label>
-                    <input type="text" id="cel-wssp" name="cel_wsp"
+                    <input 
+                        type="text" 
+                        id="cel-wssp" 
+                        name="cel_wsp"
+                        value="{% if acta %}{{acta.cel_wsp}}{% endif %}"
                         class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                        placeholder="Cel. Wssp">
+                        placeholder="Cel. Wssp"
+                    >
                 </div>
             </div>
             <!-- 1.- DATOS DE LA POSESIÓN INFORMAL -->
@@ -345,15 +356,22 @@
                     <div class="flex-1">
                         <label for="departamento"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Departamento</label>
-                        <input type="text" id="departamento" name="departamento"
+                        <input 
+                            type="text" 
+                            id="departamento" 
+                            name="departamento"
+                            value="{% if acta %}{{acta.departamento}}{% endif %}"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                            placeholder="Departamento">
+                            placeholder="Departamento"
+                        >
                     </div>
                     <!-- Provincia -->
+                    
                     <div class="flex-1">
                         <label for="provincia"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Provincia</label>
-                        <input type="text" id="provincia" name="provincia"
+                        <input type="text" 
+                            value="{% if acta %}{{acta.provincia}}{% endif %}" id="provincia" name="provincia"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="Provincia">
                     </div>
@@ -361,7 +379,10 @@
                     <div class="flex-1">
                         <label for="distrito"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distrito</label>
-                        <input type="text" id="distrito" name="distrito"
+                        <input 
+                            type="text" 
+                            id="distrito" 
+                            name="distrito"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="Distrito">
                     </div>
@@ -554,20 +575,11 @@
             <div class="hidden" id="part4">
                 <!-- BOCETO DEL PREDIO -->
                 <h1 class="font-bold text-sm mb-1 font-gotham-bold">4.- BOCETO DEL PREDIO</h1>
-                <label for="boceto-predio"
-                    class="mb-2 block h-40 border-2 border-gray-200 border-dashed cursor-pointer bg-gray-50 hover:bg-gray-100">
-                    <div class="flex flex-col items-center justify-center py-5">
-                        <svg class="w-12 h-12 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                        </svg>
-                        <p class="text-black"><span class="font-gotham-bold">Click para subir</span> <span
-                                class="font-gotham-book">o arrastrar y soltar</span></p>
-                        <p class="text-black font-gotham-bold">PDF</p>
-                    </div>
-                    <input name="boceto_predio" id="boceto-predio" type="file" class="hidden"  />
-                </label>
+                <div class="bg-white rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <label class="text-black font-bold" for="boceto_predio">Boceto del Predio:</label>
+                    <input type="file" id="boceto_predio" accept="image/jpeg, image/png" name="boceto_predio" onchange="previewImage(this)">
+                    <img id="boceto_predio_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
+                </div>
                 <!-- COLINDANTES -->
                 <div>
                     <h1 class="font-bold text-sm mb-1 font-gotham-bold">*.- COLINDANTES</h1>
@@ -820,7 +832,7 @@
                     <label for="area-segun-titular-representante"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">ÁREA SEGÚN EL
                         TITULAR/REPRESENTANTE</label>
-                    <input type="text" id="area-segun-titular-representante" name="area_segun_titular_representante"
+                    <input type="number" id="area-segun-titular-representante" name="area_segun_titular_representante"
                         class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                         placeholder="Área según el titular/presidente m2">
                 </div>
@@ -861,7 +873,7 @@
                         <label for="numero-puntos"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N°
                             PUNTO</label>
-                        <input type="text" id="numero-puntos" name="numero_puntos"
+                        <input type="number" id="numero-puntos" name="numero_puntos"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="N° Puntos">
                     </div>
@@ -1013,23 +1025,23 @@
                 <!-- <h1 class="font-bold text-sm mb-1 font-gotham-bold">9.- FIRMA DE LOS ACTORES INTERVINIENTES:</h1> -->
 
                 <!-- 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO -->
-                <div class="p-5 mb-4 border-2 border-gray-300 flex flex-col gap-4">
+                <div class="p-5 mb-4 border-2 border-gray-300 flex flex-wrap gap-4">
                     <!-- firma Operador(Topografo) -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <div class="bg-white  w-80 rounded-lg shadow-md overflow-hidden items-center p-5">
                         <label class="text-black font-bold" for="firma_operador">Firma del operador topógrafo:</label>
-                        <input type="file" id="firma_operador" name="firma_operador" onchange="previewImage(this)">
+                        <input type="file" accept="image/jpeg, image/png" id="firma_operador" name="firma_operador" onchange="previewImage(this)">
                         <img id="firma_operador_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
                     </div>
                     <!-- firma Rpr. Comisión -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <div class="bg-white w-80  rounded-lg shadow-md overflow-hidden items-center p-5">
                         <label class="text-black font-bold" for="firma_representante">Firma del representante de la comisión:</label>
-                        <input type="file" id="firma_representante" name="firma_representante" onchange="previewImage(this)">
+                        <input type="file" accept="image/jpeg, image/png" id="firma_representante" name="firma_representante" onchange="previewImage(this)">
                         <img id="firma_representante_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
                     </div>
                     <!-- firma Supervisor de Campo -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <div class="bg-white w-80  rounded-lg shadow-md overflow-hidden items-center p-5">
                         <label class="text-black font-bold" for="firma_supervisor">Firma del supervisor de campo:</label>
-                        <input type="file" id="firma_supervisor" name="firma_supervisor" onchange="previewImage(this)">
+                        <input type="file" accept="image/jpeg, image/png" id="firma_supervisor" name="firma_supervisor" onchange="previewImage(this)">
                         <img id="firma_supervisor_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
                     </div>
                 </div>
@@ -1220,13 +1232,20 @@
                     },
                     list_radio_tiempo_atmosferico:{
                         required:true
-                    }
-
-
+                    },
+                    firma_operador:{
+                        required: true
+                    },
+                    firma_representante:{
+                        required:true
+                    },
+                    firma_supervisor:{
+                        required:true
+                    },
                 },
                 messages: {
                     // Mensajes de error para tus campos aquí
-                    cel_wssp: {
+                    cel_wsp: {
                         required: "Ingresa tu número de whattsap"
                     },
                     departamento: {
@@ -1249,6 +1268,12 @@
                     },
                     direccion_fiscal_referencia:{
                         required:'Ingrese una dirección fiscal de referencia'
+                    },
+                    list_radio_descripcion_fisica_predio:{
+                        required:'requerido'
+                    },
+                    list_radio_uso:{
+                        required:'requerido'
                     },
                     boceto_predio:{
                         required:  'Seleccione un boceto del predio'
@@ -1324,12 +1349,32 @@
                     },
                     list_radio_tiempo_atmosferico:{
                         required: ''
-                    }
+                    },
+                    firma_operador:{
+                        required:'Seleccione la firma del operador'
+                    },
+                    firma_representante:{
+                        required:'Seleccione la firma del representante'
+                    },
+                    firma_supervisor:{
+                        required:'Seleccione la firma del supervisor'
+                    },
                 },
 
                 submitHandler: function(form) {
-                    // Obtener los datos del formulario serializados
-                    var formData = $('#formulario-acta').serialize();
+                    
+                    var formData = new FormData(form);
+
+                    // Agregar las imágenes seleccionadas al objeto FormData
+                    let boceto_predio = $('#boceto_predio')[0].files[0];
+                    let firma_operador = $('#firma_operador')[0].files[0];
+                    let firma_representante = $('#firma_representante')[0].files[0];
+                    let firma_supervisor = $('#firma_supervisor')[0].files[0];
+
+                    formData.append('boceto_predio', boceto_predio);
+                    formData.append('firma_operador', firma_operador);
+                    formData.append('firma_representante', firma_representante);
+                    formData.append('firma_supervisor', firma_supervisor);
 
                     // Realizar la llamada AJAX para enviar el formulario
                     $.ajax({
