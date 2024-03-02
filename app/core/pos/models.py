@@ -2,6 +2,8 @@ import math
 import os
 import re
 from datetime import datetime
+import base64
+
 
 from django.db import models
 from django.db.models import FloatField
@@ -366,6 +368,7 @@ class Titular(models.Model):
             'num_doc': self.num_doc,
         }
 
+
 class Acta(models.Model):
     fecha = models.DateField()
     cel_wsp = models.CharField(max_length=20)
@@ -378,7 +381,9 @@ class Acta(models.Model):
     direccion_fiscal = models.CharField(max_length=255)
     descripcion_fisica = models.TextField()
     tipo_uso = models.CharField(max_length=20)
-    servicios_basicos = models.CharField(max_length=100)
+    # servicios_basicos = models.CharField(max_length=100)
+    servicios_basicos = models.JSONField()
+
     carta_poder = models.CharField(default='no', max_length=5)
     hitos_consolidados = models.CharField(default='no', max_length=5)
     acceso_a_via = models.CharField(default='no', max_length=5)
@@ -402,20 +407,20 @@ class Acta(models.Model):
     
     #relacion de muchos a muchos 
     titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+
     def toJSON(self):
-        item = model_to_dict(self, exclude=["titulares"])
+        item = model_to_dict(self)
         item['fecha'] = self.fecha.strftime('%Y-%m-%d')
         item['hora'] = self.hora.strftime('%Y-%m-%d')
         item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
-        # item['titulares'] = list(self.titulares.values_list)
-        print(item)
-        # item = model_to_dict(self, exclude=['sale'])
-        # item['product'] = self.product.toJSON()
-        # item['price'] = format(self.price, '.2f')
-        # item['dscto'] = format(self.dscto, '.2f')
-        # item['total_dscto'] = format(self.total_dscto, '.2f')
-        # item['subtotal'] = format(self.subtotal, '.2f')
-        # item['total'] = format(self.total, '.2f')
+        item['titulares'] = [
+            {
+                **model_to_dict(titular),
+                'img_huella': base64.b64encode(titular.img_huella.read()).decode('utf-8'),
+                'img_firma': base64.b64encode(titular.img_firma.read()).decode('utf-8'),
+            }
+            for titular in self.titulares.all()
+        ]
         return item
 
 

@@ -6,8 +6,10 @@ from django.views.generic import TemplateView, CreateView, UpdateView, DeleteVie
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
+from django.core.exceptions import ObjectDoesNotExist
 from core.pos.models import Acta, Colindancia
-from django.shortcuts import get_object_or_404
+from django.forms.models import model_to_dict
+# from django.shortcuts import get_object_or_404
 
 
 # vistas creadas por Daniel
@@ -134,17 +136,24 @@ class ActaCreateView(TemplateView):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ActaUpdateView(TemplateView):
-    model = Acta
     template_name = 'crm/acta/update.html'
     success_url = reverse_lazy('acta_list')
-    # fields = ['fecha', 'cel_wsp', 'departamento', 'provincia', 'distrito', 'posesion_informal', 'sector', 'etapa', 'direccion_fiscal', 'descripcion_fisica', 'tipo_uso', 'servicios_basicos', 'carta_poder', 'hitos_consolidados', 'acceso_a_via', 'cantidad_lotes', 'requiere_subdivision', 'requiere_alineamiento', 'apertura_de_via', 'libre_de_riesgo', 'req_transf_de_titular', 'litigio_denuncia', 'area_segun_el_titular_representante', 'comentario1', 'codigo_dlt', 'hora', 'n_punto', 'operador', 'equipo_tp', 'adjunta_toma_topografica', 'tiempo_atmosferico', 'comentario2']
-    # def get(self, request, *args, **kwargs):
-    #     pass
+    http_method_names = ["get", "post"]
+    acta = None
 
-    def post(self, request, *args, **kwargs):
-        pk = self.kwargs.get('pk')
-        acta = get_object_or_404(Acta, pk=pk)
-        data = model_to_dict(acta)
+    def dispatch(self, request, *args, **kwargs):
+        id = self.kwargs.get('pk')
+        try:
+            self.acta = Acta.objects.get(pk=id)
+            if request.method == 'POST':
+                data = self.acta.toJSON()
+                return JsonResponse({**data, 'message': 'ok'}, status=200)
+        except Acta.DoesNotExist:
+            if request.method == 'GET':
+                return render(request, '404.html', status=404)
+            elif request.method == 'POST':
+                return JsonResponse({'message': 'Acta no existente'}, status=404)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
