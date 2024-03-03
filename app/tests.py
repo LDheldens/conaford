@@ -221,7 +221,7 @@ print('insertado {}'.format(type.name))
 module = Module()
 module.moduletype_id = 4
 module.name = 'Acta de levantamiento'
-module.url = '/aaaaa/'
+module.url = '/pos/crm/acta/'
 module.is_active = True
 module.is_vertical = True
 module.is_visible = True

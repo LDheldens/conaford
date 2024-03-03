@@ -485,14 +485,14 @@
                     <ul class="mt-1 sm:w-[67%] w-full bg-[#FFAF00] text-sm font-medium text-gray-700 sm:flex">
                         <li
                             class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="serv-bas-agua" type="checkbox" value="agua" name="list-radio-serv-bas"
+                            <input id="serv-bas-agua" type="checkbox" value="agua" name="list-checkbox-serv-bas"
                                 class="w-4 h-4">
                             <label for="serv-bas-agua"
                                 class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Agua</label>
                         </li>
                         <li
                             class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="serv-bas-desagüe" type="checkbox" value="desagüe" name="list-radio-serv-bas"
+                            <input id="serv-bas-desagüe" type="checkbox" value="desagüe" name="list-checkbox-serv-bas"
                                 class="w-4 h-4">
                             <label for="serv-bas-desagüe"
                                 class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Desagüe</label>
@@ -500,14 +500,14 @@
                         <li
                             class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="serv-bas-energia-electrica" type="checkbox" value="energia-electrica"
-                                name="list-radio-serv-bas" class="w-4 h-4">
+                                name="list-checkbox-serv-bas" class="w-4 h-4">
                             <label for="serv-bas-energia-electrica"
                                 class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Energia
                                 Electrica</label>
                         </li>
                         <li
                             class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="serv-bas-internet" type="checkbox" value="internet" name="list-radio-serv-bas"
+                            <input id="serv-bas-internet" type="checkbox" value="internet" name="list-checkbox-serv-bas"
                                 class="w-4 h-4">
                             <label for="serv-bas-internet"
                                 class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Internet</label>
@@ -987,7 +987,7 @@
                                 <label for="no" class="font-gotham-bold text-sm">NO</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="si" type="radio" value="no" name="list-radio-toma-fotografica-predio"
+                                <input id="si" type="radio" value="si" name="list-radio-toma-fotografica-predio"
                                     class="w-5 h-5">
                                 <label for="si" class="font-gotham-bold text-sm">SI</label>
                             </div>
@@ -1014,13 +1014,14 @@
                     <!-- firma Operador(Topografo) -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden items-center">
                         <div class="p-4 hover:bg-gray-100">
-                            <div id="image-preview"
+                            <div
                                 class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
                                 <input id="firma-operador-topografo" type="file" class="hidden" accept="image/*" />
                                 <label for="firma-operador-topografo" class="cursor-pointer">
+                                    <img class="w-full h-40 mb-2" alt="Image preview">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
-                                        class="w-8 h-8 text-gray-700 mx-auto mb-4">
+                                        class="w-8 h-8 text-gray-700 mx-auto mb-2">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                     </svg>
@@ -1038,13 +1039,14 @@
                     <!-- firma Rpr. Comisión -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden items-center">
                         <div class="p-4 hover:bg-gray-100">
-                            <div id="image-preview"
+                            <div
                                 class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
-                                <input id="firma-actor-interviniente" type="file" class="hidden" accept="image/*" />
-                                <label for="firma-actor-interviniente" class="cursor-pointer">
+                                <input id="firma-representante-comision" type="file" class="hidden" accept="image/*" />
+                                <label for="firma-representante-comision" class="cursor-pointer">
+                                    <img class="w-full h-40 mb-2" alt="Image preview">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
-                                        class="w-8 h-8 text-gray-700 mx-auto mb-4">
+                                        class="w-8 h-8 text-gray-700 mx-auto mb-2">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                     </svg>
@@ -1062,13 +1064,14 @@
                     <!-- firma Supervisor de Campo -->
                     <div class="bg-white rounded-lg shadow-md overflow-hidden items-center">
                         <div class="p-4 hover:bg-gray-100">
-                            <div id="image-preview"
+                            <div
                                 class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
                                 <input id="firma-supervisor-campo" type="file" class="hidden" accept="image/*" />
                                 <label for="firma-supervisor-campo" class="cursor-pointer">
+                                    <img class="w-full h-40 mb-2" alt="Image preview">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor"
-                                        class="w-8 h-8 text-gray-700 mx-auto mb-4">
+                                        class="w-8 h-8 text-gray-700 mx-auto mb-2">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                                     </svg>
@@ -1088,9 +1091,9 @@
 
                 <!-- COMENTARIOS/OBSERVACIONES: -->
                 <div class="mb-2">
-                    <label for="op9-comentario-observaciones"
+                    <label for="firma-actores-intervinientes-comentario-observaciones"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">COMENTARIOS/OBSERVACIONES:</label>
-                    <textarea id="op9-comentario-observaciones" rows="4"
+                    <textarea id="firma-actores-intervinientes-comentario-observaciones" rows="4"
                         class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2"
                         placeholder="Comentario/observaciones."></textarea>
                 </div>
