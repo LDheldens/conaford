@@ -48,6 +48,7 @@ urlpatterns = [
     path('crm/titular/delete/<int:pk>/', TitularDeleteView.as_view(), name='titular_delete'),
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),
+    path('crm/acta/<int:pk>/', ActaView.as_view(), name='acta'),
     path('crm/acta/add/', ActaCreateView.as_view(), name='acta_create'),
     path('crm/acta/update/<int:pk>/', ActaUpdateView.as_view(), name='acta_update'),
     path('crm/acta/delete/<int:pk>/', ActaDeleteView.as_view(), name='acta_delete'),

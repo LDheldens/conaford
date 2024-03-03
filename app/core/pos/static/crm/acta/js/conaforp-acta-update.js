@@ -86,8 +86,17 @@ firmaOperadorTopografo.addEventListener('change', handlerImage);
 firmaRepresentanteComision.addEventListener('change', handlerImage);
 firmaSupervisorCampo.addEventListener('change', handlerImage);
 
-const curr_path = window.location.pathname;
-fetch(curr_path, {
+const setTitularesRepresentantes = (titulares, representantes) => {
+    for (const [ index, titular ] of Object.entries(titulares)) {
+        const consonant = consonants[indexFormTitular ]
+        containerTitular.insertAdjacentHTML('beforeend', createFormTitularRepresentante(indexFormTitular, consonant, 'titular'));
+        handlersTitularRepresentante(indexFormTitular, consonant, 'titular')
+        indexFormTitular++
+    }
+}
+
+const pathSplited = window.location.pathname.replace('/update', '');
+fetch(pathSplited, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -162,5 +171,7 @@ fetch(curr_path, {
     // firmaSupervisorCampo = data.imagen_acta.firma_supervisor_campo
     firmaActoresIntervinientesComentarioObservaciones.value = data.imagen_acta.comentario3
     // textoFinalFormalizacion.value = data.imagen_acta.comentario3
+    setTitularesRepresentantes(data.titulares, data.representantes)
 }))
-.catch(console.log) 
+.catch(console.log)
+//set titulars and representants
