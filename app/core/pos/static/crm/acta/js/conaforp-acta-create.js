@@ -76,6 +76,33 @@ const setHours = () => {
 }
 setHours();
 
+
+const getTitularesRepresentantes = (type) => {
+    const result = []
+    const elements = document.querySelectorAll(`#container-${type} > div`);
+    if(elements === 0) return;
+
+    [...elements].forEach((element, index) => {
+        const apellidos = element.querySelector(`[name="apellidos"]`)
+        const nombres = element.querySelector(`[name="nombres"]`)
+        const estadoCivil = element.querySelector(`[name="apellidos"]`)
+        const tipoDoc = element.querySelector(`[name="apellidos"]`)
+    })
+
+    const result = {
+        copia_doc_identidad,
+        apellidos,
+        nombres,
+        estado_civil,
+        tipo_doc,
+        num_doc,
+        img_firma_name,
+        img_firma,
+        img_huella_name,
+        img_huella,
+    }
+}
+
 btnActualizar.addEventListener('click', () => {
     const data = {
         // start

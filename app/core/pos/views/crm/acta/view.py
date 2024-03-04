@@ -58,31 +58,6 @@ class ActaCreateView(TemplateView):
             data = { }
         self.acta = Acta()
         # return JsonResponse({**data, 'message': 'created'}, status=201)
-         # titular to add
-        titularsToadd = data['handl_titulares']['to_add']
-        for titular in titularsToadd:
-            newTitular = Titular.objects.create(
-                copia_doc_identidad=titular['copia_doc_identidad'],
-                apellidos=titular['apellidos'],
-                nombres=titular['nombres'],
-                estado_civil=titular['estado_civil'],
-                tipo_doc=titular['tipo_doc'],
-                num_doc=titular['num_doc'],
-                img_firma=None,
-                img_huella=None,
-            )
-            newTitular.img_firma.save(
-                titular['img_firma_name'],
-                ContentFile(base64.b64decode(titular['img_firma']))
-            )
-            newTitular.img_huella.save(
-                titular['img_huella_name'],
-                ContentFile(base64.b64decode(titular['img_huella']))
-            )
-            newTitular.save()
-        #     self.acta.titulares.add(newTitular)
-        #     # self.acta.titulares = newTitular
-
         # INICIAL
         self.acta.fecha = date.fromisoformat(data['fecha'])
         self.acta.cel_wsp = data['cel_wsp']
@@ -162,7 +137,32 @@ class ActaCreateView(TemplateView):
             ContentFile(base64.b64decode(data['imagen_acta']['firma_supervisor_campo']))
         )
         imagen_acta.comentario3 = data['imagen_acta']['comentario3']
+        imagen_acta.save()
         self.acta.imagen_acta = imagen_acta
+        # titular to add
+        self.acta.save()
+        titularsToadd = data['handl_titulares']['to_add']
+        for titular in titularsToadd:
+            newTitular = Titular.objects.create(
+                copia_doc_identidad=titular['copia_doc_identidad'],
+                apellidos=titular['apellidos'],
+                nombres=titular['nombres'],
+                estado_civil=titular['estado_civil'],
+                tipo_doc=titular['tipo_doc'],
+                num_doc=titular['num_doc'],
+                img_firma=None,
+                img_huella=None,
+            )
+            newTitular.img_firma.save(
+                titular['img_firma_name'],
+                ContentFile(base64.b64decode(titular['img_firma']))
+            )
+            newTitular.img_huella.save(
+                titular['img_huella_name'],
+                ContentFile(base64.b64decode(titular['img_huella']))
+            )
+            newTitular.save()
+            self.acta.titulares.add(newTitular)
         self.acta.save()
         data = self.acta.toJSON()
         return JsonResponse({**data, 'message': 'created'}, status=201)
@@ -258,7 +258,7 @@ class ActaUpdateView(TemplateView):
 
                 # others update
                 # INICIAL
-                self.acta.fecha = data['fecha']
+                self.acta.fecha = date.fromisoformat(data['fecha'])
                 self.acta.cel_wsp = data['fecha']
                 # 1.- DATOS DE LA POSESIÓN INFORMAL
                 self.acta.departamento = data['departamento']
@@ -279,7 +279,7 @@ class ActaUpdateView(TemplateView):
                 # self.acta.titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
                 # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
                 self.acta.codigo_dlt = data['codigo_dlt']
-                self.acta.hora = data['hora']
+                self.acta.hora = datetime.strptime(data['hora'], '%H:%M').time()
                 self.acta.n_punto = data['n_punto']
                 self.acta.operador = data['operador']
                 self.acta.equipo_tp = data['equipo_tp']
@@ -317,12 +317,11 @@ class ActaUpdateView(TemplateView):
                 self.acta.comentario2 = data['comentario2']
                 # self.acta.imagen_acta = models.ForeignKey(ImagenActa, on_delete=models.CASCADE)
                 imagen_acta = self.acta.imagen_acta
-                print(data['imagen_acta']['boceto_name'])
-                print(data['imagen_acta']['boceto'])
-                imagen_acta.boceto.save(
-                    data['imagen_acta']['boceto_name'],
-                    ContentFile(base64.b64decode(data['imagen_acta']['boceto']))
-                )
+                # print(data['imagen_acta']['boceto_name'])
+                # imagen_acta.boceto.save(
+                #     data['imagen_acta']['boceto_name'],
+                #     ContentFile(base64.b64decode(data['imagen_acta']['boceto']))
+                # )
                 imagen_acta.firma_topografo.save(
                     data['imagen_acta']['firma_topografo_name'],
                     ContentFile(base64.b64decode(data['imagen_acta']['firma_topografo']))
@@ -337,7 +336,6 @@ class ActaUpdateView(TemplateView):
                 )
                 imagen_acta.comentario3 = data['imagen_acta']['comentario3']
                 imagen_acta.save()
-
                 self.acta.save()
                 # data = self.acta.toJSON()
                 return JsonResponse({**data, 'message': 'updated'}, status=200)
