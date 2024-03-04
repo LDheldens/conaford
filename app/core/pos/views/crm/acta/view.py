@@ -166,70 +166,78 @@ class ActaUpdateView(TemplateView):
                     data = request.POST.dict()
                 else:
                     data = { }
+                print(data)
+                print(f"ID {id}")
                 # INICIAL
-                self.acta.fecha = data['fecha']
-                self.acta.cel_wsp = data['fecha']
-                # 1.- DATOS DE LA POSESIÓN INFORMAL
-                self.acta.departamento = data['departamento']
-                self.acta.provincia = data['provincia']
-                self.acta.distrito = data['distrito']
-                self.acta.posesion_informal = data['posesion_informal']
-                self.acta.sector = data['sector']
-                self.acta.etapa = data['etapa']
-                # 2.- IDENTIFICACIÓN DEL PREDIO
-                self.acta.descripcion_fisica = data['etapa']
-                self.acta.direccion_fiscal = data['etapa']
-                self.acta.tipo_uso = data['etapa']
-                self.acta.servicios_basicos = data['servicios_basicos']
-                # 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S)
-                self.acta.carta_poder = data['carta_poder']
-                # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
-                # self.acta.titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
-                # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
-                self.acta.codigo_dlt = data['codigo_dlt']
-                self.acta.hora = data['hora']
-                self.acta.n_punto = data['n_punto']
-                self.acta.operador = data['operador']
-                self.acta.equipo_tp = data['equipo_tp']
-                self.acta.tiempo_atmosferico = data['tiempo_atmosferico']
-                # comentario con respecto al predio
-                self.acta.comentario1 = data['comentario1']
-                # 6.- DE LOS TITULAR(ES) O REPRESENTATE(S)
-                # Aquí solo hay texto
-                # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
-                # Aquí solo hay texto
-                # 8.- ADICIONALES:
-                self.acta.adjunta_toma_topografica = data['adjunta_toma_topografica']
-                self.acta.adicionales_otros = data['adicionales_otros']
-                # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
-                # self.acta.colindancia = models.ForeignKey(Colindancia, on_delete=models.CASCADE)
-                self.acta.colindancia.frente_nombre = data['colindancia']['frente_nombre']
-                self.acta.colindancia.frente_distancia = data['colindancia']['frente_distancia']
-                self.acta.colindancia.fondo_nombre = data['colindancia']['fondo_nombre']
-                self.acta.colindancia.fondo_distancia = data['colindancia']['fondo_distancia']
-                self.acta.colindancia.derecha_nombre = data['colindancia']['derecha_nombre']
-                self.acta.colindancia.derecha_distancia = data['colindancia']['derecha_distancia']
-                self.acta.colindancia.izquierda_nombre = data['colindancia']['izquierda_nombre']
-                self.acta.colindancia.izquierda_distancia = data['colindancia']['izquierda_distancia']
-                self.acta.hitos_consolidados = data['hitos_consolidados']
-                self.acta.acceso_a_via = data['acceso_a_via']
-                self.acta.cantidad_lotes = data['cantidad_lotes']
-                self.acta.requiere_subdivision = data['requiere_subdivision']
-                self.acta.requiere_alineamiento = data['requiere_alineamiento']
-                self.acta.apertura_de_via = data['apertura_de_via']
-                self.acta.libre_de_riesgo = data['libre_de_riesgo']
-                self.acta.req_transf_de_titular = data['req_transf_de_titular']
-                self.acta.litigio_denuncia = data['litigio_denuncia']
-                self.acta.area_segun_el_titular_representante = data['area_segun_el_titular_representante']
-                self.acta.comentario2 = data['comentario2']
+                # self.acta.fecha = data['fecha']
+                # self.acta.cel_wsp = data['fecha']
+                # # 1.- DATOS DE LA POSESIÓN INFORMAL
+                # self.acta.departamento = data['departamento']
+                # self.acta.provincia = data['provincia']
+                # self.acta.distrito = data['distrito']
+                # self.acta.posesion_informal = data['posesion_informal']
+                # self.acta.sector = data['sector']
+                # self.acta.etapa = data['etapa']
+                # # 2.- IDENTIFICACIÓN DEL PREDIO
+                # self.acta.descripcion_fisica = data['etapa']
+                # self.acta.direccion_fiscal = data['etapa']
+                # self.acta.tipo_uso = data['etapa']
+                # self.acta.servicios_basicos = data['servicios_basicos']
+                # # 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S)
+                # self.acta.carta_poder = data['carta_poder']
+                # # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+                # # self.acta.titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+                # # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
+                # self.acta.codigo_dlt = data['codigo_dlt']
+                # self.acta.hora = data['hora']
+                # self.acta.n_punto = data['n_punto']
+                # self.acta.operador = data['operador']
+                # self.acta.equipo_tp = data['equipo_tp']
+                # self.acta.tiempo_atmosferico = data['tiempo_atmosferico']
+                # # comentario con respecto al predio
+                # self.acta.comentario1 = data['comentario1']
+                # # 6.- DE LOS TITULAR(ES) O REPRESENTATE(S)
+                # # Aquí solo hay texto
+                # # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
+                # # Aquí solo hay texto
+                # # 8.- ADICIONALES:
+                # self.acta.adjunta_toma_topografica = data['adjunta_toma_topografica']
+                # self.acta.adicionales_otros = data['adicionales_otros']
+                # # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
+                colindancia = self.acta.colindancia
+                colindancia.frente_nombre = data['colindancia']['frente_nombre']
+                # colindancia.frente_distancia = data['colindancia']['frente_distancia']
+                colindancia.fondo_nombre = data['colindancia']['fondo_nombre']
+                # colindancia.fondo_distancia = data['colindancia']['fondo_distancia']
+                colindancia.derecha_nombre = data['colindancia']['derecha_nombre']
+                # colindancia.derecha_distancia = data['colindancia']['derecha_distancia']
+                colindancia.izquierda_nombre = data['colindancia']['izquierda_nombre']
+                # colindancia.izquierda_distancia = data['colindancia']['izquierda_distancia']
+                colindancia.save();
+
+                # self.acta.hitos_consolidados = data['hitos_consolidados']
+                # self.acta.acceso_a_via = data['acceso_a_via']
+                # self.acta.cantidad_lotes = data['cantidad_lotes']
+                # self.acta.requiere_subdivision = data['requiere_subdivision']
+                # self.acta.requiere_alineamiento = data['requiere_alineamiento']
+                # self.acta.apertura_de_via = data['apertura_de_via']
+                # self.acta.libre_de_riesgo = data['libre_de_riesgo']
+                # self.acta.req_transf_de_titular = data['req_transf_de_titular']
+                # self.acta.litigio_denuncia = data['litigio_denuncia']
+                # self.acta.area_segun_el_titular_representante = data['area_segun_el_titular_representante']
+                # self.acta.comentario2 = data['comentario2']
                 # self.acta.imagen_acta = models.ForeignKey(ImagenActa, on_delete=models.CASCADE)
-                self.acta.imagen_acta.boceto = data['imagen_acta']['boceto']
-                self.acta.imagen_acta.firma_topografo = data['imagen_acta']['firma_topografo']
-                self.acta.imagen_acta.firma_representante_comision = data['imagen_acta']['firma_representante_comision']
-                self.acta.imagen_acta.firma_supervisor_campo = data['imagen_acta']['firma_supervisor_campo']
-                self.acta.imagen_acta.comentario3 = data['imagen_acta']['comentario3']
+                imagen_acta = self.acta.imagen_acta
+                # imagen_acta.boceto = data['imagen_acta']['boceto']
+                # imagen_acta.firma_topografo = data['imagen_acta']['firma_topografo']
+                # imagen_acta.firma_representante_comision = data['imagen_acta']['firma_representante_comision']
+                # imagen_acta.firma_supervisor_campo = data['imagen_acta']['firma_supervisor_campo']
+                imagen_acta.comentario3 = data['imagen_acta']['comentario3']
+                imagen_acta.save()
+
                 self.acta.save()
-                data = self.acta.toJSON()
+                print("OK")
+                # data = self.acta.toJSON()
                 return JsonResponse({**data, 'message': 'updated'}, status=200)
         except Acta.DoesNotExist:
             if request.method == 'GET':
