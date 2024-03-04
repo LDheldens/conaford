@@ -7,11 +7,12 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 from django.core.exceptions import ObjectDoesNotExist
-from core.pos.models import Acta, Colindancia, Titular
+from core.pos.models import Acta, Colindancia, Titular, ImagenActa
 # from django.forms.models import model_to_dict
 # from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 import base64
+from datetime import date, datetime
 
 # vistas creadas por Daniel
 class ActaListView(TemplateView):
@@ -41,95 +42,132 @@ class ActaListView(TemplateView):
         context['create_url'] = reverse_lazy('acta_create')
         context['title'] = 'Listado de Actas'
         return context
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ActaCreateView(TemplateView):
     template_name = 'crm/acta/create.html'
     success_url = reverse_lazy('acta_list')
+    acta = None
     def post(self, request, *args, **kwargs):
-        # Obtener los datos del formulario enviado
-        fecha = request.POST.get('fecha')
-        cel_wsp = request.POST.get('cel_wsp')
-        departamento = request.POST.get('departamento')
-        provincia = request.POST.get('provincia')
-        distrito = request.POST.get('distrito')
-        posesion_informal = request.POST.get('posesion_informal')
-        sector = request.POST.get('sector')
-        etapa = request.POST.get('etapa')
-        direccion_fiscal = request.POST.get('direccion_fiscal_referencia')
-        descripcion_fisica = request.POST.get('list_radio_descripcion_fisica_predio')
-        tipo_uso = request.POST.get('list_radio_uso')
-        servicios_basicos = request.POST.get('list-radio-serv-bas')
-        carta_poder = request.POST.get('list_radio_carta_poder')
-        hitos_consolidados = request.POST.get('list_radio_hitos_consolidado')
-        acceso_a_via = request.POST.get('list_radio_acceso_via')
-        cantidad_lotes = request.POST.get('numero_lotes')
-        requiere_subdivision = request.POST.get('list_radio_subdivion')
-        requiere_alineamiento = request.POST.get('list_radio_alineamiento')
-        apertura_de_via = request.POST.get('list_radio_apertura_via')
-        libre_de_riesgo = request.POST.get('list_radio_libre_riesgo')
-        req_transf_de_titular = request.POST.get('list_radio_transf_titular')
-        litigio_denuncia = request.POST.get('list_radio_litigio_denuncia_etc')
-        area_segun_titular_representante = request.POST.get('area_segun_titular_representante')
-        comentario1 = request.POST.get('comentario1')
-        codigo_dlt = request.POST.get('codigo')
-        hora = request.POST.get('hora')
-        n_punto = request.POST.get('numero_puntos')
-        operador = request.POST.get('operador')
-        equipo_tp = request.POST.get('equipo_tp')
-        tiempo_atmosferico = request.POST.get('list_radio_tiempo_atmosferico')
-        comentario2 = request.POST.get('comentario2')
-        # Obtener el resto de los campos de la misma manera
+        data = { }
+        content_type = request.content_type
+        if content_type == 'application/json':
+            data = json.loads(request.body)
+        elif content_type == 'application/x-www-form-urlencoded':
+            data = request.POST.dict()
+        else:
+            data = { }
+        self.acta = Acta()
+        # return JsonResponse({**data, 'message': 'created'}, status=201)
+         # titular to add
+        titularsToadd = data['handl_titulares']['to_add']
+        for titular in titularsToadd:
+            newTitular = Titular.objects.create(
+                copia_doc_identidad=titular['copia_doc_identidad'],
+                apellidos=titular['apellidos'],
+                nombres=titular['nombres'],
+                estado_civil=titular['estado_civil'],
+                tipo_doc=titular['tipo_doc'],
+                num_doc=titular['num_doc'],
+                img_firma=None,
+                img_huella=None,
+            )
+            newTitular.img_firma.save(
+                titular['img_firma_name'],
+                ContentFile(base64.b64decode(titular['img_firma']))
+            )
+            newTitular.img_huella.save(
+                titular['img_huella_name'],
+                ContentFile(base64.b64decode(titular['img_huella']))
+            )
+            newTitular.save()
+        #     self.acta.titulares.add(newTitular)
+        #     # self.acta.titulares = newTitular
 
-        # Crear una instancia de Acta con los datos recibidos
-        acta = Acta.objects.create(
-            fecha=fecha,
-            cel_wsp=cel_wsp,
-            departamento=departamento,
-            provincia=provincia,
-            distrito=distrito,
-            posesion_informal=posesion_informal,
-            sector=sector,
-            etapa=etapa,
-            direccion_fiscal=direccion_fiscal,
-            descripcion_fisica=descripcion_fisica,
-            tipo_uso=tipo_uso,
-            servicios_basicos=servicios_basicos,
-            carta_poder=carta_poder,
-            hitos_consolidados=hitos_consolidados,
-            acceso_a_via=acceso_a_via,
-            cantidad_lotes=cantidad_lotes,
-            requiere_subdivision=requiere_subdivision,
-            requiere_alineamiento=requiere_alineamiento,
-            apertura_de_via=apertura_de_via,
-            libre_de_riesgo=libre_de_riesgo,
-            req_transf_de_titular=req_transf_de_titular,
-            litigio_denuncia=litigio_denuncia,
-            area_segun_el_titular_representante=area_segun_titular_representante,
-            comentario1=comentario1,
-            codigo_dlt=codigo_dlt,
-            hora=hora,
-            n_punto=n_punto,
-            operador=operador,
-            equipo_tp=equipo_tp,
-            tiempo_atmosferico=tiempo_atmosferico,
-            comentario2=comentario2,
+        # INICIAL
+        self.acta.fecha = date.fromisoformat(data['fecha'])
+        self.acta.cel_wsp = data['cel_wsp']
+        # 1.- DATOS DE LA POSESIÓN INFORMAL
+        self.acta.departamento = data['departamento']
+        self.acta.provincia = data['provincia']
+        self.acta.distrito = data['distrito']
+        self.acta.posesion_informal = data['posesion_informal']
+        self.acta.sector = data['sector']
+        self.acta.etapa = data['etapa']
+        # 2.- IDENTIFICACIÓN DEL PREDIO
+        self.acta.descripcion_fisica = data['descripcion_fisica']
+        self.acta.direccion_fiscal = data['etapa']
+        self.acta.tipo_uso = data['tipo_uso']
+        
+        self.acta.servicios_basicos = data['servicios_basicos']
+        # 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S)
+        self.acta.carta_poder = data['carta_poder']
+        # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+        # self.acta.titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+        # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
+        self.acta.codigo_dlt = data['codigo_dlt']
+        self.acta.hora = datetime.strptime(data['hora'], '%H:%M').time()
+        self.acta.n_punto = data['n_punto']
+        self.acta.operador = data['operador']
+        self.acta.equipo_tp = data['equipo_tp']
+        self.acta.tiempo_atmosferico = data['tiempo_atmosferico']
+        # comentario con respecto al predio
+        self.acta.comentario1 = data['comentario1']
+        # 6.- DE LOS TITULAR(ES) O REPRESENTATE(S)
+        # Aquí solo hay texto
+        # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
+        # Aquí solo hay texto
+        # 8.- ADICIONALES:
+        self.acta.adjunta_toma_topografica = data['adjunta_toma_topografica']
+        self.acta.adicionales_otros = data['adicionales_otros']
+        # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
+        colindancia = Colindancia()
+        colindancia.frente_nombre = data['colindancia']['frente_nombre']
+        colindancia.frente_distancia = data['colindancia']['frente_distancia']
+        colindancia.fondo_nombre = data['colindancia']['fondo_nombre']
+        colindancia.fondo_distancia = data['colindancia']['fondo_distancia']
+        colindancia.derecha_nombre = data['colindancia']['derecha_nombre']
+        colindancia.derecha_distancia = data['colindancia']['derecha_distancia']
+        colindancia.izquierda_nombre = data['colindancia']['izquierda_nombre']
+        colindancia.izquierda_distancia = data['colindancia']['izquierda_distancia']
+        colindancia.save()
+        self.acta.colindancia = colindancia
+        # self.acta.colindancia.add(colindancia)
+        self.acta.hitos_consolidados = data['hitos_consolidados']
+        self.acta.acceso_a_via = data['acceso_a_via']
+        self.acta.cantidad_lotes = data['cantidad_lotes']
+        self.acta.requiere_subdivision = data['requiere_subdivision']
+        self.acta.requiere_alineamiento = data['requiere_alineamiento']
+        self.acta.apertura_de_via = data['apertura_de_via']
+        self.acta.libre_de_riesgo = data['libre_de_riesgo']
+        self.acta.req_transf_de_titular = data['req_transf_de_titular']
+        self.acta.litigio_denuncia = data['litigio_denuncia']
+        self.acta.area_segun_el_titular_representante = data['area_segun_el_titular_representante']
+        self.acta.comentario2 = data['comentario2']
+        # self.acta.imagen_acta = models.ForeignKey(ImagenActa, on_delete=models.CASCADE)
+        imagen_acta = ImagenActa()
+        imagen_acta.boceto.save(
+            data['imagen_acta']['boceto_name'],
+            ContentFile(base64.b64decode(data['imagen_acta']['boceto']))
         )
-
-        # Crear una instancia de Colindancia y guardarla en la base de datos
-        colindancia = Colindancia.objects.create(
-            acta=acta,
-            frente_nombre=request.POST.get('nombres_apellidos_colindancia_frente'),
-            frente_distancia=request.POST.get('distancia_frente'),
-            fondo_nombre=request.POST.get('nombres_apellidos_colindancia_fondo'),
-            fondo_distancia=request.POST.get('distancia_fondo'),
-            derecha_nombre=request.POST.get('nombres_apellidos_colindancia_derecha'),
-            derecha_distancia=request.POST.get('distancia_derecha'),
-            izquierda_nombre=request.POST.get('nombres_apellidos_colindancia_izquierda'),
-            izquierda_distancia=request.POST.get('distancia_izquierda')
+        imagen_acta.firma_topografo.save(
+            data['imagen_acta']['firma_topografo_name'],
+            ContentFile(base64.b64decode(data['imagen_acta']['firma_topografo']))
         )
+        imagen_acta.firma_representante_comision.save(
+            data['imagen_acta']['firma_representante_comision_name'],
+            ContentFile(base64.b64decode(data['imagen_acta']['firma_representante_comision']))
+        )
+        imagen_acta.firma_supervisor_campo.save(
+            data['imagen_acta']['firma_supervisor_campo_name'],
+            ContentFile(base64.b64decode(data['imagen_acta']['firma_supervisor_campo']))
+        )
+        imagen_acta.comentario3 = data['imagen_acta']['comentario3']
+        self.acta.imagen_acta = imagen_acta
+        self.acta.save()
+        data = self.acta.toJSON()
+        return JsonResponse({**data, 'message': 'created'}, status=201)
 
-        # Redirigir a la página de éxito
-        return redirect(self.success_url)
+        # return redirect(self.success_url)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Agregar los datos al contexto que deseas pasar al template
@@ -279,10 +317,12 @@ class ActaUpdateView(TemplateView):
                 self.acta.comentario2 = data['comentario2']
                 # self.acta.imagen_acta = models.ForeignKey(ImagenActa, on_delete=models.CASCADE)
                 imagen_acta = self.acta.imagen_acta
-                # imagen_acta.firma_topografo.save(
-                #     data['imagen_acta']['boceto_name'],
-                #     ContentFile(base64.b64decode(data['imagen_acta']['boceto']))
-                # )
+                print(data['imagen_acta']['boceto_name'])
+                print(data['imagen_acta']['boceto'])
+                imagen_acta.boceto.save(
+                    data['imagen_acta']['boceto_name'],
+                    ContentFile(base64.b64decode(data['imagen_acta']['boceto']))
+                )
                 imagen_acta.firma_topografo.save(
                     data['imagen_acta']['firma_topografo_name'],
                     ContentFile(base64.b64decode(data['imagen_acta']['firma_topografo']))
