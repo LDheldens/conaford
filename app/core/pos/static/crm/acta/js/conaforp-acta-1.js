@@ -3,6 +3,8 @@
  const containerRepresentante = document.getElementById('container-representante');
  const buttonAgregarTitular = document.getElementById('btn-agregar-titular');
  const buttonAgregarRepresentante = document.getElementById('btn-agregar-representante');
+//  const listRadioAccesoVia = document.getElementsByName('list-radio-acceso-via')
+
  // const titulares = [];
  let indexFormTitular = 0;
  let indexFormRepresentante = 0;
@@ -71,9 +73,15 @@ function capitalize(str) {
 const consonants = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 // create element titular or representante
-const createFormTitularRepresentante = (index, consonant, type) => {
+const createFormTitularRepresentante = (index, consonant, type, idPreset) => {
+    // console.log({
+    //     index,
+    //     consonant,
+    //     type,
+    //     idPreset,
+    // })
     const formTitularRepresentante = `
-    <div class="mb-2" id="${index}-${type}">
+    <div class="mb-2" id="${index}-${type}"${idPreset !== undefined? `idPreset="${idPreset}"`: ''}>
         <div class="flex items-center justify-between">
             <!-- <h2 class="font-bold text-sm font-gotham-bold">${consonant}) ${type} ${index}:</h2> -->
             <h2 class="font-bold text-sm font-gotham-bold">${consonant}) ${capitalize(type)} ${index + 1}:</h2>
@@ -89,12 +97,12 @@ const createFormTitularRepresentante = (index, consonant, type) => {
             </h2>
             <div class="flex gap-x-4">
                 <div class="flex items-center gap-x-1">
-                    <input id="${index}-${type}-copia-doc-identidad-si" type="radio" value="${index}-${type}-si" name="${index}-${type}-list-radio-carta-doc-identidad"
+                    <input id="${index}-${type}-copia-doc-identidad-si" type="radio" value="si" name="${index}-${type}-list-radio-copia-doc-identidad"
                     class="w-5 h-5">
                     <label for="${index}-${type}-copia-doc-identidad-si" class="font-gotham-bold text-sm">Si</label>
                 </div>
                 <div class="flex items-center gap-x-1">
-                    <input id="${index}-${type}-copia-doc-identidad-no" type="radio" value="${index}-${type}-no" name="${index}-${type}-list-radio-carta-doc-identidad"
+                    <input id="${index}-${type}-copia-doc-identidad-no" type="radio" value="no" name="${index}-${type}-list-radio-copia-doc-identidad"
                     class="w-5 h-5">
                     <label for="${index}-${type}-copia-doc-identidad-no" class="font-gotham-bold text-sm">No</label>
                 </div>
@@ -165,17 +173,17 @@ const createFormTitularRepresentante = (index, consonant, type) => {
                 </h2>
                 <div class="flex gap-x-2 w-full sm:w-fit">
                     <div class="flex items-center gap-x-1">
-                        <input id="${index}-${type}-tipo-doc-dni" type="radio" value="dni" name="list-radio-tipo-doc"
+                        <input id="${index}-${type}-tipo-doc-dni" type="radio" value="dni" name="${index}-${type}-list-radio-tipo-doc"
                             class="w-5 h-5">
                         <label for="${index}-${type}-tipo-doc-dni" class="font-gotham-bold text-sm">DNI</label>
                     </div>
                     <div class="flex items-center gap-x-1">
-                        <input id="${index}-${type}-tipo-doc-pn" type="radio" value="pn" name="list-radio-tipo-doc"
+                        <input id="${index}-${type}-tipo-doc-pn" type="radio" value="pn" name="${index}-${type}-list-radio-tipo-doc"
                             class="w-5 h-5">
                         <label for="${index}-${type}-tipo-doc-pn" class="font-gotham-bold text-sm">PN</label>
                     </div>
                     <div class="flex items-center gap-x-1">
-                        <input id="${index}-${type}-tipo-doc-ce" type="radio" value="ce" name="list-radio-tipo-doc"
+                        <input id="${index}-${type}-tipo-doc-ce" type="radio" value="ce" name="${index}-${type}-list-radio-tipo-doc"
                             class="w-5 h-5">
                         <label for="${index}-${type}-tipo-doc-ce" class="font-gotham-bold text-sm">CE</label>
                     </div>
@@ -196,56 +204,140 @@ const createFormTitularRepresentante = (index, consonant, type) => {
             <!-- Firma -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden items-center">
                 <div class="p-4 hover:bg-gray-100">
-                    <div id="${index}-${type}-image-preview"
-                    class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
-                    <input id="${index}-${type}-firma" type="file" class="hidden" accept="image/*" />
-                    <label for="${index}-${type}-firma" class="cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-700 mx-auto mb-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                        </svg>
-                        <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-700">Subir firma</h5>
-                        <p class="font-normal text-sm text-gray-400 md:px-6">El tamaño de la foto debe ser
-                            inferior a 2 MB. <b class="text-gray-600">2mb</b>
-                        </p>
-                        <p class="font-normal text-sm text-gray-400 md:px-6">y debe estar en formato <b
-                            class="text-gray-600">JPG, PNG</b>.</p>
-                        <span id="filename" class="text-gray-500 bg-gray-200 z-50"></span>
-                    </label>
+                    <div
+                        class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
+                        <input id="${index}-${type}-firma" type="file" class="hidden" accept="image/*" />
+                        <label for="${index}-${type}-firma" class="cursor-pointer">
+                            <img class="w-full h-40 mb-2" alt="Image preview">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="w-8 h-8 text-gray-700 mx-auto mb-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                            </svg>
+                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-700">Subir firma</h5>
+                            <p class="font-normal text-sm text-gray-400 md:px-6">El tamaño de la foto debe ser
+                                inferior a 2 MB. <b class="text-gray-600">2mb</b></p>
+                            <p class="font-normal text-sm text-gray-400 md:px-6">y debe estar en formato <b
+                                    class="text-gray-600">JPG, PNG</b>.</p>
+                            <span id="filename" class="text-gray-500 bg-gray-200 z-50"></span>
+                        </label>
                     </div>
                 </div>
             </div>
+               
             <!-- Huella -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden items-center">
                 <div class="p-4 hover:bg-gray-100">
-                    <div id="${index}-${type}-image-preview"
-                    class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
-                    <input id="${index}-${type}-huella" type="file" class="hidden" accept="image/*" />
-                    <label for="${index}-${type}-huella" class="cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-700 mx-auto mb-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                        </svg>
-                        <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-700">Subir huella</h5>
-                        <p class="font-normal text-sm text-gray-400 md:px-6">El tamaño de la foto debe ser
-                            inferior a 2 MB. <b class="text-gray-600">2mb</b>
-                        </p>
-                        <p class="font-normal text-sm text-gray-400 md:px-6">y debe estar en formato <b
-                            class="text-gray-600">JPG, PNG</b>.</p>
-                        <span id="filename" class="text-gray-500 bg-gray-200 z-50"></span>
-                    </label>
+                    <div
+                        class="p-6 bg-gray-100 border-dashed border-2 border-gray-400 rounded-lg items-center mx-auto text-center cursor-pointer">
+                        <input id="${index}-${type}-huella" type="file" class="hidden" accept="image/*" />
+                        <label for="${index}-${type}-huella" class="cursor-pointer">
+                            <img class="w-full h-40 mb-2" alt="Image preview">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor"
+                                class="w-8 h-8 text-gray-700 mx-auto mb-2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+                            </svg>
+                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-700">Subir Huella</h5>
+                            <p class="font-normal text-sm text-gray-400 md:px-6">El tamaño de la foto debe ser
+                                inferior a 2 MB. <b class="text-gray-600">2mb</b></p>
+                            <p class="font-normal text-sm text-gray-400 md:px-6">y debe estar en formato <b
+                                    class="text-gray-600">JPG, PNG</b>.</p>
+                            <span id="filename" class="text-gray-500 bg-gray-200 z-50"></span>
+                        </label>
                     </div>
                 </div>
             </div>
+
         </div>
         <hr class="h-px my-4 bg-gray-700 border-0">
     </div>
     `;
     return formTitularRepresentante;
 };
-
+ //create listeners
+ const handlersTitularRepresentante = (index, consonant, type) => {
+    // get elements titular | representante
+    const btnEliminar = document.getElementById(`${index}-${type}-eliminar`);
+    const btnSearchDni = document.getElementById(`${index}-${type}-button-dni`);
+    const firma = document.getElementById(`${index}-${type}-firma`)
+    const huella = document.getElementById(`${index}-${type}-huella`)
+    // handler search-dni
+    const handlerBtnSearchDni = () => {
+        // get elements titular | representante
+        const dni = document.getElementById(`${index}-${type}-dni`).value;
+        const apellidos = document.getElementById(`${index}-${type}-apellidos`);
+        const nombres = document.getElementById(`${index}-${type}-nombres`);
+        const url = '/tools/search-dni-pe/';
+        const payload = {
+            dni,
+        };
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload),
+        })
+        .then(res => {
+            if (res.status === 200) {
+                res.json().then(res => {
+                    apellidos.value = `${capitalize(res.apellidoPaterno)} ${capitalize(res.apellidoMaterno)}`;
+                    nombres.value = capitalize(res.nombres);
+                })
+            }
+        })
+        .catch(console.log)
+    }
+    // add listener search-dni
+    btnSearchDni.addEventListener('click', handlerBtnSearchDni);
+    // clean listenners
+    // handler-delete btnELiminar
+    const handlerBtnEliminar = () => {
+        btnSearchDni.removeEventListener('click', handlerBtnSearchDni)
+        btnEliminar.removeEventListener('click', handlerBtnEliminar);
+        firma.removeEventListener('change', handlerImage);
+        huella.removeEventListener('change', handlerImage);
+        let currElement = '';
+        if(type == 'titular') {
+            currElement = `${index}-${type}`
+            indexFormTitular--;
+        } else {
+            currElement = `${index}-${type}`
+            indexFormRepresentante--;
+        }
+        const element = document.getElementById(currElement)
+        element.remove()
+    }
+    const handlerImage = (event) => {
+        const file = event.target.files[0];
+        // const fileName = file.name;
+        if(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                event.target
+                .nextElementSibling
+                .getElementsByTagName('img')[0]
+                .setAttribute('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    btnEliminar.addEventListener('click', handlerBtnEliminar);
+    firma.addEventListener('change', handlerImage);
+    huella.addEventListener('change', handlerImage);
+}
+buttonAgregarTitular.addEventListener('click', () => {
+    if(indexFormTitular === 26) {
+        return
+    };
+    const consonant = consonants[indexFormTitular ]
+    containerTitular.insertAdjacentHTML('beforeend', createFormTitularRepresentante(indexFormTitular, consonant, 'titular'));
+    handlersTitularRepresentante(indexFormTitular, consonant, 'titular')
+    indexFormTitular++
+});
 document.addEventListener("DOMContentLoaded", () => {
 
     // show/hide pages
@@ -265,70 +357,6 @@ document.addEventListener("DOMContentLoaded", () => {
             toggleContent(this, elementsToActivate);
         });
     }
-
-    
-    //create listeners
-    const handlersTitularRepresentante = (index, consonant, type) => {
-        // get elements titular | representante
-        const btnEliminar = document.getElementById(`${index}-${type}-eliminar`);
-        const btnSearchDni = document.getElementById(`${index}-${type}-button-dni`);
-        // handler search-dni
-        const handlerBtnSearchDni = () => {
-            // get elements titular | representante
-            const dni = document.getElementById(`${index}-${type}-dni`).value;
-            const apellidos = document.getElementById(`${index}-${type}-apellidos`);
-            const nombres = document.getElementById(`${index}-${type}-nombres`);
-            const url = '/tools/search-dni-pe/';
-            const payload = {
-                dni,
-            };
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload),
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    res.json().then(res => {
-                        apellidos.value = `${capitalize(res.apellidoPaterno)} ${capitalize(res.apellidoMaterno)}`;
-                        nombres.value = capitalize(res.nombres);
-                    })
-                }
-            })
-            .catch(console.log)
-        }
-        // add listener search-dni
-        btnSearchDni.addEventListener('click', handlerBtnSearchDni);
-        // clean listenners
-        // handler-delete btnELiminar
-        const handlerBtnEliminar = () => {
-            btnSearchDni.removeEventListener('click', handlerBtnSearchDni)
-            btnEliminar.removeEventListener('click', handlerBtnEliminar);
-            let currElement = '';
-            if(type == 'titular') {
-                currElement = `${index}-${type}`
-                indexFormTitular--;
-            } else {
-                currElement = `${index}-${type}`
-                indexFormRepresentante--;
-            }
-            console.log({currElement})
-            const element = document.getElementById(currElement)
-            element.remove()
-        }
-        btnEliminar.addEventListener('click', handlerBtnEliminar);
-    }
-    buttonAgregarTitular.addEventListener('click', () => {
-        if(indexFormTitular === 26) {
-            return
-        };
-        const consonant = consonants[indexFormTitular ]
-        containerTitular.insertAdjacentHTML('beforeend', createFormTitularRepresentante(indexFormTitular, consonant, 'titular'));
-        handlersTitularRepresentante(indexFormTitular, consonant, 'titular')
-        indexFormTitular++
-    })
     buttonAgregarRepresentante.addEventListener('click', () => {
         if(indexFormRepresentante === 26) {
             return

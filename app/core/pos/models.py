@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 import base64
 
-
+from os.path import basename
 from django.db import models
 from django.db.models import FloatField
 from django.db.models import Sum
@@ -14,6 +14,7 @@ from django.forms import model_to_dict
 from config import settings
 from core.pos.choices import payment_condition, payment_method, voucher
 from core.user.models import User
+# from django.core.files.base import ContentFile
 
 
 class Company(models.Model):
@@ -441,11 +442,14 @@ class Acta(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['fecha'] = self.fecha.strftime('%Y-%m-%d')
-        item['hora'] = self.hora.strftime('%Y-%m-%d')
+        item['hora'] = self.hora.strftime('%I:%M')
+        # item['hora'] = self.hora.strftime('%I:%M:%S %p')
         item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
         item['titulares'] = [
             {
                 **model_to_dict(titular),
+                'img_huella_name': basename(titular.img_huella.name),
+                'img_firma_name': basename(titular.img_firma.name),
                 'img_huella': base64.b64encode(titular.img_huella.read()).decode('utf-8'),
                 'img_firma': base64.b64encode(titular.img_firma.read()).decode('utf-8'),
             }
@@ -461,6 +465,9 @@ class Acta(models.Model):
 
         item['imagen_acta'] = {
             'boceto': base64.b64encode(self.imagen_acta.boceto.read()).decode('utf-8'),
+            'firma_topografo_name': basename(self.imagen_acta.firma_topografo.name),
+            'firma_representante_comision_name': basename(self.imagen_acta.firma_representante_comision.name),
+            'firma_supervisor_campo_name': basename(self.imagen_acta.firma_supervisor_campo.name),
             'firma_topografo': base64.b64encode(self.imagen_acta.firma_topografo.read()).decode('utf-8'),
             'firma_representante_comision': base64.b64encode(self.imagen_acta.firma_representante_comision.read()).decode('utf-8'),
             'firma_supervisor_campo': base64.b64encode(self.imagen_acta.firma_supervisor_campo.read()).decode('utf-8'),

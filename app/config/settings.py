@@ -51,6 +51,7 @@ LOCAL_APPS = [
     'core.pos',
     'core.reports',
     'core.tools',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
