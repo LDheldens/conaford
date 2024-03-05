@@ -89,18 +89,18 @@ const getTitularesRepresentantes = (type) => {
         const tipoDoc = element.querySelector(`[name="apellidos"]`)
     })
 
-    const result = {
-        copia_doc_identidad,
-        apellidos,
-        nombres,
-        estado_civil,
-        tipo_doc,
-        num_doc,
-        img_firma_name,
-        img_firma,
-        img_huella_name,
-        img_huella,
-    }
+    // const result = {
+    //     copia_doc_identidad,
+    //     apellidos,
+    //     nombres,
+    //     estado_civil,
+    //     tipo_doc,
+    //     num_doc,
+    //     img_firma_name,
+    //     img_firma,
+    //     img_huella_name,
+    //     img_huella,
+    // }
 }
 
 btnActualizar.addEventListener('click', () => {
@@ -200,7 +200,7 @@ btnActualizar.addEventListener('click', () => {
 
 //set dinamics
 const init = () => {
-    [...listRadioAccesoVia].map(element => element.addEventListener('change', e => {
+    [...listRadioSubdivion].map(element => element.addEventListener('change', e => {
         if(e.target.value == 'si') {
             document.getElementById('container-numero-lotes').classList.remove('hidden')
         } else {

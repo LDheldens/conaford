@@ -226,7 +226,7 @@
             </a>
             <span class="mx-2">/</span>
             <a href="/pos/crm/acta/" class="text-blue-500">
-                <i class="fas fa-user-friends"></i> Acta de lavantamiento
+                <i class="fas fa-user-friends"></i> Ficha de lavantamiento
             </a>
         </div>
         <!-- main -->
@@ -282,8 +282,8 @@
             <header>
                 <!-- border-2 rounded  -->
                 <h1 class="font-bold text-center text-2xl mb-4 font-gotham-bold">
-                    <!-- ACTUALIZAR ACTA DE LEVANTAMIENTO {{ acta_id }} -->
-                    AÑADIR ACTA DE LEVANTAMIENTO
+                    <!-- ACTUALIZAR FICHA DE LEVANTAMIENTO {{ acta_id }} -->
+                    AÑADIR FICHA DE LEVANTAMIENTO
                 </h1>
                 <!-- linea -->
                 <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200">
@@ -299,30 +299,31 @@
                 </div>
             </header>
 
-            
+
             <!-- 1.- DATOS DE LA POSESIÓN INFORMAL -->
             <div class="hidden" id="part1">
                 <!-- Fecha, Cel. Wssp. -->
-            <div class="flex flex-col gap-x-2 sm:flex-row mb-4">
-                <!-- Fecha -->
-                <div class="flex-1">
-                    <label for="fecha"
-                        class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Fecha:</label>
-                    <!-- <input type="text" id="fecha" name="fecha"
+                <div class="flex flex-col gap-x-2 sm:flex-row mb-4">
+                    <!-- Fecha -->
+                    <div class="flex-1">
+                        <label for="fecha"
+                            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Fecha:</label>
+                        <!-- <input type="text" id="fecha" name="fecha"
                       placeholder="dd/mm/aaaa"
                       class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"> -->
-                    <input type="date" id="fecha" name="fecha" class="w-full px-4 mt-1 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]
+                        <input type="date" id="fecha" name="fecha" class="w-full px-4 mt-1 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]
                       ">
+                    </div>
+                    <!-- Cel. Wssp -->
+                    <div class="flex-1">
+                        <label for="cel-wssp"
+                            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Cel.
+                            Wssp:</label>
+                        <input type="text" id="cel-wssp" name="cel-wssp"
+                            class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                            placeholder="Cel. Wssp">
+                    </div>
                 </div>
-                <!-- Cel. Wssp -->
-                <div class="flex-1">
-                    <label for="cel-wssp" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Cel.
-                        Wssp:</label>
-                    <input type="text" id="cel-wssp" name="cel-wssp"
-                        class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                        placeholder="Cel. Wssp">
-                </div>
-            </div>
                 <h1 class="font-bold mb-2 font-gotham-bold">1.- DATOS DE LA POSESIÓN INFORMAL</h1>
                 <!-- Departamento, Provincia, Distrito -->
                 <div class="flex flex-col gap-x-2 sm:flex-row mb-2">
@@ -366,13 +367,31 @@
                 <!-- Posesión informal, sector, etapa -->
                 <div class="flex flex-col gap-x-2 sm:flex-row mb-4">
                     <!-- Departamento -->
-                    <div class="flex-1">
-                        <label for="posesion-informal"
-                            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Posesión
-                            Informal</label>
-                        <input type="text" id="posesion-informal" name="posesion-informal"
-                            class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                            placeholder="Posesión informal">
+                    <div class="flex-1 flex sm:flex-row flex-col gap-2">
+                        <div class="w-full sm:w-[40%]">
+                            <label for="posesion-informal-tipo"
+                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo</label>
+                            <!-- <input type="text" id="posesion-informal-tipo" name="posesion-informal-tipo"
+                                class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                                placeholder="Tipo"> -->
+                            <select id="posesion-informal-tipo" name="posesion-informal-tipo"
+                                class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
+                                <option value="">Opción</option>
+                                <option value="I">I</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+                        <div class="w-full sm:w-[60%]">
+                            <label for="posesion-informal"
+                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Nombre de
+                                posesión
+                                Informal</label>
+                            <input type="text" id="posesion-informal" name="posesion-informal"
+                                class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                                placeholder="Nombre de posesión informal">
+                        </div>
                     </div>
                     <!-- Sector -->
                     <div class="flex-1">
@@ -389,7 +408,7 @@
                         <!-- appearance-none  -->
                         <select id="etapa" name="etapa"
                             class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
-                            <option value="">Seleccione una opción</option>
+                            <option value="">Opción</option>
                             <option value="I">I</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -413,6 +432,13 @@
                         predio</h2>
                     <ul class="mt-1 sm:w-[85%] w-full bg-[#00A5A5] text-sm font-medium text-gray-700 sm:flex">
                         <!-- border-gray-100 sm:flex"> -->
+                        <li
+                            class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                            <input id="descripcion-fisica-predio-derruido" type="radio" value="derruido"
+                                name="list-radio-descripcion-fisica-predio" class="w-4 h-4">
+                            <label for="descripcion-fisica-predio-derruido"
+                                class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Derruido</label>
+                        </li>
                         <li
                             class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="descripcion-fisica-predio-construido" type="radio" value="construido"
@@ -443,11 +469,14 @@
                                 class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Vacio</label>
                         </li>
                         <li
-                            class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="descripcion-fisica-predio-derruido" type="radio" value="derruido"
+                            class="flex-2 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                            <input id="descripcion-fisica-predio-otros" type="radio" value="otros"
                                 name="list-radio-descripcion-fisica-predio" class="w-4 h-4">
-                            <label for="descripcion-fisica-predio-derruido"
-                                class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Derruido</label>
+                            <label for="descripcion-fisica-predio-otros"
+                                class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
+                            <input type="text" id="descripcion-fisica-predio-value"
+                                class="sm:w-20 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2"
+                                placeholder="Especificar">
                         </li>
                     </ul>
                 </div>
@@ -476,6 +505,14 @@
                             <label for="uso-vivienda-comercio"
                                 class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Vivienda
                                 Comercio</label>
+                        </li>
+                        <li
+                            class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                            <input id="uso-vivienda-equipamiento-urbano" type="radio" value="vivienda-comercio"
+                                name="list-radio-uso" class="w-4 h-4">
+                            <label for="uso-vivienda-equipamiento-urbano"
+                                class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Equipamiento
+                                Urbano</label>
                         </li>
                     </ul>
                 </div>
@@ -507,10 +544,11 @@
                         </li>
                         <li
                             class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="serv-bas-internet" type="checkbox" value="internet" name="list-checkbox-serv-bas"
-                                class="w-4 h-4">
-                            <label for="serv-bas-internet"
-                                class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Internet</label>
+                            <input id="serv-bas-internet-y-o-telefonia" type="checkbox" value="internet"
+                                name="list-checkbox-serv-bas" class="w-4 h-4">
+                            <label for="serv-bas-internet-y-o-telefonia"
+                                class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Internet
+                                y/o telefonía</label>
                         </li>
                     </ul>
                 </div>
@@ -606,28 +644,6 @@
                                 placeholder="Distancia">
                         </div>
                     </div>
-                    <!-- fondo -->
-                    <h2 class="text-sm font-medium text-blue-700 asterisk-icon font-gotham-bold mb-2">FONDO</h2>
-                    <div class="flex flex-col gap-x-2 sm:flex-row mb-2">
-                        <!-- Apellidos y Nombre por donde colinda al fondo -->
-                        <div class="flex-1">
-                            <label for="nombres-apellidos-colindancia-fondo"
-                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Apellidos y
-                                Nombres</label>
-                            <input type="text" id="nombres-apellidos-colindancia-fondo"
-                                name="nombres-apellidos-colindancia-fondo"
-                                class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="Apellidos y Nombres">
-                        </div>
-                        <!-- Distancia fondo -->
-                        <div class="flex-1">
-                            <label for="distancia-fondo"
-                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
-                            <input type="text" id="distancia-fondo" name="distancia-fondo"
-                                class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="Distancia">
-                        </div>
-                    </div>
                     <!-- derecha -->
                     <!-- <hr class="h-px my-4 bg-gray-700 border-0"> -->
                     <h2 class="text-sm font-medium text-blue-700 asterisk-icon font-gotham-bold mb-2">DERECHA</h2>
@@ -647,6 +663,28 @@
                             <label for="distancia-derecha"
                                 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
                             <input type="text" id="distancia-derecha" name="distancia-derecha"
+                                class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                                placeholder="Distancia">
+                        </div>
+                    </div>
+                    <!-- fondo -->
+                    <h2 class="text-sm font-medium text-blue-700 asterisk-icon font-gotham-bold mb-2">FONDO</h2>
+                    <div class="flex flex-col gap-x-2 sm:flex-row mb-2">
+                        <!-- Apellidos y Nombre por donde colinda al fondo -->
+                        <div class="flex-1">
+                            <label for="nombres-apellidos-colindancia-fondo"
+                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Apellidos y
+                                Nombres</label>
+                            <input type="text" id="nombres-apellidos-colindancia-fondo"
+                                name="nombres-apellidos-colindancia-fondo"
+                                class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                                placeholder="Apellidos y Nombres">
+                        </div>
+                        <!-- Distancia fondo -->
+                        <div class="flex-1">
+                            <label for="distancia-fondo"
+                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
+                            <input type="text" id="distancia-fondo" name="distancia-fondo"
                                 class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                 placeholder="Distancia">
                         </div>
@@ -684,7 +722,7 @@
                             CONSOLIDADOS?</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="hito-consolidado-si" type="radio" value="si"
+                                <input id="hito-consolidado-si" type="radio" value="si" checked
                                     name="list-radio-hitos-consolidado" class="w-4 h-4">
                                 <label for="hito-consolidado-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
@@ -702,7 +740,7 @@
                             A VIA?</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="acceso-via-si" type="radio" value="si" name="list-radio-acceso-via"
+                                <input id="acceso-via-si" type="radio" value="si" name="list-radio-acceso-via" checked
                                     class="w-4 h-4">
                                 <label for="acceso-via-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
@@ -713,22 +751,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ¿CUÁNTOS LOTES? -->
-                    <div class="w-full sm:w-1/3" id="container-numero-lotes">
-                        <label for="numero-lotes"
-                            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">¿CUÁNTOS
-                            LOTES?</label>
-                        <input type="text" id="numero-lotes" name="numero-lotes"
-                            class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                            placeholder="¿Cuántos lotes?">
-                    </div>
+                    
                     <!-- ¿REQUIERE SUBDIVISIÓN? -->
                     <div class="flex items-center gap-x-5">
                         <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold w-1/2 sm:w-1/5">
                             ¿REQUIERE SUBDIVISIÓN?</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="subdivion-si" type="radio" value="si" name="list-radio-subdivion"
+                                <input id="subdivion-si" type="radio" value="si" name="list-radio-subdivion" checked
                                     class="w-4 h-4">
                                 <label for="subdivion-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
@@ -738,6 +768,15 @@
                                 <label for="subdivion-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
                         </div>
+                    </div>
+                    <!-- ¿CUÁNTOS LOTES? -->
+                    <div class="w-full sm:w-1/3 hidden" id="container-numero-lotes">
+                        <label for="numero-lotes"
+                            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">¿CUÁNTOS
+                            LOTES?</label>
+                        <input type="text" id="numero-lotes" name="numero-lotes"
+                            class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                            placeholder="¿Cuántos lotes?">
                     </div>
                     <!-- ¿REQUIERE ALINEAMIENTO? -->
                     <div class="flex items-center gap-x-5">
@@ -750,7 +789,7 @@
                                 <label for="alineamiento-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="alineamiento-no" type="radio" value="no" name="list-radio-alineamiento"
+                                <input id="alineamiento-no" type="radio" value="no" name="list-radio-alineamiento" checked
                                     class="w-4 h-4">
                                 <label for="alineamiento-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
@@ -762,7 +801,7 @@
                             ¿APERTURA DE VIA?</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="apertura-via-si" type="radio" value="si" name="list-radio-apertura-via"
+                                <input id="apertura-via-si" type="radio" value="si" name="list-radio-apertura-via" checked
                                     class="w-4 h-4">
                                 <label for="apertura-via-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
@@ -780,7 +819,7 @@
                             DE RIESGO?</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="libre-riesgo-si" type="radio" value="si" name="list-radio-libre-riesgo"
+                                <input id="libre-riesgo-si" type="radio" value="si" name="list-radio-libre-riesgo" checked
                                     class="w-4 h-4">
                                 <label for="libre-riesgo-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
@@ -803,7 +842,7 @@
                                 <label for="transf-titular-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="transf-titular-no" type="radio" value="no" name="list-radio-transf-titular"
+                                <input id="transf-titular-no" type="radio" value="no" name="list-radio-transf-titular" checked
                                     class="w-4 h-4">
                                 <label for="transf-titular-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
@@ -815,12 +854,12 @@
                             ¿LITIGIO, DENUNCIA, ETC?</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="litigio-denuncia-etc-si" type="radio" value="si"
+                                <input id="litigio-denuncia-etc-si" type="radio" value="si" checked
                                     name="list-radio-litigio-denuncia-etc" class="w-4 h-4">
                                 <label for="litigio-denuncia-etc-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="litigio-denuncia-etc-no" type="radio" value="no"
+                                <input id="litigio-denuncia-etc-no" type="radio" value="no" checked
                                     name="list-radio-litigio-denuncia-etc" class="w-4 h-4">
                                 <label for="litigio-denuncia-etc-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
