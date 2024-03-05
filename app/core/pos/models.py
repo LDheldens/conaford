@@ -14,6 +14,7 @@ from core.pos.choices import payment_condition, payment_method, voucher
 from core.user.models import User
 
 
+
 class Company(models.Model):
     name = models.CharField(max_length=50, verbose_name='Nombre')
     ruc = models.CharField(max_length=13, verbose_name='Ruc')
@@ -345,26 +346,7 @@ class PaymentsCtaCollect(models.Model):
 
 
 # Modificaciones Daniel 
-class Titular(models.Model):
-    copia_doc_identidad = models.BooleanField(default=False)
-    apellidos = models.CharField(max_length=100)
-    nombres = models.CharField(max_length=100)
-    estado_civil = models.CharField(max_length=20)
-    tipo_doc = models.CharField(max_length=20)
-    num_doc = models.CharField(max_length=20)
-    img_firma = models.ImageField(upload_to='titulares/', blank=True, null=True)
-    img_huella = models.ImageField(upload_to='titulares/', blank=True, null=True)
-    
-    def toJSON(self):
-        return {
-            'id': self.id,
-            'copia_doc_identidad': self.copia_doc_identidad,
-            'apellidos': self.apellidos,
-            'nombres': self.nombres,
-            'estado_civil': self.estado_civil,
-            'tipo_doc': self.tipo_doc,
-            'num_doc': self.num_doc,
-        }
+
 
 class Acta(models.Model):
     fecha = models.DateField()
@@ -401,24 +383,49 @@ class Acta(models.Model):
     comentario2 = models.TextField()
     
     #relacion de muchos a muchos 
-    titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+
     def toJSON(self):
+        # Obtener el primer titular asociado a esta acta
+        primer_titular = self.titulares.first()
+        # Obtener el número total de titulares asociados a esta acta
+        num_titulares = self.titulares.count()
+        # Convertir la fecha y la hora en formato deseado
+        fecha_str = self.fecha.strftime('%Y-%m-%d')
+        hora_str = self.hora.strftime('%Y-%m-%d')
+        # Crear un diccionario con los datos del acta y los datos del primer titular
         item = model_to_dict(self, exclude=["titulares"])
-        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
-        item['hora'] = self.hora.strftime('%Y-%m-%d')
+        item['fecha'] = fecha_str
+        item['hora'] = hora_str
         item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
-        # item['titulares'] = list(self.titulares.values_list)
-        print(item)
-        # item = model_to_dict(self, exclude=['sale'])
-        # item['product'] = self.product.toJSON()
-        # item['price'] = format(self.price, '.2f')
-        # item['dscto'] = format(self.dscto, '.2f')
-        # item['total_dscto'] = format(self.total_dscto, '.2f')
-        # item['subtotal'] = format(self.subtotal, '.2f')
-        # item['total'] = format(self.total, '.2f')
+        item['primer_titular'] = f"{primer_titular.nombres} {primer_titular.apellidos}" if primer_titular else None
+        item['num_titulares'] = num_titulares
+        
         return item
 
 
+class Titular(models.Model):
+    copia_doc_identidad = models.CharField(max_length=3, default='no')
+    apellidos = models.CharField(max_length=100)
+    nombres = models.CharField(max_length=100)
+    estado_civil = models.CharField(max_length=20)
+    tipo_doc = models.CharField(max_length=20)
+    num_doc = models.CharField(max_length=20)
+    img_firma = models.ImageField(upload_to='titulares/', blank=True, null=True)
+    img_huella = models.ImageField(upload_to='titulares/', blank=True, null=True)
+    
+    acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)
+    
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'copia_doc_identidad': self.copia_doc_identidad,
+            'apellidos': self.apellidos,
+            'nombres': self.nombres,
+            'estado_civil': self.estado_civil,
+            'tipo_doc': self.tipo_doc,
+            'num_doc': self.num_doc,
+        }
+        
 class Colindancia(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, default=datetime.now().strftime("%Y%m%d%H%M%S"), related_name='colindancias')
     frente_nombre = models.CharField(max_length=100)

@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </h2>
                 <div class="flex gap-x-4">
                     <div class="flex items-center gap-x-1">
-                        <input id="${index}-${tipo}-copia-doc-identidad-si" type="radio" value="${index}-${tipo}-si" name="${index}-${tipo}-list-radio-carta-doc-identidad"
+                        <input data-titular-copia-documento id="${index}-${tipo}-copia-doc-identidad-si" type="radio" value="${index}-${tipo}-si" name="${index}-${tipo}-list-radio-carta-doc-identidad"
                         class="w-5 h-5">
                         <label for="${index}-${tipo}-copia-doc-identidad-si" class="font-gotham-bold text-sm">Si</label>
                     </div>

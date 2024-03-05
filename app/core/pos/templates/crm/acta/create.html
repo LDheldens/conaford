@@ -1027,19 +1027,19 @@
                 <!-- 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO -->
                 <div class="p-5 mb-4 border-2 border-gray-300 flex flex-wrap gap-4">
                     <!-- firma Operador(Topografo) -->
-                    <div class="bg-white  w-80 rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <div class="bg-white max-w-96 mx-auto rounded-lg shadow-md overflow-hidden items-center p-5">
                         <label class="text-black font-bold" for="firma_operador">Firma del operador topógrafo:</label>
                         <input type="file" accept="image/jpeg, image/png" id="firma_operador" name="firma_operador" onchange="previewImage(this)">
                         <img id="firma_operador_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
                     </div>
                     <!-- firma Rpr. Comisión -->
-                    <div class="bg-white w-80  rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <div class="bg-white max-w-96 mx-auto rounded-lg shadow-md overflow-hidden items-center p-5">
                         <label class="text-black font-bold" for="firma_representante">Firma del representante de la comisión:</label>
                         <input type="file" accept="image/jpeg, image/png" id="firma_representante" name="firma_representante" onchange="previewImage(this)">
                         <img id="firma_representante_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
                     </div>
                     <!-- firma Supervisor de Campo -->
-                    <div class="bg-white w-80  rounded-lg shadow-md overflow-hidden items-center p-5">
+                    <div class="bg-white max-w-96 mx-auto rounded-lg shadow-md overflow-hidden items-center p-5">
                         <label class="text-black font-bold" for="firma_supervisor">Firma del supervisor de campo:</label>
                         <input type="file" accept="image/jpeg, image/png" id="firma_supervisor" name="firma_supervisor" onchange="previewImage(this)">
                         <img id="firma_supervisor_preview" class="hidden mx-auto mt-4 max-w-[100px] object-cover" alt="Vista previa de la imagen" >
@@ -1049,7 +1049,7 @@
                 <hr class="h-px bg-red-700 border-0">
 
                 <!-- COMENTARIOS/OBSERVACIONES: -->
-                <div class="mb-2">
+                <div class="mb-2">l
                     <label for="op9-comentario-observaciones"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">COMENTARIOS/OBSERVACIONES:</label>
                     <textarea name="comentario3"  id="op9-comentario-observaciones" rows="4"
@@ -1098,6 +1098,8 @@
         </div>
         <!-- footer -->
     </div>
+
+    
     <script src="{% static 'js/conaforp-acta.js' %}"></script>
     <script>
         function previewImage(input) {
@@ -1363,8 +1365,8 @@
 
                 submitHandler: function(form) {
                     
-                    var formData = new FormData(form);
-
+                    // Crear un objeto FormData para almacenar los datos del formulario
+                    var formData = new FormData($('#formulario-acta')[0]);
                     // Agregar las imágenes seleccionadas al objeto FormData
                     let boceto_predio = $('#boceto_predio')[0].files[0];
                     let firma_operador = $('#firma_operador')[0].files[0];
@@ -1375,7 +1377,7 @@
                     formData.append('firma_operador', firma_operador);
                     formData.append('firma_representante', firma_representante);
                     formData.append('firma_supervisor', firma_supervisor);
-
+                    console.log(formData)
                     // Realizar la llamada AJAX para enviar el formulario
                     $.ajax({
                         url: '/pos/crm/acta/add/', // URL de tu vista de Django

@@ -16,31 +16,46 @@ function getData() {
             dataSrc: ""
         },
         columns: [
-            {"data": "id"},
-            {"data": "fecha"},
+            {"data": "primer_titular"},
+            {"data": "num_titulares"},
             {"data": "cel_wsp"},
-            {"data": "departamento"},
-            {"data": "posesion_informal"},
-            
+            {"data": "direccion_fiscal"},
+            {"data":null},
+            // {"data":null},
         ],        
         columnDefs: [
+            // {
+            //     targets: 4, // Índice de la columna para el botón "Agregar Titular"
+            //     class: 'text-center',
+            //     orderable: false,
+            //     render: function (data, type, row) {
+            //         var button = '<button type="buton" class="btn btn-primary btn-xs btn-flat add-titular" data-id="' + row.id + '" onclick="agregarTitular(' + row.id + ')">Agregar Titular</button>';
+            //         return button;
+            //     }
+            // },
             {
-                targets: [-1],
+                targets: 4,
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {
-                    console.log({
-                        data,
-                        type,
-                        row
-                    })
+                    var dropdownMenu = '<div class="dropdown">';
+                    dropdownMenu += '<button class="btn-list-actas dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</button>';
 
-                    var buttons = '<a href="/pos/crm/acta/update/' + row.id + '/" class="btn btn-warning btn-xs btn-flat"><i class="fas fa-edit"></i></a> ';
-                    buttons += '<a href="/pos/crm/acta/delete/' + row.id + '/" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-trash-alt"></i></a>';
+                    dropdownMenu += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
 
-                    return buttons;
+                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/update/' + row.id + '/"><i class="fas fa-edit text-warning"></i> Editar</a>';
+
+                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
+
+                    dropdownMenu += '<button type="button" class="dropdown-item" data-id="' + row.id + '" onclick="agregarTitular(' + row.id + ')"><i class="fas fa-plus text-info"></i> Agregar Titular</button>';
+
+                    dropdownMenu += '<button type="button" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-eye text-success"></i> Ver titulares</button>';
+
+                    dropdownMenu += '</div></div>';
+
+                    return dropdownMenu;
                 }
-            },
+            }
         ],
         initComplete: function (settings, json) {
 

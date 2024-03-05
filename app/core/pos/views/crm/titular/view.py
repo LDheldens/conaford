@@ -1,11 +1,13 @@
 import json
+from django.shortcuts import get_object_or_404
+
 # from django.shortcuts import render
 # from django.views import View
 # from django.contrib.auth.models import Group
 # from django.db import transaction
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, View
 # from config import settings
 # from core.pos.forms import ClientForm, User, Client
 # from core.security.mixins import ModuleMixin, PermissionMixin
@@ -34,14 +36,43 @@ class TitularListView(TemplateView):
         return context
 
 class TitularCreateView(TemplateView):
-    model = Titular
     template_name = 'crm/titular/create.html'
     success_url = reverse_lazy('titular_list')
-    fields = ['apellidos', 'nombres', 'estado_civil', 'tipo_doc', 'num_doc', 'copia_doc_identidad']
 
-    def form_valid(self, form):
-
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        # Obtener datos del formulario
+        copia_doc_identidad = request.POST.get('copia_doc_identidad')
+        apellidos = request.POST.get('apellidos')
+        nombres = request.POST.get('nombres')
+        estado_civil = request.POST.get('estado_civil')
+        num_doc = request.POST.get('num_doc')
+        tipo_doc = request.POST.get('tipo_doc')
+        img_firma = request.FILES.get('img_firma')
+        img_huella = request.FILES.get('img_huella')
+        # Obtener el ID del acta del formulario
+        acta_id = request.POST.get('acta_id')
+        
+        # Obtener el objeto Acta correspondiente
+        acta = get_object_or_404(Acta, pk=acta_id)
+        
+        # Crear el titular y asociarlo al acta
+        titular = Titular(
+            apellidos=apellidos,
+            nombres=nombres,
+            estado_civil=estado_civil,
+            tipo_doc=tipo_doc,
+            num_doc=num_doc,
+            copia_doc_identidad=copia_doc_identidad,
+            img_firma=img_firma,  # Asignar la imagen de la firma
+            img_huella=img_huella,  # Asignar la imagen de la huella
+        )
+        titular.save()
+        
+        # Asociar el titular al acta
+        acta.titulares.add(titular)
+        
+        # Devolver una respuesta JSON para indicar que el titular se ha creado correctamente
+        return JsonResponse({'message': 'Titular creado correctamente'}, status=201)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -108,3 +139,29 @@ class TitularDeleteView(TemplateView):
             data['success'] = False
             data['message'] = str(e)
         return JsonResponse(data)
+
+class TitularesPorActaListView(View):
+    def get(self, request, acta_id):
+        try:
+            acta = Acta.objects.get(pk=acta_id)
+
+            titulares = acta.titulares.all()
+            
+            titulares_data = [
+                {
+                    'id': titular.id,
+                    'copia_doc_identidad': titular.copia_doc_identidad,
+                    'apellidos': titular.apellidos,
+                    'nombres': titular.nombres,
+                    'estado_civil': titular.estado_civil,
+                    'tipo_doc': titular.tipo_doc,
+                    'num_doc': titular.num_doc
+                } 
+                for titular in titulares
+            ]
+            # Devolver la respuesta JSON
+            return JsonResponse({'titulares': titulares_data})
+        except Acta.DoesNotExist:
+            return JsonResponse({'error': 'El acta especificada no existe'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
