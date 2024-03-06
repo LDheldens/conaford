@@ -1,18 +1,29 @@
-// muestra imagen previa del titular
-function previewImage(input, previewId) {
-    const preview = document.getElementById(previewId);
+function showPdfButton(input) {
+    const buttonPreview = document.getElementById('pdf_button_preview');
     const file = input.files[0];
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-        preview.src = e.target.result;
-        preview.classList.remove('img-none'); // Mostrar la imagen previa
-    };
 
     if (file) {
-        reader.readAsDataURL(file);
+        buttonPreview.style.display = 'inline'; 
+        buttonPreview.style.border = 'solid 1px red';
+        buttonPreview.style.color = 'red';
+        buttonPreview.style.padding = '0 5px';
+        buttonPreview.style.margin = '10px 0';
+        buttonPreview.style.borderRadius = '5px'
+    } else {
+        buttonPreview.style.display = 'none';
     }
 }
+
+function openPdf() {
+    const input = document.getElementById('pdf_documento');
+    const file = input.files[0];
+
+    if (file) {
+        const fileURL = URL.createObjectURL(file);
+        window.open(fileURL, '_blank'); // Abrir el PDF en una nueva pestaña del navegador
+    }
+}
+
 
 let contenedorModal;
 let modal;
@@ -29,119 +40,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     btnCloseModal.addEventListener('click',cerrarModal)
     tableTitulares = document.querySelector('#table-titulares')
     form_titular = document.querySelector('#form-titular')
-
-    form_titular.addEventListener('submit',(e)=>{
-        e.preventDefault()
-  
-
-        let apellidos = document.getElementById('apellidos').value.trim();
-        let nombres = document.getElementById('nombres').value.trim();
-        let dni = document.getElementById('dni').value.trim();
-        let numDoc = document.getElementById('numero-doc').value.trim();
-        let firma = document.getElementById('firma').value.trim();
-        let huella = document.getElementById('huella').value.trim();
-        
-        // Realiza la validación
-        var isValid = true;
-        
-        // Validación de los campos obligatorios
-        if (apellidos === '') {
-            markAsInvalid('apellidos');
-            isValid = false;
-        } else {
-            markAsValid('apellidos');
-            isValid=true
-        }
-        
-        if (nombres === '') {
-            markAsInvalid('nombres');
-            isValid = false;
-        } else {
-            markAsValid('nombres');
-            isValid=true
-        }
-        
-        if (dni === '') {
-            markAsInvalid('dni');
-            isValid = false;
-        } else {
-            markAsValid('dni');
-            isValid=true
-        }
-        
-        if (numDoc === '') {
-            markAsInvalid('numero-doc');
-            isValid = false;
-        } else {
-            markAsValid('numero-doc');
-            isValid=true
-        }
-        
-        if (document.querySelector('input[name="copia_doc_identidad"]:checked') === null) {
-            isValid = false;
-            // Puedes añadir tu lógica para marcar visualmente el campo de radio aquí
-        }
-        
-        if (document.querySelector('input[name="estado_civil"]:checked') === null) {
-            isValid = false;
-        }
-        
-        if (document.querySelector('input[name="tipo_doc"]:checked') === null) {
-            isValid = false;
-        }
-        
-        if (firma === '') {
-            markAsInvalid('firma');
-            isValid = false;
-        } else {
-            markAsValid('firma');
-            isValid=true
-        }
-        
-        if (huella === '') {
-            markAsInvalid('huella');
-            isValid = false;
-        } else {
-            markAsValid('huella');
-            isValid=true
-        }
-        
-        // Si la validación fue exitosa, envía el formulario
-        if(isValid){
-            const formData = new FormData(form_titular);
-            const firmaInput = document.getElementById('firma');
-            const huellaInput = document.getElementById('huella');
-
-            formData.append('img_firma', firmaInput.files[0]);
-            formData.append('img_huella', huellaInput.files[0]);
-            formData.append('acta_id', actaId); 
-            // Configurar opciones para la solicitud Fetch
-            const options = {
-                method: 'POST',
-                body: formData,
-            };
-
-            // Realizar la solicitud Fetch
-            fetch('/pos/crm/titular/add/', options)
-                .then(response => {
-                    if (response.ok) {
-                        // Si la respuesta es exitosa, mostrar mensaje de éxito
-                        console.log('Titular creado correctamente');
-                        form_titular.reset()
-                        document.querySelector('.btn.btn-success.btn-flat').click();
-                        // Aquí puedes agregar lógica adicional, como cerrar el modal, actualizar la página, etc.
-                    } else {
-                        // Si la respuesta no es exitosa, mostrar mensaje de error
-                        console.error('Error al crear titular');
-                        // Aquí puedes manejar errores de forma adecuada
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Manejar errores de red u otros errores
-                });
-        }
-    })
+   
 })
 function markAsInvalid(inputId) {
     document.getElementById(inputId).classList.add('invalid');
@@ -152,13 +51,24 @@ function markAsValid(inputId) {
     document.getElementById(inputId).classList.remove('invalid');
 }
 function mostrarModal(){
-    contenedorModal.style.display="flex"    
+    contenedorModal.style.display="flex"
+    form_titular.reset()    
 }
 
 function cerrarModal(){
     contenedorModal.style.display="none"
     form_titular.reset()
-
+    quitarEstilosValidacion()
+}
+function quitarEstilosValidacion(){
+    const radios = document.querySelectorAll('.error-radio')
+    const inputs = document.querySelectorAll('.invalid')
+    radios.forEach(radio =>{
+        radio.style.display = 'none'
+    })
+    inputs.forEach(input =>{
+        input.classList.remove('invalid')
+    })
 }
 function agregarTitular(id){
     form_titular.style.display = 'block'

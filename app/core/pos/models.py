@@ -408,10 +408,9 @@ class Titular(models.Model):
     apellidos = models.CharField(max_length=100)
     nombres = models.CharField(max_length=100)
     estado_civil = models.CharField(max_length=20)
-    tipo_doc = models.CharField(max_length=20)
+    tipo_doc = models.CharField(max_length=20, default='DNI', null=True)
     num_doc = models.CharField(max_length=20)
-    img_firma = models.ImageField(upload_to='titulares/', blank=True, null=True)
-    img_huella = models.ImageField(upload_to='titulares/', blank=True, null=True)
+    pdf_documento = models.FileField(upload_to='titulares/', blank=True, null=True)
     
     acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)
     

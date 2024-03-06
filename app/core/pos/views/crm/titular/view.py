@@ -1,5 +1,7 @@
 import json
 from django.shortcuts import get_object_or_404
+import string
+import random
 
 # from django.shortcuts import render
 # from django.views import View
@@ -38,7 +40,16 @@ class TitularListView(TemplateView):
 class TitularCreateView(TemplateView):
     template_name = 'crm/titular/create.html'
     success_url = reverse_lazy('titular_list')
+    
+    def generar_nombre_pdf(self):
+        caracteres = string.ascii_letters + string.digits
+        nombre_random = ''.join(random.choices(caracteres, k=20))
+        numero_random = ''.join(random.choices(string.digits, k=10))
+        otro_random = ''.join(random.choices(caracteres, k=10))
+        nombre_pdf = f"pdf_{nombre_random}_{numero_random}_{otro_random}.pdf"
+        return nombre_pdf
 
+    
     def post(self, request, *args, **kwargs):
         # Obtener datos del formulario
         copia_doc_identidad = request.POST.get('copia_doc_identidad')
@@ -46,9 +57,11 @@ class TitularCreateView(TemplateView):
         nombres = request.POST.get('nombres')
         estado_civil = request.POST.get('estado_civil')
         num_doc = request.POST.get('num_doc')
-        tipo_doc = request.POST.get('tipo_doc')
-        img_firma = request.FILES.get('img_firma')
-        img_huella = request.FILES.get('img_huella')
+        pdf_documento = request.FILES.get('pdf_documento')
+
+        # generar nombre unico para el PDF
+        pdf_documento.name = self.generar_nombre_pdf()
+
         # Obtener el ID del acta del formulario
         acta_id = request.POST.get('acta_id')
         
@@ -60,11 +73,9 @@ class TitularCreateView(TemplateView):
             apellidos=apellidos,
             nombres=nombres,
             estado_civil=estado_civil,
-            tipo_doc=tipo_doc,
             num_doc=num_doc,
             copia_doc_identidad=copia_doc_identidad,
-            img_firma=img_firma,  # Asignar la imagen de la firma
-            img_huella=img_huella,  # Asignar la imagen de la huella
+            pdf_documento = pdf_documento
         )
         titular.save()
         

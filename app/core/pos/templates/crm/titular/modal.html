@@ -19,6 +19,9 @@
                     <input type="radio" value="no" name="copia_doc_identidad" id="no">
                     <label for="no">No</label>
                 </div>
+                <div class="error-radio">
+                    Seleccione una opcion
+                </div>
 
             </div>
             <div class="group_2 mt">
@@ -51,13 +54,16 @@
                         <input type="radio" value="divorciado" name="estado_civil" id="divorciado">
                         <label for="divorciado">D</label>
                     </div>
+                    <div class="error-radio">
+                        Seleccione una opcion
+                    </div>
                 </div>
             </div>
             <div class="group_5 mt">
                 <label for="numero-doc">N° DOCUMENTO:</label>
                 <input name="num_doc" type="text" id="numero-doc" placeholder="N° Doc.">
             </div>
-            <h2 class="title mt">Tipo de documento:</h2>
+            {% comment %} <h2 class="title mt">Tipo de documento:</h2>
             <div class="group_6 mtp">
                 <div class="radio">
                     <input type="radio" value="dni" name="tipo_doc" id="dni-doc">
@@ -71,9 +77,12 @@
                     <input type="radio" value="ce" name="tipo_doc" id="ce-doc">
                     <label for="ce-doc">CE</label>
                 </div>
-            </div>
+                <div class="error-radio">
+                    Seleccione una opcion
+                </div>
+            </div> {% endcomment %}
             <div class="group_7 mt">
-                <div>
+                {% comment %} <div>
                     <label for="firma">Subir firma:</label>
                     <input onchange="previewImage(this, 'firma_titular_preview')" type="file" name="img_firma" accept="image/*" id="firma">
                     <img id="firma_titular_preview" class="img-none img-titular" alt="Vista previa de la imagen" >
@@ -82,7 +91,21 @@
                     <label for="huella">Subir huella:</label>
                     <input onchange="previewImage(this, 'huella_supervisor_preview')" type="file" name="img_huella" accept="image/*" id="huella">
                     <img id="huella_supervisor_preview" class="img-none img-titular" alt="Vista previa de la imagen" >
+                </div> {% endcomment %}
+                <div class="mt">
+                    <label for="pdf_documento">Subir PDF con los documentos:</label>
+                    <input onchange="showPdfButton(this)" type="file" name="pdf_documento" accept="application/pdf" id="pdf_documento">
+                    
                 </div>
+                <button 
+                    id="pdf_button_preview" 
+                    class="pdf-preview" 
+                    style="display: none;" 
+                    onclick="openPdf()"
+                >
+                    <i class="fas fa-file-pdf" style="color: red;"></i> Ver PDF
+                </button>
+                
             </div>
             <button id="btn-submit" type="submit">
                 Registrar

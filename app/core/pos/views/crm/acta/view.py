@@ -13,13 +13,6 @@ from django.shortcuts import get_object_or_404
 # vistas creadas por Daniel
 class ActaListView(TemplateView):
     template_name = 'crm/acta/list.html'
-
-    # def get(self, request, *args, **kwargs):
-    #     print("GET")
-    #     for acta in Acta.objects.all():
-    #         print(f"[*] {type(acta)}")
-        # data = [acta.to_dict() for acta in Acta.objects.all()]
-        # print("DATA", data)
         
     def post(self, request, *args, **kwargs):
         data = {}
@@ -199,13 +192,35 @@ class ActaUpdateView(TemplateView):
         context['acta'] = acta
         return context
 
+from django.views.generic import DeleteView
+from django.urls import reverse_lazy
+from django.http import HttpResponse
+from django.db import transaction
+import json
+
 class ActaDeleteView(DeleteView):
     model = Acta
     template_name = 'crm/acta/delete.html'
     success_url = reverse_lazy('acta_list') 
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            with transaction.atomic():
+                instance = self.get_object()
+                # Realiza la eliminación del objeto Acta
+                instance.delete()
+        except Exception as e:
+            # En caso de error, se devuelve el mensaje de error
+            data['error'] = str(e)
+        # Devuelve la respuesta en formato JSON
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Agrega el título de la página
         context['title'] = 'Notificación de eliminación'
+        # Agrega la URL de redirección después de eliminar el Acta
         context['list_url'] = self.success_url  
+        context['registro'] = self.kwargs.get('pk')
         return context
