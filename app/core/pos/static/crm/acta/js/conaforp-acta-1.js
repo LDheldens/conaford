@@ -21,6 +21,46 @@ document.addEventListener('click', event => {
     }
 });
 
+//set dinamics
+const init = () => {
+    const listRadioAccesoVia = document.getElementsByName('list-radio-acceso-via');
+    const listRadioTomaFotograficaPredio = document.getElementsByName('list-radio-toma-fotografica-predio');
+    [...listRadioAccesoVia].map(element => element.addEventListener('change', e => {
+        if(e.target.value == 'si') {
+            document.getElementById('container-numero-lotes').classList.remove('hidden')
+        } else {
+            document.getElementById('container-numero-lotes').classList.add('hidden')
+        }
+    }));
+    [...listRadioTomaFotograficaPredio].map(element => element.addEventListener('change', e => {
+        console.log({e})
+        if(e.target.value == 'si') {
+            document.getElementById('container-toma-fotografica-predio').classList.remove('hidden');
+            document.getElementById('container-toma-fotografica-predio-comentarios').classList.add('hidden');
+        } else {
+            document.getElementById('container-toma-fotografica-predio').classList.add('hidden');
+            document.getElementById('container-toma-fotografica-predio-comentarios').classList.remove('hidden');
+        }
+    }));
+    [...listRadioAccesoVia].map(element => element.addEventListener('change', e => {
+        if(e.target.value == 'si') {
+            document.getElementById('container-numero-lotes').classList.remove('hidden')
+        } else {
+            document.getElementById('container-numero-lotes').classList.add('hidden')
+        }
+    }));
+    const setHours = () => {
+        const ahora = new Date();
+        let horas = ahora.getHours().toString().padStart(2, '0');
+        const minutos = ahora.getMinutes().toString().padStart(2, '0');
+        const result = `${horas}:${minutos}`
+        console.log({result})
+        hora.value = result;
+    }
+    setHours();
+}
+init()
+
 // data backend
 let ubigeoData = { }
 const allUbigeosPe = () => {
@@ -53,7 +93,7 @@ const toggleContent = (li, elementToActivateIds) => {
     span.classList.remove('border-gray-500');
     span.classList.add('border-blue-600');
 
-    const allElementIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part6', 'part7', 'part8', 'part9'];
+    const allElementIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part8', 'part9'];
     const elementsToDeactivate = allElementIds.filter(el => !elementToActivateIds.includes(el));
     //disable elements            
     for (const id of elementsToDeactivate) {
@@ -349,8 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
             1: ['part3'],
             2: ['part4'],
             3: ['part5'],
-            4: ['part6', 'part7'],
-            5: ['part8', 'part9'],
+            4: ['part8', 'part9'],
         }
         const elementsToActivate = condition[index];
         liElement.addEventListener('click', function () {
