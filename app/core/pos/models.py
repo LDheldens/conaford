@@ -17,6 +17,7 @@ from core.user.models import User
 # from django.core.files.base import ContentFile
 
 
+
 class Company(models.Model):
     name = models.CharField(max_length=50, verbose_name='Nombre')
     ruc = models.CharField(max_length=13, verbose_name='Ruc')
@@ -346,17 +347,15 @@ class PaymentsCtaCollect(models.Model):
         default_permissions = ()
         ordering = ['-id']
 
-
-# Modificaciones Daniel 
 class Titular(models.Model):
-    copia_doc_identidad = models.BooleanField(default=False)
+    copia_doc_identidad = models.CharField(max_length=3, default='no')
     apellidos = models.CharField(max_length=100)
     nombres = models.CharField(max_length=100)
     estado_civil = models.CharField(max_length=20)
-    tipo_doc = models.CharField(max_length=20)
+    tipo_doc = models.CharField(max_length=20, default='DNI', null=True)
     num_doc = models.CharField(max_length=20)
-    img_firma = models.ImageField(upload_to='titulares/', blank=True, null=True)
-    img_huella = models.ImageField(upload_to='titulares/', blank=True, null=True)
+    pdf_documento = models.FileField(upload_to='titulares/', blank=True, null=True)
+    # acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)
     
     def toJSON(self):
         return {
@@ -440,6 +439,11 @@ class Acta(models.Model):
     imagen_acta = models.ForeignKey(ImagenActa, on_delete=models.CASCADE)
 
     def toJSON(self):
+        # Obtener el primer titular asociado a esta acta
+        primer_titular = self.titulares.first()
+        # Obtener el número total de titulares asociados a esta acta
+        num_titulares = self.titulares.count()
+        ####################
         item = model_to_dict(self)
         item['fecha'] = self.fecha.strftime('%Y-%m-%d')
         item['hora'] = self.hora.strftime('%I:%M')
@@ -448,10 +452,7 @@ class Acta(models.Model):
         item['titulares'] = [
             {
                 **model_to_dict(titular),
-                'img_huella_name': basename(titular.img_huella.name),
-                'img_firma_name': basename(titular.img_firma.name),
-                'img_huella': base64.b64encode(titular.img_huella.read()).decode('utf-8'),
-                'img_firma': base64.b64encode(titular.img_firma.read()).decode('utf-8'),
+                'pdf_documento': 'pdf_documento'
             }
             for titular in self.titulares.all()
         ]
@@ -462,15 +463,17 @@ class Acta(models.Model):
             'derecha_distancia': float(self.colindancia.derecha_distancia),
             'izquierda_distancia': float(self.colindancia.izquierda_distancia),
         }
-
         item['imagen_acta'] = {
-            'boceto': base64.b64encode(self.imagen_acta.boceto.read()).decode('utf-8'),
-            'firma_topografo_name': basename(self.imagen_acta.firma_topografo.name),
-            'firma_representante_comision_name': basename(self.imagen_acta.firma_representante_comision.name),
-            'firma_supervisor_campo_name': basename(self.imagen_acta.firma_supervisor_campo.name),
-            'firma_topografo': base64.b64encode(self.imagen_acta.firma_topografo.read()).decode('utf-8'),
-            'firma_representante_comision': base64.b64encode(self.imagen_acta.firma_representante_comision.read()).decode('utf-8'),
-            'firma_supervisor_campo': base64.b64encode(self.imagen_acta.firma_supervisor_campo.read()).decode('utf-8'),
-            'comentario3': self.imagen_acta.comentario3
+            # 'boceto': base64.b64encode(self.imagen_acta.boceto.read()).decode('utf-8'),
+            # 'firma_topografo_name': basename(self.imagen_acta.firma_topografo.name),
+            # 'firma_representante_comision_name': basename(self.imagen_acta.firma_representante_comision.name),
+            # 'firma_supervisor_campo_name': basename(self.imagen_acta.firma_supervisor_campo.name),
+            # 'firma_topografo': base64.b64encode(self.imagen_acta.firma_topografo.read()).decode('utf-8'),
+            # 'firma_representante_comision': base64.b64encode(self.imagen_acta.firma_representante_comision.read()).decode('utf-8'),
+            # 'firma_supervisor_campo': base64.b64encode(self.imagen_acta.firma_supervisor_campo.read()).decode('utf-8'),
+            # 'comentario3': self.imagen_acta.comentario3
         }
+        ##############
+        item['primer_titular'] = f"{primer_titular.nombres} {primer_titular.apellidos}" if primer_titular else None
+        item['num_titulares'] = num_titulares
         return item

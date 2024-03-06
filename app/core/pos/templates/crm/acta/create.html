@@ -291,7 +291,6 @@
                     </div>
                 </div>
             </header>
-
             <!-- 1.- DATOS DE LA POSESIÓN INFORMAL -->
             <div class="hidden" id="part1">
                 <!-- Fecha, Cel. Wssp. -->
@@ -323,7 +322,11 @@
                     <div class="flex-1 relative">
                         <label for="departamento"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Departamento</label>
-                        <input type="text" id="departamento" name="departamento"
+                        <input 
+                            type="text" 
+                            id="departamento" 
+                            name="departamento"
+                            value="{% if acta %}{{acta.departamento}}{% endif %}"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="Departamento">
                         <!-- Departamento -> muestra resultados de busqueda en el autocompletado -->
@@ -335,7 +338,8 @@
                     <div class="flex-1 relative">
                         <label for="provincia"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Provincia</label>
-                        <input type="text" id="provincia" name="provincia"
+                        <input type="text" 
+                            value="{% if acta %}{{acta.provincia}}{% endif %}" id="provincia" name="provincia"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="Provincia">
                         <!-- Provincia -> muestra resultados de busqueda en el autocompletado -->
@@ -347,7 +351,10 @@
                     <div class="flex-1">
                         <label for="distrito"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distrito</label>
-                        <input type="text" id="distrito" name="distrito"
+                        <input 
+                            type="text" 
+                            id="distrito" 
+                            name="distrito"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="Distrito">
                         <!-- Distrito -> muestra resultados de busqueda en el autocompletado -->

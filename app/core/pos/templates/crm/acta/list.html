@@ -1,14 +1,20 @@
 {% extends 'list.html' %}
 {% load static %}
 {% block head_list %}
-   <script src="{% static 'crm/acta/js/list.js' %}"></script>
+    <link href="{% static 'crm/titular/css/modal.css' %}" rel="stylesheet">
+    <script src="{% static 'crm/acta/js/list.js' %}"></script>
+    <script src="{% static 'crm/titular/js/modal.js' %}"></script>
+    <script src="{% static 'crm/titular/js/validacion-titular.js' %}"></script>
+    <!-- <link href="{% static 'css/tailwindcss/output.css' %}" rel="stylesheet"> -->
+    <!-- <link href="{% static 'css/tailwindcss/conaford.css' %}" rel="stylesheet" > -->
 {% endblock %}
 
 {% block columns %}
-    <th>Id</th>
-    <th>Fecha</th>
-    <th>Whatsapp</th>
-    <th>Departamento</th>
+    <th class="text-center">Titular</th>
+    <th>Número - titulares</th>
+    <th class="text-center">Whatsapp</th>
+    <th>Referencia - predio</th>
+    {% comment %} <th class="text-center">Titulares</th> {% endcomment %}
     <th class="text-center">Opciones</th>
 
 {% endblock %}
