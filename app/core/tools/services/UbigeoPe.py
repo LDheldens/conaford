@@ -4,7 +4,7 @@ import os
 class UbigeoPe:
     def getAllUbigeos():
         curr_dir = os.path.dirname(os.path.abspath(__file__))
-        with open(f"{curr_dir}/UbigeoPe.json", 'r') as arq:
+        with open(f"{curr_dir}/UbigeoPe.json", 'r', encoding='utf-8') as arq:
             data = json.load(arq)
             return data
     

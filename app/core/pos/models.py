@@ -2,6 +2,7 @@ import math
 import os
 import re
 from datetime import datetime
+from django.utils import timezone
 import base64
 
 from os.path import basename
@@ -347,45 +348,6 @@ class PaymentsCtaCollect(models.Model):
         default_permissions = ()
         ordering = ['-id']
 
-class Titular(models.Model):
-    copia_doc_identidad = models.CharField(max_length=3, default='no')
-    apellidos = models.CharField(max_length=100)
-    nombres = models.CharField(max_length=100)
-    estado_civil = models.CharField(max_length=20)
-    tipo_doc = models.CharField(max_length=20, default='DNI', null=True)
-    num_doc = models.CharField(max_length=20)
-    pdf_documento = models.FileField(upload_to='titulares/', blank=True, null=True)
-    # acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)
-    
-    def toJSON(self):
-        return {
-            'id': self.id,
-            'copia_doc_identidad': self.copia_doc_identidad,
-            'apellidos': self.apellidos,
-            'nombres': self.nombres,
-            'estado_civil': self.estado_civil,
-            'tipo_doc': self.tipo_doc,
-            'num_doc': self.num_doc,
-        }
-
-class Colindancia(models.Model):
-    # acta = models.ForeignKey(Acta, on_delete=models.CASCADE, default=datetime.now().strftime("%Y%m%d%H%M%S"), related_name='colindancias')
-    frente_nombre = models.CharField(max_length=100)
-    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    fondo_nombre = models.CharField(max_length=100)
-    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    derecha_nombre = models.CharField(max_length=100)
-    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    izquierda_nombre = models.CharField(max_length=100)
-    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-
-class ImagenActa(models.Model):
-    # acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
-    boceto = models.ImageField(upload_to='imagenes/')
-    firma_topografo = models.ImageField(upload_to='imagenes/')
-    firma_representante_comision = models.ImageField(upload_to='imagenes/')
-    firma_supervisor_campo = models.ImageField(upload_to='imagenes/')
-    comentario3 = models.TextField()
 
 class Acta(models.Model):
     # INICIAL
@@ -406,7 +368,7 @@ class Acta(models.Model):
     # 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S)
     carta_poder = models.BooleanField()
     # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
-    titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+    # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
     # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
     codigo_dlt = models.CharField(max_length=50)
     hora = models.TimeField()
@@ -424,7 +386,6 @@ class Acta(models.Model):
     adjunta_toma_topografica = models.BooleanField()
     adicionales_otros = models.CharField(max_length = 100)
     # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
-    colindancia = models.ForeignKey(Colindancia, on_delete=models.CASCADE)
     hitos_consolidados = models.BooleanField()
     acceso_a_via = models.BooleanField()
     cantidad_lotes = models.IntegerField()
@@ -436,44 +397,67 @@ class Acta(models.Model):
     litigio_denuncia = models.BooleanField()
     area_segun_el_titular_representante = models.FloatField()
     comentario2 = models.TextField()
-    imagen_acta = models.ForeignKey(ImagenActa, on_delete=models.CASCADE)
 
     def toJSON(self):
         # Obtener el primer titular asociado a esta acta
         primer_titular = self.titulares.first()
         # Obtener el número total de titulares asociados a esta acta
         num_titulares = self.titulares.count()
-        ####################
-        item = model_to_dict(self)
-        item['fecha'] = self.fecha.strftime('%Y-%m-%d')
-        item['hora'] = self.hora.strftime('%I:%M')
-        # item['hora'] = self.hora.strftime('%I:%M:%S %p')
+        # Convertir la fecha y la hora en formato deseado
+        fecha_str = self.fecha.strftime('%Y-%m-%d')
+        hora_str = self.hora.strftime('%Y-%m-%d')
+        
+        # Crear un diccionario con los datos del acta y los datos del primer titular
+        item = model_to_dict(self, exclude=["titulares"])
+        item['fecha'] = fecha_str
+        item['hora'] = hora_str
         item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
-        item['titulares'] = [
-            {
-                **model_to_dict(titular),
-                'pdf_documento': 'pdf_documento'
-            }
-            for titular in self.titulares.all()
-        ]
-        item['colindancia'] = {
-            **model_to_dict(self.colindancia),
-            'frente_distancia': float(self.colindancia.frente_distancia),
-            'fondo_distancia': float(self.colindancia.fondo_distancia),
-            'derecha_distancia': float(self.colindancia.derecha_distancia),
-            'izquierda_distancia': float(self.colindancia.izquierda_distancia),
-        }
-        item['imagen_acta'] = {
-            # 'boceto': base64.b64encode(self.imagen_acta.boceto.read()).decode('utf-8'),
-            # 'firma_topografo_name': basename(self.imagen_acta.firma_topografo.name),
-            # 'firma_representante_comision_name': basename(self.imagen_acta.firma_representante_comision.name),
-            # 'firma_supervisor_campo_name': basename(self.imagen_acta.firma_supervisor_campo.name),
-            # 'firma_topografo': base64.b64encode(self.imagen_acta.firma_topografo.read()).decode('utf-8'),
-            # 'firma_representante_comision': base64.b64encode(self.imagen_acta.firma_representante_comision.read()).decode('utf-8'),
-            # 'firma_supervisor_campo': base64.b64encode(self.imagen_acta.firma_supervisor_campo.read()).decode('utf-8'),
-            # 'comentario3': self.imagen_acta.comentario3
-        }
-        ##############
         item['primer_titular'] = f"{primer_titular.nombres} {primer_titular.apellidos}" if primer_titular else None
         item['num_titulares'] = num_titulares
+        
         return item
+
+# class FichaUdd(models.Model):
+    
+
+class Titular(models.Model):
+    copia_doc_identidad = models.CharField(max_length=3, default='no')
+    apellidos = models.CharField(max_length=100)
+    nombres = models.CharField(max_length=100)
+    estado_civil = models.CharField(max_length=20)
+    tipo_doc = models.CharField(max_length=20, default='DNI', null=True)
+    num_doc = models.CharField(max_length=20)
+    pdf_documento = models.FileField(upload_to='titulares/', blank=True, null=True)
+    acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)
+    
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'copia_doc_identidad': self.copia_doc_identidad,
+            'apellidos': self.apellidos,
+            'nombres': self.nombres,
+            'estado_civil': self.estado_civil,
+            'tipo_doc': self.tipo_doc,
+            'num_doc': self.num_doc,
+        }
+
+class Colindancia(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
+
+    frente_nombre = models.CharField(max_length=100)
+    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    fondo_nombre = models.CharField(max_length=100)
+    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    derecha_nombre = models.CharField(max_length=100)
+    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    izquierda_nombre = models.CharField(max_length=100)
+    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+
+class ImagenActa(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
+    boceto = models.ImageField(upload_to='imagenes/')
+    firma_topografo = models.ImageField(upload_to='imagenes/')
+    firma_representante_comision = models.ImageField(upload_to='imagenes/')
+    firma_supervisor_campo = models.ImageField(upload_to='imagenes/')
+    comentario3 = models.TextField(blank=True, null=True)
+
