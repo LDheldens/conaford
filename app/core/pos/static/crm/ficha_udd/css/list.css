@@ -1,0 +1,12 @@
+.btn-list-fichas{
+    border: 1px solid #007BFF;
+    padding: 2px;
+    border-radius: 3px;
+    color: #007BFF;
+    font-size: 15px;
+    transition: all .3s ease-in-out;
+    &:hover{
+        color: white;
+        background-color: #007BFF;
+    }
+}
