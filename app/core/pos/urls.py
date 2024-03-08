@@ -7,6 +7,7 @@ from core.pos.views.frm.ctascollect.views import *
 from core.pos.views.scm.product.views import *
 from core.pos.views.scm.category.views import *
 from core.pos.views.crm.client.views import *
+from core.pos.views.crm.ficha_udd.views import *
 from core.pos.views.crm.acta.view import *
 from core.pos.views.crm.titular.view import *
 from core.pos.views.crm.sale.print.views import *
@@ -50,11 +51,14 @@ urlpatterns = [
     #acta - titulares
     path('crm/acta/<int:acta_id>/titulares/', TitularesPorActaListView.as_view(), name='titulares_por_acta'),
 
-    
+    #fichaUdd
+    path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
+
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),
     path('crm/acta/<int:pk>/', ActaView.as_view(), name='acta'),
     path('crm/acta/add/', ActaCreateView.as_view(), name='acta_create'),
+    # path('crm/acta/add/', ActaCreateView.as_view(), name='acta_create'),
     path('crm/acta/update/<int:pk>/', ActaUpdateView.as_view(), name='acta_update'),
     path('crm/acta/delete/<int:pk>/', ActaDeleteView.as_view(), name='acta_delete'),
     # path('crm/titular/profile/', TitularUpdateProfileView.as_view(), name='titular_update_profile'),

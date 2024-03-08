@@ -16,8 +16,6 @@ from core.pos.choices import payment_condition, payment_method, voucher
 from core.user.models import User
 # from django.core.files.base import ContentFile
 
-
-
 class Company(models.Model):
     name = models.CharField(max_length=50, verbose_name='Nombre')
     ruc = models.CharField(max_length=13, verbose_name='Ruc')

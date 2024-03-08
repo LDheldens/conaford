@@ -127,121 +127,121 @@ for p in Permission.objects.filter(content_type__model=User._meta.label.split('.
     module.permits.add(p)
 print('insertado {}'.format(module.name))
 
-type = ModuleType()
-type.name = 'Consultoría'
-type.icon = 'fas fa-boxes'
-type.save()
-print('insertado {}'.format(type.name))
+# type = ModuleType()
+# type.name = 'Consultoría'
+# type.icon = 'fas fa-boxes'
+# type.save()
+# print('insertado {}'.format(type.name))
 
-module = Module()
-module.moduletype_id = 2
-module.name = 'Categorías'
-module.url = '/pos/scm/category/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-truck-loading'
-module.description = 'Permite administrar las categorías de los productos'
-module.save()
-for p in Permission.objects.filter(content_type__model=Category._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('insertado {}'.format(module.name))
+# module = Module()
+# module.moduletype_id = 2
+# module.name = 'Categorías'
+# module.url = '/pos/scm/category/'
+# module.is_active = True
+# module.is_vertical = True
+# module.is_visible = True
+# module.icon = 'fas fa-truck-loading'
+# module.description = 'Permite administrar las categorías de los productos'
+# module.save()
+# for p in Permission.objects.filter(content_type__model=Category._meta.label.split('.')[1].lower()):
+#     module.permits.add(p)
+# print('insertado {}'.format(module.name))
 
-module = Module()
-module.moduletype_id = 2
-module.name = 'Productos'
-module.url = '/pos/scm/product/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-box'
-module.description = 'Permite administrar los productos del sistema'
-module.save()
-for p in Permission.objects.filter(content_type__model=Product._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('insertado {}'.format(module.name))
-
-
-type = ModuleType()
-type.name = 'Administrativo'
-type.icon = 'fas fa-hand-holding-usd'
-type.save()
-print('insertado {}'.format(type.name))
-
-module = Module()
-module.moduletype_id = 3
-module.name = 'Clientes'
-module.url = '/pos/crm/client/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-user-friends'
-module.description = 'Permite administrar los clientes del sistema'
-module.save()
-for p in Permission.objects.filter(content_type__model=Client._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('insertado {}'.format(module.name))
-
-module = Module()
-module.moduletype_id = 3
-module.name = 'Ventas'
-module.url = '/pos/crm/sale/admin/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-shopping-cart'
-module.description = 'Permite administrar las ventas de los productos'
-module.save()
-for p in Permission.objects.filter(content_type__model=Sale._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('insertado {}'.format(module.name))
-
-module = Module()
-module.moduletype_id = 3
-module.name = 'Cuentas por cobrar'
-module.url = '/pos/frm/ctas/collect/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-funnel-dollar'
-module.description = 'Permite administrar las cuentas por cobrar de los clientes'
-module.save()
-for p in Permission.objects.filter(content_type__model=CtasCollect._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('insertado {}'.format(module.name))
+# module = Module()
+# module.moduletype_id = 2
+# module.name = 'Productos'
+# module.url = '/pos/scm/product/'
+# module.is_active = True
+# module.is_vertical = True
+# module.is_visible = True
+# module.icon = 'fas fa-box'
+# module.description = 'Permite administrar los productos del sistema'
+# module.save()
+# for p in Permission.objects.filter(content_type__model=Product._meta.label.split('.')[1].lower()):
+#     module.permits.add(p)
+# print('insertado {}'.format(module.name))
 
 
-type = ModuleType()
-type.name = 'Asesoria'
-# type.name = 'Facturación'
-type.icon = 'fas fa-calculator'
-type.save()
-print('insertado {}'.format(type.name))
+# type = ModuleType()
+# type.name = 'Administrativo'
+# type.icon = 'fas fa-hand-holding-usd'
+# type.save()
+# print('insertado {}'.format(type.name))
 
-module = Module()
-module.moduletype_id = 4
-module.name = 'Acta de levantamiento'
-module.url = '/pos/crm/acta/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-user-friends'
-module.description = 'Permite añadir un acta'
-module.save()
-for p in Permission.objects.filter(content_type__model=Client._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('insertado {}'.format(module.name))
+# module = Module()
+# module.moduletype_id = 3
+# module.name = 'Clientes'
+# module.url = '/pos/crm/client/'
+# module.is_active = True
+# module.is_vertical = True
+# module.is_visible = True
+# module.icon = 'fas fa-user-friends'
+# module.description = 'Permite administrar los clientes del sistema'
+# module.save()
+# for p in Permission.objects.filter(content_type__model=Client._meta.label.split('.')[1].lower()):
+#     module.permits.add(p)
+# print('insertado {}'.format(module.name))
 
-module = Module()
-module.name = 'Ventas'
-module.url = '/pos/crm/sale/client/'
-module.is_active = True
-module.is_vertical = False
-module.is_visible = True
-module.icon = 'fas fa-shopping-cart'
-module.description = 'Permite administrar las ventas de los productos'
-module.save()
-print('insertado {}'.format(module.name))
+# module = Module()
+# module.moduletype_id = 3
+# module.name = 'Ventas'
+# module.url = '/pos/crm/sale/admin/'
+# module.is_active = True
+# module.is_vertical = True
+# module.is_visible = True
+# module.icon = 'fas fa-shopping-cart'
+# module.description = 'Permite administrar las ventas de los productos'
+# module.save()
+# for p in Permission.objects.filter(content_type__model=Sale._meta.label.split('.')[1].lower()):
+#     module.permits.add(p)
+# print('insertado {}'.format(module.name))
+
+# module = Module()
+# module.moduletype_id = 3
+# module.name = 'Cuentas por cobrar'
+# module.url = '/pos/frm/ctas/collect/'
+# module.is_active = True
+# module.is_vertical = True
+# module.is_visible = True
+# module.icon = 'fas fa-funnel-dollar'
+# module.description = 'Permite administrar las cuentas por cobrar de los clientes'
+# module.save()
+# for p in Permission.objects.filter(content_type__model=CtasCollect._meta.label.split('.')[1].lower()):
+#     module.permits.add(p)
+# print('insertado {}'.format(module.name))
+
+
+# type = ModuleType()
+# type.name = 'Asesoria'
+# # type.name = 'Facturación'
+# type.icon = 'fas fa-calculator'
+# type.save()
+# print('insertado {}'.format(type.name))
+
+# module = Module()
+# module.moduletype_id = 4
+# module.name = 'Acta de levantamiento'
+# module.url = '/pos/crm/acta/'
+# module.is_active = True
+# module.is_vertical = True
+# module.is_visible = True
+# module.icon = 'fas fa-user-friends'
+# module.description = 'Permite añadir un acta'
+# module.save()
+# for p in Permission.objects.filter(content_type__model=Client._meta.label.split('.')[1].lower()):
+#     module.permits.add(p)
+# print('insertado {}'.format(module.name))
+
+# module = Module()
+# module.name = 'Ventas'
+# module.url = '/pos/crm/sale/client/'
+# module.is_active = True
+# module.is_vertical = False
+# module.is_visible = True
+# module.icon = 'fas fa-shopping-cart'
+# module.description = 'Permite administrar las ventas de los productos'
+# module.save()
+# print('insertado {}'.format(module.name))
 
 
 type = ModuleType()
@@ -251,7 +251,7 @@ type.save()
 print('insertado {}'.format(type.name))
 
 module = Module()
-module.moduletype_id = 5
+module.moduletype_id = 2
 module.name = 'Ventas'
 module.url = '/reports/sale/'
 module.is_active = True
@@ -264,7 +264,7 @@ print('insertado {}'.format(module.name))
 
 
 module = Module()
-module.moduletype_id = 5
+module.moduletype_id = 2
 module.name = 'Cuentas por Cobrar'
 module.url = '/reports/ctas/collect/'
 module.is_active = True
