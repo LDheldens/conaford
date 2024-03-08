@@ -38,7 +38,7 @@ function getData() {
 
                     dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
 
-                    dropdownMenu += '<button type="button" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-plus-circle text-primary"></i> Generar Matrix</button>';
+                    dropdownMenu += '<a href="/pos/crm/ficha/login" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-plus-circle text-primary"></i> Generar Matrix</a>';
 
                     dropdownMenu += '</div></div>';
 
