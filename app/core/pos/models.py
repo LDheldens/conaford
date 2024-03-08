@@ -348,8 +348,69 @@ class PaymentsCtaCollect(models.Model):
         default_permissions = ()
         ordering = ['-id']
 
+# ------- MODELOS XDD -------# 
+
+class PosesionInformal(models.Model):
+    #datos posecion informal
+    departamento = models.CharField(max_length=100)
+    provincia = models.CharField(max_length=100)
+    distrito = models.CharField(max_length=100)
+    coordenada_x = models.DecimalField(max_digits=30, decimal_places=10) 
+    coordenada_y = models.DecimalField(max_digits=30, decimal_places=10)
+    tipo_posecion_informal = models.CharField(max_length=100)
+    denominacion_segun_inei= models.CharField(max_length=200)
+    #forma de asentamiento
+    tipo_matriz = models.CharField(max_length = 150)
+    contexto_legal = models.CharField(max_length = 150)
+    aciones_de_formalizacion = models.CharField(max_length = 150)
+    #accesibilidad
+    tipo_calzada = models.CharField(max_length = 150)
+    tipo_calzada_distancia = models.CharField(max_length=100)
+    referencia_local = models.CharField(max_length=200)
+    referencia_local_tiempo = models.TimeField()
+    ruta = models.CharField(max_length = 100)
+    ruta_especifica = models.CharField(max_length = 200)
+    #configuracion urbana
+    tipo_configuracion_urbana = models.CharField(max_length=20)
+    numero_lotes = models.IntegerField()
+    numero_manzanas = models.IntegerField()
+    porcentaje_vivencia = models.DecimalField(max_digits=6, decimal_places=3)
+    equipamientos = models.JSONField()
+    material_predominante = models.JSONField()
+    servicios_basicos = models.JSONField()
+    #zonificacion_municipal
+    zonificacion_municipal = models.BooleanField(default=True)
+    #areas restringidas y/o formas de dominio
+    zonas_reservadas = models.CharField(max_length=200)
+    zonas_arquelogicas_o_reservas = models.BooleanField()
+    zonas_a_o_r_nombre = models.CharField(null=True, blank=True,max_length=200)
+    zonas_a_o_r_ubicacion = models.CharField(null=True, blank=True,max_length=200)
+    zonas_riesgo = models.BooleanField()
+    zonas_riesgo_nombre = models.CharField(null=True, blank=True,max_length=200)
+    zonas_riesgo_ubicacion = models.CharField(null=True, blank=True,max_length=200)
+    conceciones_mineras = models.CharField(max_length=100)
+    canales_postes_cables = models.TextField(max_length=500)
+    posibles_propietarios = models.TextField(max_length=500)
+    otros = models.CharField(null=True, blank=True, max_length=200)
+    #conflictos dirigenciales
+    conflictos_dirigenciales = models.BooleanField()
+    conflictos_dirigenciales_descripcion = models.TextField(max_length=300)
+    conflictos_judiciales = models.BooleanField()
+    conflictos_judiciales_descripcion = models.TextField(max_length=300)
+    #comentario u observaciones
+    comentarios_observaciones = models.TextField(max_length=300)
+    #imagen satelital de lamposecion informal
+    imagen_satelital = models.ImageField(upload_to='posesion_informal/')
+    #areas restrinjidas existentes y peligros geologicos
+    imagen_areas_restrinjidas = models.ImageField(upload_to='posesion_informal/')
+    imagen_areas_restrinjidas_comentario = models.TextField(max_length=300)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
 class Acta(models.Model):
+    posesion_informal = models.ForeignKey(PosesionInformal, related_name='actas', on_delete=models.CASCADE)
     # INICIAL
     fecha = models.DateField()
     cel_wsp = models.CharField(max_length=20)
@@ -366,9 +427,8 @@ class Acta(models.Model):
     tipo_uso = models.CharField(max_length=20)
     servicios_basicos = models.JSONField()
     # 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S)
-    carta_poder = models.BooleanField()
-    # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
-    # titulares = models.ManyToManyField(Titular, related_name='actas', blank=True)
+    carta_poder = models.CharField(null=True, blank=True,max_length=10)
+
     # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
     codigo_dlt = models.CharField(max_length=50)
     hora = models.TimeField()
@@ -383,18 +443,18 @@ class Acta(models.Model):
     # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
     # Aquí solo hay texto
     # 8.- ADICIONALES:
-    adjunta_toma_topografica = models.BooleanField()
+    adjunta_toma_topografica = models.CharField(max_length=10)
     adicionales_otros = models.CharField(max_length = 100)
     # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
-    hitos_consolidados = models.BooleanField()
-    acceso_a_via = models.BooleanField()
+    hitos_consolidados = models.CharField(max_length=10)
+    acceso_a_via = models.CharField(max_length=10)
     cantidad_lotes = models.IntegerField()
-    requiere_subdivision = models.BooleanField()
-    requiere_alineamiento = models.BooleanField()
-    apertura_de_via = models.BooleanField()
-    libre_de_riesgo = models.BooleanField()
-    req_transf_de_titular = models.BooleanField()
-    litigio_denuncia = models.BooleanField()
+    requiere_subdivision = models.CharField(max_length=10)
+    requiere_alineamiento = models.CharField(max_length=10)
+    apertura_de_via = models.CharField(max_length=10)
+    libre_de_riesgo = models.CharField(max_length=10)
+    req_transf_de_titular = models.CharField(max_length=10)
+    litigio_denuncia = models.CharField(max_length=10)
     area_segun_el_titular_representante = models.FloatField()
     comentario2 = models.TextField()
 
@@ -417,8 +477,7 @@ class Acta(models.Model):
         
         return item
 
-# class FichaUdd(models.Model):
-    
+
 
 class Titular(models.Model):
     copia_doc_identidad = models.CharField(max_length=3, default='no')
@@ -455,9 +514,7 @@ class Colindancia(models.Model):
 
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
-    boceto = models.ImageField(upload_to='imagenes/')
-    firma_topografo = models.ImageField(upload_to='imagenes/')
-    firma_representante_comision = models.ImageField(upload_to='imagenes/')
-    firma_supervisor_campo = models.ImageField(upload_to='imagenes/')
+    boceto = models.ImageField(upload_to='acta/imagenes', null=True)
+    archivo_firmas = models.FileField(upload_to='acta/archivos/', null=True)
     comentario3 = models.TextField(blank=True, null=True)
 

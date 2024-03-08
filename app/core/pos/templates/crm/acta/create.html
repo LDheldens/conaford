@@ -292,6 +292,7 @@
                 </div>
             </header>
             <!-- 1.- DATOS DE LA POSESIÓN INFORMAL -->
+            <form method="post" id="form_ficha_levantamiento" enctype="multipart/form-data">
             <div class="hidden" id="part1">
                 <!-- Fecha, Cel. Wssp. -->
                 <div class="flex flex-col gap-x-2 sm:flex-row mb-4">
@@ -310,7 +311,7 @@
                         <label for="cel-wssp"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Cel.
                             Wssp:</label>
-                        <input type="text" id="cel-wssp" name="cel-wssp"
+                        <input type="number" id="cel-wssp" name="cel-wssp"
                             class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="Cel. Wssp">
                     </div>
@@ -348,7 +349,7 @@
                         </ul>
                     </div>
                     <!-- Distrito -->
-                    <div class="flex-1">
+                    <div class="flex-1 relative">
                         <label for="distrito"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distrito</label>
                         <input 
@@ -359,7 +360,7 @@
                             placeholder="Distrito">
                         <!-- Distrito -> muestra resultados de busqueda en el autocompletado -->
                         <ul
-                            class="absolute z-40 lista-resultados3 bg-white border border-[#A7CF42] rounded w-full hidden">
+                            class="absolute overflow-y-scroll z-40 lista-resultados3 bg-white border border-[#A7CF42] rounded w-full hidden">
                         </ul>
                     </div>
                 </div>
@@ -563,72 +564,79 @@
             <!-- 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S) -->
             <div class="hidden" id="part3">
                 <!-- titlares -->
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4  mb-4">
+                <div class="relative  shadow-md sm:rounded-lg bg-white p-4  mb-4">
                     <div class="mb-2 py-2">
                         <h2 class="text-sm text-gray-700 font-bold">TITULARES</h2>
                     </div>
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">
-                                    Apellidos
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Nombres
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Dni
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Acción
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="odd:bg-white even:bg-gray-50 border-b">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    apelidos 1 
-                                </th>
-                                <td class="px-6 py-4">
-                                    nombres 1
-                                </td>
-                                <td class="px-6 py-4">
-                                    77777777 1
-                                </td>
-                                <td class="px-6 py-4">
-                                    <button class="">
-                                        <a href="#" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">Ver</a>
-                                    </button>
-                                    <button class="">
-                                        <a href="#" class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]">Eliminar</a>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr class="odd:bg-white even:bg-gray-50 border-b">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    apelidos 2
-                                </th>
-                                <td class="px-6 py-4">
-                                    nombres 2
-                                </td>
-                                <td class="px-6 py-4">
-                                    77777777 2
-                                </td>
-                                <td class="px-6 py-4">
-                                    <button class="">
-                                        <a href="#" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">Ver</a>
-                                    </button>
-                                    <button class="">
-                                        <a href="#" class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]">Eliminar</a>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow-y-auto">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Apellidos
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Nombres
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Dni
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Estado Civil
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Copia Documento
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Opciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="mt-4 py-2 flex justify-end">
-                        <button class="">
-                            <a href="#" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">Añadir titular +</a>
-                            </button>
+                        <button type="button" id="btn-agregar-titular" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">
+                            Añadir titular
+                        </button>
+                    </div>
+                    <div class="form-titular hidden">
+                        <p id="mensaje_error" class="bg-red-500 hidden p-2 my-2 text-white font-bold text-center rounded-md"></p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="mb-4">
+                                <label for="copia_doc_identidad" class="block text-sm font-medium text-gray-700">Copia de Documento de Identidad:</label>
+                                <select id="copia_doc_identidad" name="copia_doc_identidad" class="mt-1 p-2 w-full border text-center border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                                    <option value="true">Sí</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos:</label>
+                                <input type="text" id="apellidos" name="apellidos" class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres:</label>
+                                <input type="text" id="nombres" name="nombres" class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="estado_civil" class="block text-sm font-medium text-gray-700">Estado Civil:</label>
+                                <input type="text" id="estado_civil" name="estado_civil" class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="num_doc" class="block text-sm font-medium text-gray-700">Número de Documento:</label>
+                                <input type="number" id="num_doc" name="num_doc" class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="imagen" class="block text-sm font-medium text-gray-700">PDF con los documentos:</label>
+                                <input type="file" accept=".pdf" id="pdf_documento" name="pdf_documento" class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <button type="button" id="guardar_Titular" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Guardar</button>
+                        </div>
+                            
                     </div>
                 </div>
                 <!-- representantes -->
@@ -705,7 +713,7 @@
             <div class="hidden" id="part4">
                 <!-- BOCETO DEL PREDIO -->
                 <h1 class="font-bold text-sm mb-1 font-gotham-bold">4.- BOCETO DEL PREDIO</h1>
-                <label for="boceto-predio"
+                {% comment %} <label for="boceto-predio"
                     class="mb-2 block h-40 border-2 border-gray-200 border-dashed cursor-pointer bg-gray-50 hover:bg-gray-100">
                     <div class="flex flex-col items-center justify-center py-5">
                         <svg class="w-12 h-12 text-black" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -713,13 +721,20 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
-                        <p class="text-black"><span class="font-gotham-bold">Click para subir</span> <span
+                        <p 
+                            class="text-black"><span class="font-gotham-bold"
+                        >
+                            Click para subir
+                            </span> <span
                                 class="font-gotham-book">o arrastrar y soltar</span></p>
                         <p class="text-black font-gotham-bold">PDF</p>
                     </div>
                     <input id="boceto-predio" type="file" class="hidden" />
-                </label>
-
+                </label> {% endcomment %}
+                <div class="bg-white rounded-md p-5 my-5">
+                    <label for="boceto_predio" class="font-bold">Suba un boceto del predio:</label>
+                    <input type="file" name="boceto_predio" id="boceto-predio">
+                </div>
                 <!-- ¿HITOS CONSOLIDADOS?, ¿ACCESO A VIA?, ¿REQUIERE SUBDIVISIÓN?, ¿REQUIERE ALINEAMIENTO?, ¿APERTURA DE VIA?, ¿LIBRE DE RIESGO?, ¿REQ. TRANSF. DE TITULAR?, ¿LITIGIO, DENUNCIA, ETC? -->
                 <div class="flex flex-col gap-1 mb-2">
                     <!-- ¿HITOS CONSOLIDADOS? -->
@@ -781,7 +796,7 @@
                         <label for="numero-lotes"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">¿CUÁNTOS
                             LOTES?</label>
-                        <input type="text" id="numero-lotes" name="numero-lotes"
+                        <input type="number" id="numero-lotes" name="numero-lotes"
                             class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="¿Cuántos lotes?">
                     </div>
@@ -879,7 +894,7 @@
                     <label for="area-segun-titular-representante"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">ÁREA SEGÚN EL
                         TITULAR/REPRESENTANTE</label>
-                    <input type="text" id="area-segun-titular-representante" name="area-segun-titular-representante"
+                    <input type="number" id="area-segun-titular-representante" name="area-segun-titular-representante"
                         class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                         placeholder="Área según el titular/presidente m2">
                 </div>
@@ -889,7 +904,7 @@
                     <label for="comentario-adic"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">COMENTARIO
                         ADIC.:</label>
-                    <textarea id="comentario-adic" rows="4"
+                    <textarea id="comentario-adic" rows="4" name="comentario1"
                         class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2"
                         placeholder="Comentario adic.:"></textarea>
                 </div>
@@ -920,7 +935,7 @@
                         <label for="numero-puntos"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° DE
                             PUNTOS LEVANTADOS</label>
-                        <input type="text" id="numero-puntos" name="numero-puntos"
+                        <input type="number" id="numero-puntos" name="numero-puntos"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="N° de puntos levantados">
                     </div>
@@ -993,7 +1008,7 @@
                 <div class="mb-4">
                     <label for="comentario-observaciones"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">COMENTARIOS/OBSERVACIONES:</label>
-                    <textarea id="comentario-observaciones" rows="4"
+                    <textarea id="comentario-observaciones" rows="4" name="comentario2"
                         class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2"
                         placeholder="Comentario/observaciones."></textarea>
                 </div>
@@ -1208,10 +1223,10 @@
             <a href="/pos/crm/acta/"
                 class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]"
                 id="btn-cancelar"><i class="fas fa-times"></i> Cancelar</a>
-            <button type="button" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]"
+            <button type="submit" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]"
                 id="btn-create"><i class="fas fa-save"></i> Agregar</button>
         </div>
-
+    </form>
     </div>
     <script src="{% static 'crm/acta/js/selectors.js' %}"></script>
     <script src="{% static 'crm/acta/js/conaforp-acta-1.js' %}"></script>
