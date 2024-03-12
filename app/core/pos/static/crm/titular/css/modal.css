@@ -78,6 +78,7 @@
 /* estilos de los campos del formulario de agregar titular  */
 .title{
     font-weight: bold;
+    font-size: 15px;
 }
 .mt{
     margin-top: 10px;

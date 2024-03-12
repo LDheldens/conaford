@@ -19,6 +19,79 @@
                     </a>
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
                         style="left: 0; right: inherit;">
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                    <i class="fas fa-suitcase"></i> UDD
+                                </a>
+                                <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                    class="dropdown-menu border-0 shadow">
+                                    <li>
+                                        <a tabindex="-1" href="/pos/crm/ficha_udd/add" class="dropdown-item">
+                                            <i class="fas fa-file"></i> Nuevo análisis 
+                                        </a>
+                                        
+                                        <a tabindex="-1" href="/pos/crm/ficha/" class="dropdown-item">
+                                            <i class="fas fa-list-ul"></i> Listado de Fichas
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% if user.auth_login_dashboard == True %}
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                    <i class="fas fa-suitcase"></i> UFIT
+                                </a>
+                                <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                    class="dropdown-menu border-0 shadow">
+                                    <li>
+                                        <a tabindex="-1" href="/pos/crm/ficha_udd/add" class="dropdown-item">
+                                            <i class="fas fa-file"></i> Nuevo análisis 
+                                        </a>
+                                        {{user.auth_login_dashboard}}
+                                        <a tabindex="-1" href="/pos/crm/ficha/" class="dropdown-item">
+                                            <i class="fas fa-list-ul"></i> Listado de Fichas
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                    <i class="fas fa-suitcase"></i> UFIN
+                                </a>
+                                <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                    class="dropdown-menu border-0 shadow">
+                                    <li>
+                                        <a tabindex="-1" href="/pos/crm/acta/add/" class="dropdown-item">
+                                            <i class="fas fa-file"></i> Ficha de levantamiento
+                                        </a>
+                                        <a tabindex="-1" href="/pos/crm/acta/" class="dropdown-item">
+                                            
+                                            <i class="fas fa-list-ul"></i> 
+                                            Listado de fichas
+                                        </a>
+                                        <a tabindex="-1" href="/pos/crm/titular/" class="dropdown-item">
+                                            
+                                            <i class="fas fa-users"></i> 
+                                            Titulares
+                                        </a>
+                                        <a tabindex="-1" href="/pos/crm/ficha/" class="dropdown-item">
+                                            <i class="fas fa-book"></i>
+                                            Antecedentes
+                                        </a>
+                                        <a tabindex="-1" href="/pos/crm/acta/posesion/add" class="dropdown-item">
+                                            <i class="fas fa-map"></i> 
+                                            Posesión
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {% endif %}
                         {% if request.session.group %}
                             {% for mt in request.session.group.id|getmoduletype %}
                                 <li class="dropdown-submenu dropdown-hover">
