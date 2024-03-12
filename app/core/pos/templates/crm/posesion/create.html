@@ -12,28 +12,29 @@
     <div class="overflow-auto">
         <table class="table">
             <thead>
-                <tr class="font-weight-normal">
+                <tr class="font-weight-normal text-center">
                     <th>Apellidos</th>
                     <th>Nombres</th>
                     <th>Estado Civil</th>
-                    <th>Número de Documento</th>
+                    <th>Número de DNI</th>
                     <th>Años de posesión</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody class="text-center">
    
             </tbody>
-            <tfoot class="table-footer">
-
-            </tfoot>
         </table>
     </div>
-
-    <button type="button" class="btn btn-mostrar-formulario btn-primary mb-2 fw-bold">
-        Agregar posesionario
-    </button>
-    <section class="d-none" id="form-posesion"
-          data-url="{{ list_url }}">
+    <div style="max-width: 300px;" class="form-group mb-5 mx-auto pt-2 position-relative buscador-codigo" >
+        <label for="codigo_acta">Busque el acta por su código:</label>
+        <input type="text" id="codigo_acta" class="form-control" placeholder="Ingrese el código del acta...">
+        <ul style="border: 1px solid skyblue;border-radius: 10px;background-color: white;width: 100%;z-index: 5;" class="d-none list-group position-absolute ">
+            resultados
+        </ul>
+    </div>
+    <form id="form-posesion" 
+          data-url="{{ list_url }}" method="post" action=".">
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">
@@ -45,16 +46,10 @@
                     {{ title }}
                 </h3>
             </div>
+            
             <div class="card-body" style="display: block;">
                 <div class="form-row">
                     <div class="col-lg-6">
-                        <div class="form-group position-relative">
-                            <label for="codigo_acta">Busque el acta por su código:</label>
-                            <input type="text" id="codigo_acta" class="form-control" placeholder="Ingrese el código del acta...">
-                            <ul style="border: 1px solid skyblue;border-radius: 10px;background-color: white;width: 50%;" class="d-none list-group position-absolute">
-                                resultados
-                            </ul>
-                        </div>
                 
                         <div class="form-group">
                             <label for="apellidos">Apellidos:</label>
@@ -104,7 +99,6 @@
             <button type="button" class="btn btn-info mb-2 btn-agregar-posesionario fw-bold ">
                 Agregar
             </button>
-
         </div>
-    </section>
+    </form>
 {% endblock  %}

@@ -353,24 +353,3 @@ class ActaDeleteView(DeleteView):
         context['list_url'] = self.success_url  
         context['registro'] = self.kwargs.get('pk')
         return context
-
-class GetAllActaView(TemplateView):
-    def get(self, request, *args, **kwargs):
-        actas = Acta.objects.all().values()  # Obtener todas las actas como diccionarios
-        return JsonResponse(list(actas), safe=False)
-    
-# vistas de la posesión de cada ficha de levantamiento
-class PosesionCreateView(TemplateView):
-    template_name = 'crm/posesion/create.html'
-    
-    
-    # def post(self, request, *args, **kwargs):
-    #     print('effef')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # context['list_url'] = self.success_url
-        context['title'] = 'Registro de posesión'
-        context['action'] = 'add'
-        context['add_form'] = 'posesion'
-        return context

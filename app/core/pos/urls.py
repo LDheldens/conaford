@@ -11,6 +11,7 @@ from core.pos.views.crm.ficha_udd.views import *
 from core.pos.views.crm.acta.view import *
 from core.pos.views.crm.titular.view import *
 from core.pos.views.crm.ficha_udd.views import *
+from core.pos.views.crm.posesion.views import *
 from core.pos.views.crm.sale.print.views import *
 
 urlpatterns = [
@@ -60,7 +61,9 @@ urlpatterns = [
     path('crm/acta/delete/<int:pk>/', ActaDeleteView.as_view(), name='acta_delete'),
     #obtener todas las actas para hacer el buscadir por codigo
     path('api/actas/', GetAllActaView.as_view(), name='get_all_actas'),
-
+    
+    #acta - posecionarios
+    path('crm/acta/<int:acta_id>/posecionarios/', PosesionariosPorActaListView.as_view(), name='posesionarios_por_acta'),
     
     #UDD 
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd_create'),
@@ -68,5 +71,7 @@ urlpatterns = [
     path('crm/ficha/', FichaListView.as_view(), name='ficha_list'),
     
     #UFIN - posesión
-    path('crm/acta/posesion/add',PosesionCreateView.as_view(),name='posesion_add')
+    path('crm/acta/posesion/add',PosesionCreateView.as_view(),name='posesion_add'),
+    path('crm/acta/posesion/update/<int:pk>/',PosesionUpdateView.as_view(),name='posesion_edit'),
+    path('crm/acta/posesion/delete/<int:pk>/',PosesionDeleteView.as_view(),name='posesion_delete')
 ]

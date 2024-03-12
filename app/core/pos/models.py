@@ -485,6 +485,8 @@ class Posesion(models.Model):
     num_doc = models.CharField(max_length=20)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
+    anios_posesion = models.IntegerField(default=1)
+    
 
 
 class Titular(models.Model):
