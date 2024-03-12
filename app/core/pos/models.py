@@ -475,8 +475,6 @@ class Acta(models.Model):
         
         return item
 
-
-
 class Titular(models.Model):
     copia_doc_identidad = models.CharField(max_length=3, default='no')
     apellidos = models.CharField(max_length=100)

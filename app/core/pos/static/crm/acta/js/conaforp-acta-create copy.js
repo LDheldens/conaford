@@ -1,5 +1,6 @@
 // logica para crear los titulares
 
+
 let titulares = [];
 const btnGuardarTitular = document.querySelector('#guardar_Titular')
 const btnAgregarTitular = document.querySelector('#btn-agregar-titular')
@@ -90,6 +91,9 @@ function limpiarCampos(){
 }
 
 function actualizarTabla() {
+    console.log({
+        titulares
+    })
     const tabla = document.querySelector('table tbody');
     // Limpiar la tabla
     tabla.innerHTML = '';
@@ -113,7 +117,7 @@ function actualizarTabla() {
                 ${titular.estadoCivil}
             </td>
             <td class='py-2'>
-                ${titular.copiaDocIdentidad}
+                ${titular.copiaDocIdentidad ? 'Si': 'No'}
             </td>
             <td class='py-2 flex gap-1 justify-center'>
                 <button type='button' class="mb-2 bg-[#ba2c5e] font-gotham-bold p-2 rounded text-white hover:bg-[#9d1c1c]">

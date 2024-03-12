@@ -8,6 +8,7 @@ from core.pos.views.scm.product.views import *
 from core.pos.views.scm.category.views import *
 from core.pos.views.crm.client.views import *
 from core.pos.views.crm.ficha_udd.views import *
+from core.pos.views.crm.colindantes.views import *
 from core.pos.views.crm.acta.view import *
 from core.pos.views.crm.titular.view import *
 from core.pos.views.crm.ficha_udd.views import *
@@ -54,6 +55,7 @@ urlpatterns = [
 
     #fichaUdd
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
+    path('crm/colindantes/add', ColindantesCreateView.as_view(), name='colindantes'),
 
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),

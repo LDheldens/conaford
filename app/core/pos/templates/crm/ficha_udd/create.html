@@ -13,7 +13,7 @@
 
 <body>
     <!-- html -->
-    <div class="hidden" id="main">
+    <div id="main">
         <!-- navbar -->
         <nav class="bg-[#007BFF] w-full">
             <div class="mx-auto p-4 max-w-7xl flex">
@@ -225,7 +225,7 @@
                 <i class="fas fa-home"></i> Panel
             </a>
             <span class="mx-2">/</span>
-            <a href="/pos/crm/acta/" class="text-blue-500">
+            <a href="/pos/crm/ficha/" class="text-blue-500">
                 <i class="fas fa-user-friends"></i> Ficha de identificacion preliminar
             </a>
         </div>
@@ -381,18 +381,18 @@
                  <!-- Tipo de posesión informal-->
                 <div class="mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de posesión informal predio</h2>
-                    <ul class="mt-1 sm:w-[40%] w-full bg-[#00A5A5] text-sm font-medium text-gray-700 sm:flex">
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                    <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="tipo-posesion-informal-Centro-poblado" type="radio" value="Centro-poblado" name="list-radio-tipo-posesion-informal" class="w-4 h-4">
-                            <label for="tipo-posesion-informal-Centro-poblado" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Centro poblado</label>
+                            <label for="tipo-posesion-informal-Centro-poblado" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Centro poblado</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="tipo-posesion-informal-Asentamiento-Humano" type="radio" value="Centro poblado" name="list-radio-tipo-posesion-informal" class="w-4 h-4">
-                            <label for="tipo-posesion-informal-Asentamiento-Humano" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Asentamiento Humano</label>
+                            <label for="tipo-posesion-informal-Asentamiento-Humano" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Asentamiento Humano</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="tipo-posesion-informal-Otros" type="radio" value="Otros(CUI, UU, PP, PI)" name="list-radio-tipo-posesion-informal" class="w-4 h-4">
-                            <label for="tipo-posesion-informal-Otros" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros(CUI, UU, PP, PI)</label>
+                            <label for="tipo-posesion-informal-Otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros(CUI, UU, PP, PI)</label>
                         </li>
                     </ul>
                 </div>
@@ -490,14 +490,14 @@
                 <!-- Tipo de configuracion urbana -->
                 <div class="mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de configuracion urbana</h2>
-                    <ul class="mt-1 sm:w-[20%] w-full bg-[#acacac] text-sm font-medium text-gray-700 sm:flex">
-                       <li class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                    <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                       <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                           <input id="tipo-configuracion-urbana-continua" type="radio" value="Continua" name="list-radio-tipo-configuracion-urbana" class="w-4 h-4">
-                          <label for="tipo-configuracion-urbana-continua" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Continua</label>
+                          <label for="tipo-configuracion-urbana-continua" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Continua</label>
                        </li>
-                       <li class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                       <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                           <input id="tipo-configuracion-dispersa" type="radio" value="Dispersa" name="list-radio-tipo-configuracion-urbana" class="w-4 h-4">
-                          <label for="tipo-configuracion-dispersa" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Dispersa</label>
+                          <label for="tipo-configuracion-dispersa" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Dispersa</label>
                        </li>
                     </ul>
                  </div>
@@ -521,88 +521,88 @@
                  <!-- Equipamientos -->
                 <div class="mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Equipamientos</h2>
-                    <ul class="mt-1 sm:w-[60%] w-full bg-[#acacac] text-sm font-medium text-gray-700 sm:flex">
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                    <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="equipamientos-salud" type="checkbox" value="Salud" name="list-checkbox-equipamientos" class="w-4 h-4">
-                            <label for="equipamientos-salud" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Salud</label>
+                            <label for="equipamientos-salud" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Salud</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="equipamientos-educación" type="checkbox" value="Educación" name="list-checkbox-equipamientos" class="w-4 h-4">
-                            <label for="equipamientos-educación" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Educación</label>
+                            <label for="equipamientos-educación" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Educación</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="equipamientos-recreación" type="checkbox" value="Recreación" name="list-checkbox-equipamientos" class="w-4 h-4">
-                            <label for="equipamientos-recreación" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Recreación</label>
+                            <label for="equipamientos-recreación" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Recreación</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="equipamientos-iglesia" type="checkbox" value="Iglesia" name="list-checkbox-equipamientos" class="w-4 h-4">
-                            <label for="equipamientos-iglesia" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Iglesia</label>
-                        </li>
-                        <li class="flex w-full justify-start items-center gap-x-2 px-2 py-4">
+                            <label for="equipamientos-iglesia" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Iglesia</label>
+                        </li> 
+                        <li class="bg-[#acacac] flex sm:w-[30%] justify-start items-center gap-x-2 px-2 py-4">
                             <input id="equipamientos-otros" type="checkbox" value="otros" name="list-checkbox-equipamientos" class="w-4 h-4">
                             <label for="equipamientos-otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
-                            <input type="text" id="equipamientos-otros" class="w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
+                            <input type="text" id="equipamientos-otros" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
                         </li>
                     </ul>
                 </div>
                 <!-- Material predominante -->
                 <div class="mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Material predominante</h2>
-                    <ul class="mt-1 sm:w-[60%] w-full bg-[#acacac] text-sm font-medium text-gray-700 sm:flex">
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                    <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Ladrillo" type="checkbox" value="Ladrillo" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Ladrillo" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Ladrillo</label>
+                            <label for="material-predominante-Ladrillo" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Ladrillo</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Adobe" type="checkbox" value="Adobe" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Adobe" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Adobe</label>
+                            <label for="material-predominante-Adobe" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Adobe</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Tapia" type="checkbox" value="Tapia" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Tapia" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Tapia</label>
+                            <label for="material-predominante-Tapia" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Tapia</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Madera" type="checkbox" value="Madera" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Madera" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Madera</label>
+                            <label for="material-predominante-Madera" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Madera</label>
                         </li>
-                        <li class="flex w-full justify-start items-center gap-x-2 px-2 py-4">
+                        <li class="bg-[#acacac] flex sm:w-[30%] justify-start items-center gap-x-2 px-2 py-4">
                             <input id="material-predominante-Otros" type="checkbox" value="Otros" name="list-checkbox-material-predominante" class="w-4 h-4">
                             <label for="material-predominante-Otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
-                            <input type="text" id="material-predominante-Otros" class="w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
+                            <input type="text" id="material-predominante-Otros" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
                         </li>
                     </ul>
                 </div>
                  <!-- Servicios basicos -->
                 <div class="mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Servicios basicos</h2>
-                    <ul class="mt-1 sm:w-[60%] w-full bg-[#acacac] text-sm font-medium text-gray-700 sm:flex">
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                    <ul class="mmt-1 text-sm font-medium text-gray-700 sm:flex">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Agua-potable" type="checkbox" value="Agua potable" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Agua-potable" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Agua potable</label>
+                            <label for="material-predominante-Agua-potable" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Agua potable</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Desagüe" type="checkbox" value="Desagüe" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Desagüe" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Desagüe</label>
+                            <label for="material-predominante-Desagüe" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Desagüe</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Energía-electrica-pública" type="checkbox" value="Energía electrica pública" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Energía-electrica-pública" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Energía electrica pública</label>
+                            <label for="material-predominante-Energía-electrica-pública" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Energía electrica pública</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Energía-electrica-domiciliaria" type="checkbox" value="Energía electrica domiciliaria" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Energía-electrica-domiciliaria" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Energía electrica domiciliaria</label>
+                            <label for="material-predominante-Energía-electrica-domiciliaria" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Energía electrica domiciliaria</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Pistas" type="checkbox" value="Pistas" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Pistas" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Pistas</label>
+                            <label for="material-predominante-Pistas" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Pistas</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-Veredas" type="checkbox" value="Veredas" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-Veredas" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Veredas</label>
+                            <label for="material-predominante-Veredas" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Veredas</label>
                         </li>
-                        <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                        <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                             <input id="material-predominante-No-tiene-servicios" type="checkbox" value="No tiene servicios" name="list-checkbox-material-predominante" class="w-4 h-4">
-                            <label for="material-predominante-No-tiene-servicios" class="w-full font-gotham-bold text-sm font-medium text-black cursor-pointer hover:text-gray-300">No tiene servicios</label>
+                            <label for="material-predominante-No-tiene-servicios" class="font-gotham-bold text-sm font-medium text-black cursor-pointer hover:text-gray-300">No tiene servicios</label>
                         </li>
                     </ul>
                 </div>
@@ -634,7 +634,7 @@
                 <!-- Zonas Arqueológicas o Reservas Naturales -->
                 <div class="flex flex-col sm:flex-row items-start sm:items-center gap-y-2 gap-x-4 mb-2">
                     <label for="zonas-arqueologicas-o-reservas-naturales" class="w-full sm:w-[25%] text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Zonas Arqueológicas o Reservas Naturales</label>
-                    <input type="text" id="zonas-arqueologicas-o-reservas-naturales" name="zonas-arqueologicas-o-reservas-naturales" class="w-full sm:w-[25%] px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas Arqueológicas o Reservas Naturales" value="Área arqueológica Llaqta Pamapa">
+                    <input type="text" id="zonas-arqueologicas-o-reservas-naturales" name="zonas-arqueologicas-o-reservas-naturales" class="w-full sm:w-[25%] px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas Arqueológicas o Reservas Naturales" value="Área arqueológica Llaqta Pampa">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Ubicación</h2>
                     <ul class="mt-1 sm:w-[25%] w-full bg-[#00A5A5] text-sm font-medium text-gray-700 sm:flex">
                         <li class="flex-1 flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
@@ -696,30 +696,30 @@
             <!-- 7.- CONFLICTOS DIRIGENCIALES -->
            <div class="hidden mb-2" id="part7">
                 <h2 class="font-bold text-sm mb-2 font-gotham-bold">7.- CONFLICTOS DIRIGENCIALES</h2>
-                <ul class="mt-1 sm:w-[40%] w-full bg-[#FFAF00] text-sm font-medium text-gray-700 sm:flex">
-                    <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                    <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                         <input id="conflictos-dirigenciales-si" type="radio" value="Si" name="list-radio-conflictos-dirigenciales" class="w-4 h-4">
-                        <label for="conflictos-dirigenciales-si" class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Si</label>
+                        <label for="conflictos-dirigenciales-si" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Si</label>
                     </li>
-                    <li class="flex w-full justify-start items-center gap-x-2 px-2 py-4">
+                    <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                         <input id="conflictos-dirigenciales-no" type="radio" value="No" name="list-radio-conflictos-dirigenciales" class="w-4 h-4">
                         <label for="conflictos-dirigenciales-no" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">No</label>
-                        <input type="text" id="conflictos-dirigenciales-especificar" class="w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
+                        <input type="text" id="conflictos-dirigenciales-especificar" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
                     </li>
                 </ul>
            </div>
            <!-- 8.- CONFLICTOS JUDICIALES O ADMINISTRATIVO -->
            <div class="hidden mb-2" id="part8">
                 <h2 class="font-bold text-sm mb-2 font-gotham-bold">8.- CONFLICTOS JUDICIALES O ADMINISTRATIVOS</h2>
-                <ul class="mt-1 sm:w-[40%] w-full bg-[#FFAF00] text-sm font-medium text-gray-700 sm:flex">
-                    <li class="flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                    <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                         <input id="conflictos-judiciales-o-administrativo-si" type="radio" value="Si" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4">
-                        <label for="conflictos-judiciales-o-administrativo-si" class="w-full font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Si</label>
+                        <label for="conflictos-judiciales-o-administrativo-si" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Si</label>
                     </li>
-                    <li class="flex w-full justify-start items-center gap-x-2 px-2 py-4">
+                    <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                         <input id="conflictos-judiciales-o-administrativo-no" type="radio" value="No" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4">
                         <label for="conflictos-judiciales-o-administrativo-no" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">No</label>
-                        <input type="text" id="conflictos-judiciales-o-administrativo-especificar" class="w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
+                        <input type="text" id="conflictos-judiciales-o-administrativo-especificar" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
                     </li>
                 </ul>
             </div>
@@ -792,7 +792,7 @@
         </div>
         <!-- footer -->
         <div class="mx-auto p-4 max-w-7xl flex gap-4 bg-[#EAEBEB] mb-4">
-            <a href="/pos/crm/acta/"
+            <a href="/pos/crm/ficha/"
                 class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]"
                 id="btn-cancelar"><i class="fas fa-times"></i> Cancelar</a>
             <button type="button" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]"
@@ -800,8 +800,9 @@
         </div>
 
     </div>
-    <script src="{% static 'crm/ficha_udd/js/selectors.js' %}"></script>
-    <script src="{% static 'crm/ficha_udd/js/dinamics.js' %}"></script>
+    <!-- <script src="{% static 'crm/ficha_udd/js/selectors.js' %}"></script> -->
+    <script src="{% static 'crm/ficha_udd/js/navbar.js' %}"></script>
+    <script src="{% static 'crm/ficha_udd/js/multi-step.js' %}"></script>
 </body>
 
 </html>
