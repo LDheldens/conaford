@@ -410,6 +410,7 @@ class PosesionInformal(models.Model):
 class Acta(models.Model):
     posesion_informal = models.ForeignKey(PosesionInformal, related_name='actas', on_delete=models.CASCADE)
     # INICIAL
+    codigo_predio = models.CharField(max_length = 150, default="PHY-76567576")
     fecha = models.DateField()
     cel_wsp = models.CharField(max_length=20)
     # 1.- DATOS DE LA POSESIÓN INFORMAL
@@ -475,12 +476,24 @@ class Acta(models.Model):
         
         return item
 
+class Posesion(models.Model):
+    acta = models.ForeignKey(Acta, related_name='posesionarios', on_delete=models.CASCADE, null=True, blank=True)
+    copia_doc_identidad = models.CharField(max_length=3, default='no')
+    apellidos = models.CharField(max_length=100)
+    nombres = models.CharField(max_length=100)
+    estado_civil = models.CharField(max_length=20)
+    num_doc = models.CharField(max_length=20)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    anios_posesion = models.IntegerField(default=1)
+    
+
+
 class Titular(models.Model):
     copia_doc_identidad = models.CharField(max_length=3, default='no')
     apellidos = models.CharField(max_length=100)
     nombres = models.CharField(max_length=100)
     estado_civil = models.CharField(max_length=20)
-    tipo_doc = models.CharField(max_length=20, default='DNI', null=True)
     num_doc = models.CharField(max_length=20)
     pdf_documento = models.FileField(upload_to='titulares/', blank=True, null=True)
     acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)

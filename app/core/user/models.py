@@ -16,6 +16,7 @@ class User(AbstractUser):
     image = models.ImageField(upload_to='users/%Y/%m/%d', verbose_name='Imagen', null=True, blank=True)
     is_change_password = models.BooleanField(default=False)
     token = models.UUIDField(primary_key=False, editable=False, null=True, blank=True, default=uuid.uuid4, unique=True)
+    auth_login_dashboard = models.BooleanField(default=False)
 
     def toJSON(self):
         item = model_to_dict(self, exclude=['last_login', 'token', 'password', 'user_permissions'])

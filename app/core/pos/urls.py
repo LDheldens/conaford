@@ -12,6 +12,7 @@ from core.pos.views.crm.colindantes.views import *
 from core.pos.views.crm.acta.view import *
 from core.pos.views.crm.titular.view import *
 from core.pos.views.crm.ficha_udd.views import *
+from core.pos.views.crm.posesion.views import *
 from core.pos.views.crm.sale.print.views import *
 
 urlpatterns = [
@@ -55,18 +56,27 @@ urlpatterns = [
 
     #fichaUdd
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
-    path('crm/colindantes/add', ColindantesCreateView.as_view(), name='colindantes'),
+    path('crm/colindantes/add/', ColindantesCreateView.as_view(), name='colindantes'),
 
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),
     path('crm/acta/<int:pk>/', ActaView.as_view(), name='acta'),
     path('crm/acta/add/', ActaCreateView.as_view(), name='acta_create'),
-    # path('crm/acta/add/', ActaCreateView.as_view(), name='acta_create'),
     path('crm/acta/update/<int:pk>/', ActaUpdateView.as_view(), name='acta_update'),
     path('crm/acta/delete/<int:pk>/', ActaDeleteView.as_view(), name='acta_delete'),
-    # path('crm/titular/profile/', TitularUpdateProfileView.as_view(), name='titular_update_profile'),
+    #obtener todas las actas para hacer el buscadir por codigo
+    path('api/actas/', GetAllActaView.as_view(), name='get_all_actas'),
+    
+    #acta - posecionarios
+    path('crm/acta/<int:acta_id>/posecionarios/', PosesionariosPorActaListView.as_view(), name='posesionarios_por_acta'),
     
     #UDD 
+    path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd_create'),
     path('crm/ficha/login', LoginFichaView.as_view(), name='ficha_login'),
     path('crm/ficha/', FichaListView.as_view(), name='ficha_list'),
+    
+    #UFIN - posesión
+    path('crm/acta/posesion/add',PosesionCreateView.as_view(),name='posesion_add'),
+    path('crm/acta/posesion/update/<int:pk>/',PosesionUpdateView.as_view(),name='posesion_edit'),
+    path('crm/acta/posesion/delete/<int:pk>/',PosesionDeleteView.as_view(),name='posesion_delete')
 ]
