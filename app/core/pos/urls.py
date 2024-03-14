@@ -57,7 +57,6 @@ urlpatterns = [
 
     #fichaUdd
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
-    path('crm/colindantes/add/', ColindantesCreateView.as_view(), name='colindantes'),
 
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),
@@ -69,7 +68,7 @@ urlpatterns = [
     path('api/actas/', GetAllActaView.as_view(), name='get_all_actas'),
     
     #acta - posecionarios
-    path('crm/acta/<int:acta_id>/posecionarios/', PosesionariosPorActaListView.as_view(), name='posesionarios_por_acta'),
+    path('crm/acta/<int:pk>/posecionarios/', PosesionariosPorActaListView.as_view(), name='posesionarios_por_acta'),
     
     #UDD 
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd_create'),
@@ -83,5 +82,10 @@ urlpatterns = [
     
     #UFIT
     path('crm/ufit/add',UfitCreateView.as_view(),name='ufit_create'),
-    path('crm/ufit',UfitListView.as_view(),name='ufit_list'),
+    path('crm/ufit/',UfitListView.as_view(),name='ufit_list'),
+    
+    # colindancia
+    path('crm/acta/<int:pk>/colindancia/', ObtenerColindanciaActaView.as_view(), name='colindancia_por_acta'),
+    path('crm/acta/colindancia/add',ColindanciaCreateView.as_view(),name='colindancia_add'),
+    path('crm/acta/colindancia/update/<int:pk>/',ColindanciaUpdateView.as_view(),name='colindancia_edit'),
 ]

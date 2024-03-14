@@ -23,7 +23,7 @@ class PosesionariosPorActaListView(TemplateView):
      def get(self, request, *args, **kwargs):
         try:
             # Obtener el ID del acta de los argumentos de la URL
-            acta_id = self.kwargs.get('acta_id')
+            acta_id = self.kwargs.get('pk')
             # Obtener todos los posecionarios asociados al acta especificada
             posecionarios = Posesion.objects.filter(acta_id=acta_id)
             # Serializar los posecionarios a formato JSON
@@ -43,6 +43,7 @@ class PosesionCreateView(TemplateView):
         # Obtener los datos del cuerpo de la solicitud
         data = json.loads(request.body)
         posecionario_data = data['posecionario']
+        
         acta_id = data['acta_id']
 
         # Guardar el posecionario en la base de datos
@@ -66,7 +67,7 @@ class PosesionCreateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context['list_url'] = self.success_url
-        context['title'] = 'Registro de posesión'
+        context['title'] = 'Análisis de posesión'
         context['action'] = 'add'
         return context
     

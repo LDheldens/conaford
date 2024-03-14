@@ -509,16 +509,23 @@ class Titular(models.Model):
         }
 
 class Colindancia(models.Model):
-    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
+    acta = models.OneToOneField(Acta, on_delete=models.CASCADE, related_name='colindancia')
     frente_nombre = models.CharField(max_length=100)
     frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    fondo_nombre = models.CharField(max_length=100)
-    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    frente_direccion = models.CharField(max_length=1, blank=True, null=True)
     derecha_nombre = models.CharField(max_length=100)
     derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    derecha_direccion = models.CharField(max_length=1, blank=True, null=True)
+    fondo_nombre = models.CharField(max_length=100)
+    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    fondo_direccion = models.CharField(max_length=1, blank=True, null=True)
     izquierda_nombre = models.CharField(max_length=100)
     izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    izquierda_direccion = models.CharField(max_length=1, blank=True, null=True)
+    area = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
+    perimetro = models.DecimalField(max_digits=10, decimal_places=2,blank=True, null=True)
     
+
 class ColindanciaUfin(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindanciasUfin')
     frente_descripcion = models.CharField(max_length=100)

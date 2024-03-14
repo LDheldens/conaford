@@ -2,10 +2,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let acta_id;
     let posecionarios = [];
     let posecionarioID = null;
+    let colindancia = {}
 
     // boton para agregar un posecionario
     const btnAgregarPosesionario = document.querySelector('.btn-agregar-posesionario');
+
+    const btnColindancia = document.querySelector('#btn-agregar-colindancia')
     const formularioPosesion = document.querySelector('#form-posesion')
+
 
     function editarPosecionario(id) {
         posecionarioID = id
@@ -74,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     resultadosDiv.classList.add('d-none');
                     acta_id = acta.id;
                     obtenerPosecionariosDeActa(acta_id);
+                    obtenerColindanciaDeActa(acta_id)
                 });
                 li.textContent = `Código: ${acta.codigo_predio}`;
                 li.classList.add('list-element');
@@ -84,6 +89,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function obtenerColindanciaDeActa(acta_id) {
+        fetch(`/pos/crm/acta/${acta_id}/colindancia/`)
+            .then(response => {
+                // Verificar si la solicitud fue exitosa
+                if (!response.ok) {
+                    throw new Error('Ocurrió un error al obtener la colindancia del acta.');
+                }
+                // Parsear la respuesta como JSON
+                return response.json();
+            })
+            .then(data => {
+                colindancia = data
+                if (Object.keys(colindancia).length !== 0) {
+                    llenarDatosColindancia()
+                    btnColindancia.textContent = 'Guardar'
+                }
+            })
+            .catch(error => {
+                // Manejar errores en caso de que la solicitud falle
+                console.error('Error:', error.message);
+            });
+    }
+
+    
+    function llenarDatosColindancia() {
+        document.querySelector('#frente').value = colindancia.frente_nombre;
+        document.querySelector('#medida_frente').value = colindancia.frente_distancia;
+        document.querySelector('#direccion_frente').value = colindancia.frente_direccion;
+
+        document.querySelector('#derecha').value = colindancia.derecha_nombre;
+        document.querySelector('#medida_derecha').value = colindancia.derecha_distancia;
+        document.querySelector('#direccion_derecha').value = colindancia.derecha_direccion;
+
+        document.querySelector('#izquierda').value = colindancia.izquierda_nombre;
+        document.querySelector('#medida_izquierda').value = colindancia.izquierda_distancia;
+        document.querySelector('#direccion_izquierda').value = colindancia.izquierda_direccion;
+
+        document.querySelector('#fondo').value = colindancia.fondo_nombre;
+        document.querySelector('#medida_fondo').value = colindancia.fondo_distancia;
+        document.querySelector('#direccion_fondo').value = colindancia.fondo_direccion;
+        document.querySelector('#area').value = colindancia.area
+        document.querySelector('#perimetro').value = colindancia.perimetro
+    
+    }
+
     function llenarFormulario(posecionario) {
         document.querySelector('#apellidos').value = posecionario.apellidos;
         document.querySelector('#nombres').value = posecionario.nombres;
@@ -91,34 +141,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#num_doc').value = posecionario.numDoc;
         document.querySelector('#fecha_inicio').value = posecionario.fechaInicio;
         document.querySelector('#fecha_fin').value = posecionario.fechaFin;
-    }
-
-    function registrarPosecion(data) {
-        let url = ''
-        if(btnAgregarPosesionario.textContent.trim()=="Agregar"){
-            url = '/pos/crm/acta/posesion/add'
-        }else{
-            url = `/pos/crm/acta/posesion/update/${posecionarioID}/`
-        }
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message); // Aquí puedes acceder al mensaje devuelto desde Django
-            formularioPosesion.reset();
-            posecionarioID = null
-            btnAgregarPosesionario.textContent='Agregar'
-            obtenerPosecionariosDeActa(acta_id);
-        })
-        .catch(error => {
-            console.error('Error de red:', error);
-        });
     }
 
     function actualizarTabla(posecionarios) {
@@ -194,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const fechaFin = document.querySelector('#fecha_fin').value.trim();
         const codigoActa = document.querySelector('#codigo_acta').value.trim()
 
+
         if (codigoActa=='') {
             alert('Ingresa un codigo de ficha de levantamiento')
             return;
@@ -227,4 +250,137 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function registrarPosecion(data) {
+        let url = ''
+        if(btnAgregarPosesionario.textContent.trim()=="Agregar"){
+            url = '/pos/crm/acta/posesion/add'
+        }else{
+            url = `/pos/crm/acta/posesion/update/${posecionarioID}/`
+        }
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message); // Aquí puedes acceder al mensaje devuelto desde Django
+            formularioPosesion.reset();
+            posecionarioID = null
+            btnAgregarPosesionario.textContent='Agregar'
+            obtenerPosecionariosDeActa(acta_id);
+        })
+        .catch(error => {
+            console.error('Error de red:', error);
+        });
+    }
+    
+    // Agregar eventos input a los campos de medida para calcular el perímetro
+    const medidaFrente = document.querySelector('#medida_frente');
+    const medidaDerecha = document.querySelector('#medida_derecha');
+    const medidaIzquierda = document.querySelector('#medida_izquierda');
+    const medidaFondo = document.querySelector('#medida_fondo');
+
+    const perimetroInput = document.querySelector('#perimetro');
+
+    [medidaFrente, medidaDerecha, medidaIzquierda, medidaFondo].forEach(input => {
+        input.addEventListener('input', calcularPerimetro);
+    });
+
+    // Función para calcular el perímetro
+    function calcularPerimetro() {
+        const frente = parseFloat(medidaFrente.value) || 0;
+        const derecha = parseFloat(medidaDerecha.value) || 0;
+        const izquierda = parseFloat(medidaIzquierda.value) || 0;
+        const fondo = parseFloat(medidaFondo.value) || 0;
+
+        const perimetro = frente + derecha + izquierda + fondo;
+
+        perimetroInput.value = perimetro;
+    }
+
+    btnColindancia.addEventListener('click', () => {
+        const frente = document.querySelector('#frente').value.trim();
+        const frente_medida = document.querySelector('#medida_frente').value.trim();
+        const frente_direccion = document.querySelector('#direccion_frente').value.trim();
+        const derecha = document.querySelector('#derecha').value.trim();
+        const derecha_medida = document.querySelector('#medida_derecha').value.trim();
+        const derecha_direccion = document.querySelector('#direccion_derecha').value.trim();
+        const izquierda = document.querySelector('#izquierda').value.trim();
+        const izquierda_medida = document.querySelector('#medida_izquierda').value.trim();
+        const izquierda_direccion = document.querySelector('#direccion_izquierda').value.trim();
+        const fondo = document.querySelector('#fondo').value.trim();
+        const fondo_medida = document.querySelector('#medida_fondo').value.trim();
+        const fondo_direccion = document.querySelector('#direccion_fondo').value.trim();
+        const area = document.querySelector('#area').value.trim()
+        const perimetro = document.querySelector('#perimetro').value.trim()
+    
+        // Verificar si algún campo está vacío
+        if (!frente || !frente_medida || !frente_direccion ||
+            !derecha || !derecha_medida || !derecha_direccion ||
+            !izquierda || !izquierda_medida || !izquierda_direccion ||
+            !fondo || !fondo_medida || !fondo_direccion || !area || !perimetro) {
+            alert('Por favor, complete todos los campos de la colindancia.');
+            return;
+        }
+        const data = {
+            acta_id,
+            frente: frente,
+            frente_medida: frente_medida,
+            frente_direccion: frente_direccion,
+            derecha: derecha,
+            derecha_medida: derecha_medida,
+            derecha_direccion: derecha_direccion,
+            izquierda: izquierda,
+            izquierda_medida: izquierda_medida,
+            izquierda_direccion: izquierda_direccion,
+            fondo: fondo,
+            fondo_medida: fondo_medida,
+            fondo_direccion: fondo_direccion,
+            area,
+            perimetro
+        };
+        let url;
+    if (Object.keys(colindancia).length === 0) {
+        // El objeto de colindancia está vacío, por lo que se debe crear
+        url = '/pos/crm/acta/colindancia/add';
+    } else {
+        // El objeto de colindancia ya tiene datos, por lo que se debe actualizar
+        const colindanciaId = colindancia.id; // Asegúrate de tener el ID de la colindancia
+        url = `/pos/crm/acta/colindancia/update/${colindanciaId}/`;
+    }
+
+    // Realizar la solicitud fetch con la URL determinada
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // Manejar la respuesta según sea necesario
+    })
+    .catch(error => {
+        console.error('Error al realizar la solicitud:', error);
+    });
+    });
+    
 });
+// funcion para mostrar los pasos de manera condicional
+function mostrarPaso(paso) {
+    var paso1 = document.getElementById('paso-1');
+    var paso2 = document.getElementById('paso-2');
+
+    if (paso === 1) {
+        paso1.style.display = 'block';
+        paso2.style.display = 'none';
+    } else if (paso === 2) {
+        paso1.style.display = 'none';
+        paso2.style.display = 'block';
+    }
+}
