@@ -431,15 +431,15 @@ class Acta(models.Model):
     # 4.- BOCETO DEL PREDIO
     hitos_consolidados = models.CharField(max_length=10)
     acceso_a_via = models.CharField(max_length=10)
-    cantidad_lotes = models.IntegerField()
     requiere_subdivision = models.CharField(max_length=10)
+    cantidad_lotes = models.IntegerField()
     requiere_alineamiento = models.CharField(max_length=10)
     apertura_de_via = models.CharField(max_length=10)
     libre_de_riesgo = models.CharField(max_length=10)
     req_transf_de_titular = models.CharField(max_length=10)
     litigio_denuncia = models.CharField(max_length=10)
     area_segun_el_titular_representante = models.FloatField()
-    comentario2 = models.TextField()
+    comentario1 = models.TextField()
     # carta_poder = models.CharField(null=True, blank=True,max_length=10)
     # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
     codigo_dlt = models.CharField(max_length=50)
@@ -449,7 +449,7 @@ class Acta(models.Model):
     # operador = models.CharField(max_length=100)
     # equipo_tp = models.CharField(max_length=100)
     # comentario con respecto al predio
-    comentario1 = models.TextField()
+    comentario2 = models.TextField()
     # 6.- DE LOS TITULAR(ES) O REPRESENTATE(S)
     # Aquí solo hay texto
     # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
@@ -554,8 +554,8 @@ class ColindanciaUfin(models.Model):
 
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
-    boceto_pdf = models.ImageField(upload_to='acta/archivos', null=True)
+    boceto_pdf = models.FileField(upload_to='acta/archivos', null=True)
     toma_predio_imagen = models.ImageField(upload_to='acta/imagenes', null=True)
-    documento_predio_pdf = models.ImageField(upload_to='acta/archivos', null=True)
-    archivo_firmas_pdf = models.FileField(upload_to='acta/archivos/', null=True)
+    documento_predio_pdf = models.FileField(upload_to='acta/archivos', null=True)
+    archivo_firmas_pdf = models.FileField(upload_to='acta/archivos', null=True)
     comentario3 = models.TextField(blank=True, null=True)

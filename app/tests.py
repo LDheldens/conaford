@@ -356,6 +356,7 @@ u.email = 'naihtsircnaihtsirc@gmail.com'
 u.is_active = True
 u.is_superuser = True
 u.is_staff = True
+u.auth_login_dashboard = True
 u.set_password('Enyaeslamejor12')
 u.save()
 group = Group.objects.get(pk=1)

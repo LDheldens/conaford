@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "\\\\wsl.localhost\\Ubuntu\\home\\unknown\\works\\Conaforp\\app\\db\\polariss.sqlite3",
+            "name": "test"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

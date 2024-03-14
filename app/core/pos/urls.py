@@ -64,6 +64,7 @@ urlpatterns = [
     path('crm/acta/<int:pk>/', ActaView.as_view(), name='acta'),
     path('crm/acta/add/', ActaCreateView.as_view(), name='acta_create'),
     path('crm/acta/update/<int:pk>/', ActaUpdateView.as_view(), name='acta_update'),
+    # path('crm/acta/update/<int:pk>/', ActaUpdateView.as_view(), name='acta_update'),
     path('crm/acta/delete/<int:pk>/', ActaDeleteView.as_view(), name='acta_delete'),
     #obtener todas las actas para hacer el buscadir por codigo
     path('api/actas/', GetAllActaView.as_view(), name='get_all_actas'),
