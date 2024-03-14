@@ -1,6 +1,8 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.http import JsonResponse, HttpResponse
@@ -11,232 +13,97 @@ from core.pos.forms import ClientForm, User, Client
 from core.security.mixins import ModuleMixin, PermissionMixin
 
 from core.pos.models import Titular, Colindancia
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
+
+
+class ObtenerColindanciaActaView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        try:
+            acta_id = self.kwargs.get('pk')
+            print(acta_id,'sdsrsdrserew')
+            # Buscar la colindancia asociada al acta por su ID
+            colindancia = Colindancia.objects.get(acta_id=acta_id)
+            colindancia_data = {}
+            # Verificar si se encontró la colindancia
+            if colindancia is not None:
+                colindancia_data = {
+                    'id': colindancia.id,
+                    'acta_id': colindancia.acta_id,
+                    'frente_nombre': colindancia.frente_nombre,
+                    'frente_distancia': float(colindancia.frente_distancia),
+                    'frente_direccion': colindancia.frente_direccion,
+                    'derecha_nombre': colindancia.derecha_nombre,
+                    'derecha_distancia': float(colindancia.derecha_distancia),
+                    'derecha_direccion': colindancia.derecha_direccion,
+                    'fondo_nombre': colindancia.fondo_nombre,
+                    'fondo_distancia': float(colindancia.fondo_distancia),
+                    'fondo_direccion': colindancia.fondo_direccion,
+                    'izquierda_nombre': colindancia.izquierda_nombre,
+                    'izquierda_distancia': float(colindancia.izquierda_distancia),
+                    'izquierda_direccion': colindancia.izquierda_direccion,
+                    'area':float(colindancia.area),
+                    'perimetro':float(colindancia.perimetro)
+                }
+            # Retornar los datos como una respuesta JSON
+            return JsonResponse(colindancia_data)
+        except Colindancia.DoesNotExist:
+            # Si no se encuentra la colindancia, retornar un objeto JSON vacío
+            return JsonResponse({}, status=200)
 
 @method_decorator(csrf_exempt, name='dispatch')
-class ColindantesCreateView(TemplateView):
-    template_name = 'crm/colindantes/create.html'
-    success_url = reverse_lazy('client_list')
-
+class ColindanciaCreateView(View):
     def post(self, request, *args, **kwargs):
+        # Obtener los datos JSON del cuerpo de la solicitud
         data = json.loads(request.body)
-        colindancia_data = data['colindancia_data'];
         acta_id = data['acta_id']
-        print(colindancia_data)
-        print(acta_id)
-        colindancia = Colindancia(
-            frente_distancia = colindancia_data['frente'],
-            fondo_distancia = colindancia_data['fondo'],
-            derecha_distancia = colindancia_data['derecha'],
-            izquierda_distancia = colindancia_data['izquierda'],
-            area_documento = colindancia_data['areaDocumento'],
-            area_levantamiento = colindancia_data['areaLevantamiento'],
-            diferencias = colindancia_data['diferencias'],
-            contingencia = colindancia_data['diferencias'],
-            indicacion = colindancia_data['indicacion'],
-            acta_id=acta_id,
+        
+        # Crear una nueva instancia de Colindancia con los datos recibidos
+        colindancia = Colindancia.objects.create(
+            acta_id=acta_id, 
+            frente_nombre=data['frente'],
+            frente_distancia=data['frente_medida'],
+            frente_direccion=data['frente_direccion'],
+            derecha_nombre=data['derecha'],
+            derecha_distancia=data['derecha_medida'],
+            derecha_direccion=data['derecha_direccion'],
+            izquierda_nombre=data['izquierda'],
+            izquierda_distancia=data['izquierda_medida'],
+            izquierda_direccion=data['izquierda_direccion'],
+            fondo_nombre=data['fondo'],
+            fondo_distancia=data['fondo_medida'],
+            fondo_direccion=data['fondo_direccion'],
+            area = data['area'],
+            perimetro = data['perimetro']
         )
+
+        # Devolver una respuesta JSON indicando que la colindancia fue creada exitosamente
+        return JsonResponse({'message': 'Colindancia creada exitosamente.'})
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ColindanciaUpdateView(View):
+    def post(self, request, *args, **kwargs):
+        # Obtener la instancia de Colindancia que se va a actualizar
+        colindancia = get_object_or_404(Colindancia, pk=kwargs.get('pk'))
+        
+        # Obtener los datos JSON del cuerpo de la solicitud
+        data = json.loads(request.body)
+
+        # Actualizar los campos de la instancia de Colindancia con los datos recibidos
+        colindancia.frente_nombre = data['frente']
+        colindancia.frente_distancia = data['frente_medida']
+        colindancia.frente_direccion = data['frente_direccion']
+        colindancia.derecha_nombre = data['derecha']
+        colindancia.derecha_distancia = data['derecha_medida']
+        colindancia.derecha_direccion = data['derecha_direccion']
+        colindancia.izquierda_nombre = data['izquierda']
+        colindancia.izquierda_distancia = data['izquierda_medida']
+        colindancia.izquierda_direccion = data['izquierda_direccion']
+        colindancia.fondo_nombre = data['fondo']
+        colindancia.fondo_distancia = data['fondo_medida']
+        colindancia.fondo_direccion = data['fondo_direccion']
+        colindancia.area = data['area']
+        colindancia.perimetro = data['perimetro']
+        # Guardar los cambios en la instancia de Colindancia
         colindancia.save()
-        return JsonResponse({'message': 'colindancia registrado'})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['list_url'] = self.success_url
-        context['title'] = 'Nuevo registro de un Cliente'
-        context['action'] = 'add'
-        context['instance'] = None
-        return context
-
-
-class ClientUpdateView(PermissionMixin, UpdateView):
-    model = Client
-    template_name = 'crm/client/create.html'
-    form_class = ClientForm
-    success_url = reverse_lazy('client_list')
-    permission_required = 'change_client'
-
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_form(self, form_class=None):
-        instance = self.object
-        form = ClientForm(instance=instance, initial={
-            'first_name': instance.user.first_name,
-            'last_name': instance.user.last_name,
-            'dni': instance.user.dni,
-            'email': instance.user.email,
-            'image': instance.user.image,
-        })
-        return form
-
-    def validate_data(self):
-        data = {'valid': True}
-        try:
-            instance = self.object
-            type = self.request.POST['type']
-            obj = self.request.POST['obj'].strip()
-            if type == 'dni':
-                if User.objects.filter(dni=obj).exclude(id=instance.user.id):
-                    data['valid'] = False
-            elif type == 'mobile':
-                if Client.objects.filter(mobile=obj).exclude(id=instance.id):
-                    data['valid'] = False
-            elif type == 'email':
-                if User.objects.filter(email=obj).exclude(id=instance.user.id):
-                    data['valid'] = False
-        except:
-            pass
-        return JsonResponse(data)
-
-    def post(self, request, *args, **kwargs):
-        data = {}
-        action = request.POST['action']
-        try:
-            if action == 'edit':
-                with transaction.atomic():
-                    instance = self.object
-                    user = instance.user
-                    user.first_name = request.POST['first_name']
-                    user.last_name = request.POST['last_name']
-                    user.dni = request.POST['dni']
-                    user.username = user.dni
-                    if 'image-clear' in request.POST:
-                        user.remove_image()
-                    if 'image' in request.FILES:
-                        user.image = request.FILES['image']
-                    user.email = request.POST['email']
-                    user.save()
-
-                    client = instance
-                    client.user_id = user.id
-                    client.mobile = request.POST['mobile']
-                    client.address = request.POST['address']
-                    client.birthdate = request.POST['birthdate']
-                    client.save()
-            elif action == 'validate_data':
-                return self.validate_data()
-            else:
-                data['error'] = 'No ha seleccionado ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['list_url'] = self.success_url
-        context['title'] = 'Edición de un Cliente'
-        context['action'] = 'edit'
-        context['instance'] = self.object
-        return context
-
-
-class ClientDeleteView(PermissionMixin, DeleteView):
-    model = Client
-    template_name = 'crm/client/delete.html'
-    success_url = reverse_lazy('client_list')
-    permission_required = 'delete_client'
-
-    def post(self, request, *args, **kwargs):
-        data = {}
-        try:
-            with transaction.atomic():
-                instance = self.get_object()
-                user = instance.user
-                instance.delete()
-                user.delete()
-        except Exception as e:
-            data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Notificación de eliminación'
-        context['list_url'] = self.success_url
-        return context
-
-
-class ClientUpdateProfileView(ModuleMixin, UpdateView):
-    model = Client
-    template_name = 'crm/titular/profile.html'
-    form_class = ClientForm
-    success_url = reverse_lazy('dashboard')
-
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
-
-    def get_object(self, queryset=None):
-        return self.request.user.client
-
-    def get_form(self, form_class=None):
-        instance = self.object
-        form = ClientForm(instance=instance, initial={
-            'first_name': instance.user.first_name,
-            'last_name': instance.user.last_name,
-            'dni': instance.user.dni,
-            'email': instance.user.email,
-            'image': instance.user.image,
-        })
-        return form
-
-    def validate_data(self):
-        data = {'valid': True}
-        try:
-            instance = self.object
-            type = self.request.POST['type']
-            obj = self.request.POST['obj'].strip()
-            if type == 'dni':
-                if User.objects.filter(dni=obj).exclude(id=instance.user.id):
-                    data['valid'] = False
-            elif type == 'mobile':
-                if Client.objects.filter(mobile=obj).exclude(id=instance.id):
-                    data['valid'] = False
-            elif type == 'email':
-                if User.objects.filter(email=obj).exclude(id=instance.user.id):
-                    data['valid'] = False
-        except:
-            pass
-        return JsonResponse(data)
-
-    def post(self, request, *args, **kwargs):
-        data = {}
-        action = request.POST['action']
-        try:
-            if action == 'edit':
-                with transaction.atomic():
-                    instance = self.object
-                    user = instance.user
-                    user.first_name = request.POST['first_name']
-                    user.last_name = request.POST['last_name']
-                    user.dni = request.POST['dni']
-                    user.username = user.dni
-                    if 'image-clear' in request.POST:
-                        user.remove_image()
-                    if 'image' in request.FILES:
-                        user.image = request.FILES['image']
-                    user.email = request.POST['email']
-                    user.save()
-
-                    client = instance
-                    client.user_id = user.id
-                    client.mobile = request.POST['mobile']
-                    client.address = request.POST['address']
-                    client.birthdate = request.POST['birthdate']
-                    client.save()
-            elif action == 'validate_data':
-                return self.validate_data()
-            else:
-                data['error'] = 'No ha seleccionado ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context['list_url'] = self.success_url
-        context['title'] = 'Edición de Perfil'
-        context['action'] = 'edit'
-        context['instance'] = self.object
-        return context
+        
+        # Devolver una respuesta JSON indicando que la colindancia fue actualizada exitosamente
+        return JsonResponse({'message': 'Colindancia actualizada exitosamente.'})

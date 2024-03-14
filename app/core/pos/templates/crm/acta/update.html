@@ -502,7 +502,11 @@
 
                 <div class="bg-white rounded-md p-5 my-5">
                     <div class="mb-2">
-                        <a href="{{ archivos_acta.boceto_pdf.url }}" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                        {% if archivos_acta.boceto_pdf %}
+                            <a href="{{ archivos_acta.boceto_pdf.url }}" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                        {% else %}
+                            <a href="#" class="text-red-700 font-bold underline mt-2">Sin pdf</a>
+                        {% endif %}
                     </div>
                     <label for="boceto-predio-pdf" class="font-bold">Modificar: Suba un pdf:</label>
                     <input type="file" name="boceto-predio-pdf" id="boceto-predio-pdf" accept=".pdf">
@@ -820,7 +824,12 @@
                     ADJUNTA, TOMA FOTOGRAFICA DEL PREDIO:</h2>
                 <div class="p-5 mb-4 bg-white">
                     <div class="mb-2">
-                        <a href="{{ archivos_acta.toma_predio_imagen.url }}" class="text-blue-700 font-bold underline mt-2">Imagen actual</a>
+                        {% if archivos_acta.toma_predio_imagen %}
+                            <a href="{{ archivos_acta.toma_predio_imagen.url }}" class="text-blue-700 font-bold underline mt-2">Imagen actual</a>
+                        {% else %}
+                            <a href="#" class="text-red-700 font-bold underline mt-2">Sin Imagen</a>
+                        {% endif %}
+                        
                     </div>
                     <label for="toma-fotografica-predio-imagen" class="font-bold">Modificar: Suba una imagen:</label>
                     <input type="file" name="toma-fotografica-predio-imagen" id="toma-fotografica-predio-imagen" accept="image/png, image/jpeg">
@@ -866,7 +875,11 @@
                 <!-- 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO -->
                 <div class="p-5 mb-4 bg-white">
                     <div class="mb-2">
-                        <a href="{{ archivos_acta.archivo_firmas_pdf.url }}" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                        {% if archivos_acta.archivo_firmas_pdf %}
+                            <a href="{{ archivos_acta.archivo_firmas_pdf.url }}" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                        {% else %}
+                            <a href="#" class="text-red-700 font-bold underline mt-2">Sin pdf</a>
+                        {% endif %}
                     </div>
                     <label for="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" class="font-bold">Modificar: Suba un pdf:</label>
                     <input type="file" name="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" id="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" accept=".pdf">
