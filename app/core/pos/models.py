@@ -486,7 +486,6 @@ class Posesion(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     anios_posesion = models.IntegerField(default=1)
-    
 
 
 class Titular(models.Model):
@@ -511,7 +510,6 @@ class Titular(models.Model):
 
 class Colindancia(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
-
     frente_nombre = models.CharField(max_length=100)
     frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
     fondo_nombre = models.CharField(max_length=100)
@@ -520,6 +518,35 @@ class Colindancia(models.Model):
     derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
     izquierda_nombre = models.CharField(max_length=100)
     izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    
+class ColindanciaUfin(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindanciasUfin')
+    frente_descripcion = models.CharField(max_length=100)
+    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    frente_n_tramos = models.IntegerField()
+    frente_tramos = models.JSONField()
+    derecha_descripcion = models.CharField(max_length=100)
+    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    derecha_n_tramos = models.IntegerField()
+    derecha_tramos = models.JSONField()
+    izquierda_descripcion = models.CharField(max_length=100)
+    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    izquierda_n_tramos = models.IntegerField()
+    izquierda_tramos = models.JSONField()
+    fondo_descripcion = models.CharField(max_length=100)
+    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    fondo_n_tramos = models.IntegerField()
+    fondo_tramos = models.JSONField()
+    numero_lote = models.CharField(max_length = 150)
+    numero_manzana = models.CharField(max_length = 150)
+    area = models.DecimalField(max_digits=10, decimal_places=2)
+    perimetro = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['acta_codigo'] = self.acta.codigo_predio 
+        return item
+    
 
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')

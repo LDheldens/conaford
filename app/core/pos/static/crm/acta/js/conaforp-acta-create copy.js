@@ -198,10 +198,6 @@ formFicha.addEventListener('submit',async(e)=>{
     } catch (error) {
         console.error('Error al enviar los datos:', error);
     }
-
-
-    
-    
 })
 
 
