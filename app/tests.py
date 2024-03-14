@@ -14,7 +14,7 @@ dashboard.sidebar = 'sidebar-light-primary'
 dashboard.save()
 
 company = Company()
-company.name = 'CONAFORD'
+company.name = 'CONAFORDD'
 company.ruc = '000000000000001'
 company.email = 'conaford@gmail.com'
 company.phone = '0000001'

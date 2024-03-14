@@ -68,7 +68,7 @@
     </div>
     
     <!-- INCLUIR EL MODAL CUANDO ESTEMOS EN LA PAGINA DE LISTADO DE ACTAS-->
-    {% if title == 'Listado de Actas' %}
+    {% if request.path == '/pos/crm/acta/' %}
         {% include 'crm/titular/modal.html' %}
     {% endif %}
 

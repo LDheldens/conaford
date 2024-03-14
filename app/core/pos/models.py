@@ -414,12 +414,12 @@ class Acta(models.Model):
     fecha = models.DateField()
     cel_wsp = models.CharField(max_length=20)
     # 1.- DATOS DE LA POSESIÓN INFORMAL
-    departamento = models.CharField(max_length=100)
-    provincia = models.CharField(max_length=100)
-    distrito = models.CharField(max_length=100)
-    posesion_informal = models.CharField(max_length=200)
-    sector = models.CharField(max_length=100)
-    etapa = models.CharField(max_length=10)
+    # departamento = models.CharField(max_length=100)
+    # provincia = models.CharField(max_length=100)
+    # distrito = models.CharField(max_length=100)
+    # posesion_informal = models.CharField(max_length=200)
+    # sector = models.CharField(max_length=100)
+    # etapa = models.CharField(max_length=10)
     # 2.- IDENTIFICACIÓN DEL PREDIO
     direccion_fiscal = models.CharField(max_length=20)
     descripcion_fisica = models.CharField(max_length=20)
@@ -490,22 +490,6 @@ class Posesion(models.Model):
     fecha_fin = models.DateField()
     anios_posesion = models.IntegerField(default=1)
 
-class Colindancia(models.Model):
-    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
-    frente_nombre = models.CharField(max_length=100, null=True)
-    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    fondo_nombre = models.CharField(max_length=100, null=True)
-    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    derecha_nombre = models.CharField(max_length=100, null=True)
-    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    izquierda_nombre = models.CharField(max_length=100, null=True)
-    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    area_documento = models.DecimalField(max_digits=10, decimal_places=2)
-    area_levantamiento = models.DecimalField(max_digits=10, decimal_places=2)
-    diferencias = models.DecimalField(max_digits=10, decimal_places=2)
-    contingencia = models.CharField(max_length=100)
-    indicacion = models.CharField(max_length=100)
-
 
 class Titular(models.Model):
     copia_doc_identidad = models.CharField(max_length=3, default='no')
@@ -528,10 +512,50 @@ class Titular(models.Model):
             'num_doc': self.num_doc,
         }
 
+class Colindancia(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
+    frente_nombre = models.CharField(max_length=100)
+    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    fondo_nombre = models.CharField(max_length=100)
+    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    derecha_nombre = models.CharField(max_length=100)
+    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    izquierda_nombre = models.CharField(max_length=100)
+    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    
+class ColindanciaUfin(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindanciasUfin')
+    frente_descripcion = models.CharField(max_length=100)
+    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    frente_n_tramos = models.IntegerField()
+    frente_tramos = models.JSONField()
+    derecha_descripcion = models.CharField(max_length=100)
+    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    derecha_n_tramos = models.IntegerField()
+    derecha_tramos = models.JSONField()
+    izquierda_descripcion = models.CharField(max_length=100)
+    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    izquierda_n_tramos = models.IntegerField()
+    izquierda_tramos = models.JSONField()
+    fondo_descripcion = models.CharField(max_length=100)
+    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    fondo_n_tramos = models.IntegerField()
+    fondo_tramos = models.JSONField()
+    numero_lote = models.CharField(max_length = 150)
+    numero_manzana = models.CharField(max_length = 150)
+    area = models.DecimalField(max_digits=10, decimal_places=2)
+    perimetro = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['acta_codigo'] = self.acta.codigo_predio 
+        return item
+    
+
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
     boceto_pdf = models.ImageField(upload_to='acta/archivos', null=True)
     toma_predio_imagen = models.ImageField(upload_to='acta/imagenes', null=True)
-    documentos_predio_pdf = models.ImageField(upload_to='acta/archivos', null=True)
+    documento_predio_pdf = models.ImageField(upload_to='acta/archivos', null=True)
     archivo_firmas_pdf = models.FileField(upload_to='acta/archivos/', null=True)
     comentario3 = models.TextField(blank=True, null=True)

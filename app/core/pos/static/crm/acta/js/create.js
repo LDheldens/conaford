@@ -69,8 +69,8 @@ form_ficha_levantamiento.addEventListener('submit', async (event) => {
         // window.location.href = "pos/crm/acta/";
         console.log('Respuesta del servidor:', data);
         await Swal.fire({
-            title: "Ficha de levantamiento",
-            text: "Creada exitosamente!",
+            title: "Ficha creada exitosamente!",
+            // text: "Ficha creada exitosamente!",
             icon: "success"
           })
           window.location.replace("/pos/crm/acta/")

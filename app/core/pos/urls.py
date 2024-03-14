@@ -13,6 +13,7 @@ from core.pos.views.crm.acta.view import *
 from core.pos.views.crm.titular.view import *
 from core.pos.views.crm.ficha_udd.views import *
 from core.pos.views.crm.posesion.views import *
+from core.pos.views.crm.ufit.views import *
 from core.pos.views.crm.sale.print.views import *
 
 urlpatterns = [
@@ -78,5 +79,9 @@ urlpatterns = [
     #UFIN - posesión
     path('crm/acta/posesion/add',PosesionCreateView.as_view(),name='posesion_add'),
     path('crm/acta/posesion/update/<int:pk>/',PosesionUpdateView.as_view(),name='posesion_edit'),
-    path('crm/acta/posesion/delete/<int:pk>/',PosesionDeleteView.as_view(),name='posesion_delete')
+    path('crm/acta/posesion/delete/<int:pk>/',PosesionDeleteView.as_view(),name='posesion_delete'),
+    
+    #UFIT
+    path('crm/ufit/add',UfitCreateView.as_view(),name='ufit_create'),
+    path('crm/ufit',UfitListView.as_view(),name='ufit_list'),
 ]
