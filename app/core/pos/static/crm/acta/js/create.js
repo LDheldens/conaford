@@ -27,7 +27,7 @@ function fileToBase64(archivo) {
     });
 }
 
-form_ficha_levantamiento.addEventListener('submit', (event) => {
+form_ficha_levantamiento.addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const formDataObject = { };
@@ -46,6 +46,35 @@ form_ficha_levantamiento.addEventListener('submit', (event) => {
         formDataObject['list-checkbox-serv-bas'] = [ ];
     }
     titulares = getRowsTitulares();
-    console.log(formDataObject);
-    console.log(titulares);
+    formDataObject['titulares'] = titulares;
+    formDataObject['boceto-predio-pdf'] = await fileToBase64(document.getElementById('boceto-predio-pdf').files[0]);
+    formDataObject['toma-fotografica-predio-imagen'] = await fileToBase64(document.getElementById('toma-fotografica-predio-imagen').files[0]);
+    formDataObject['documentos-casos-si-pdf'] = await fileToBase64(document.getElementById('documentos-casos-si-pdf').files[0]);
+    formDataObject['firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf'] = await fileToBase64(document.getElementById('firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf').files[0]);
+    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes']);
+    formDataObject['area-segun-titular-representante'] = Number(formDataObject['area-segun-titular-representante']);
+    formDataObject['numero-puntos'] = Number(formDataObject['numero-puntos']);
+    // console.log(formDataObject);
+    // return;
+    
+    try {
+        const response = await fetch('/pos/crm/acta/add/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formDataObject),
+        });
+        const data = await response.json();
+        // window.location.href = "pos/crm/acta/";
+        console.log('Respuesta del servidor:', data);
+        await Swal.fire({
+            title: "Ficha de levantamiento",
+            text: "Creada exitosamente!",
+            icon: "success"
+          })
+          window.location.replace("/pos/crm/acta/")
+    } catch (error) {
+        console.error('Error al enviar los datos:', error);
+    }
 });

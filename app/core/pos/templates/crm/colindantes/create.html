@@ -265,17 +265,6 @@
 
         <!-- <form method="post" id="form_colindantes" enctype="multipart/form-data"> -->
 
-            <div class="flex sm:flex-row flex-col sm:w-1/2 w-full gap-2 mb-2">
-                <div class="flex-1">
-                    <label for="codigo-predio" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Codigo predio</label>
-                    <input type="text" id="codigo-predio" name="codigo-predio" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Codigo predio">
-                </div>
-                <div class="flex-1">
-                    <label for="nombre-representante" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Nombre representante</label>
-                    <input type="text" id="nombre-representante" name="nombre-representante" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Nombre representante">
-                </div>
-            </div>
-
             <div class="relative  shadow-md sm:rounded-lg bg-white p-4  mb-4">
                 <div class="mb-2 py-2">
                     <h2 class="text-sm text-gray-700 font-bold">COLINDANTES</h2>
@@ -284,6 +273,12 @@
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                         <thead class="text-xs text-center text-gray-700 uppercase bg-gray-50">
                             <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Codigo Predio
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Nombre representante
+                                </th>
                                 <th scope="col" class="px-6 py-3">
                                     Frente
                                 </th>
@@ -295,6 +290,21 @@
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Derecha
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Área segun documento
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Área segun levantamiento
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Diferencias
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Contingencia
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Indicacion
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Opciones
@@ -313,40 +323,6 @@
                 </div>
             </div>
             
-            <div class="flex sm:flex-row flex-col sm:w-1/2 w-full gap-2 mb-2">
-                <div class="flex-1">
-                    <label for="area-documento" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Área segun documento</label>
-                    <input type="text" id="area-documento" name="area-documento" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Área segun documento">
-                </div>
-                <div class="flex-1">
-                    <label for="area-levantamiento" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Área segun levantamiento</label>
-                    <input type="text" id="area-levantamiento" name="area-levantamiento" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Área segun levantamiento">
-                </div>
-                <div class="flex-1">
-                    <label for="diferencias" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Diferencias</label>
-                    <input type="text" id="diferencias" name="diferencias" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Diferencias">
-                </div>
-            </div>
-            
-            <div class="flex sm:flex-row flex-col sm:w-1/2 w-full gap-2">
-                <div class="w-full sm:w-[40%]">
-                    <label for="Contingencia"
-                        class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Contingencia</label>
-                    <select id="Contingencia" name="Contingencia"
-                        class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
-                        <option value="">Opción</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                    </select>
-                </div>
-                <div class="w-full sm:w-[60%]">
-                    <label for=indicacion"
-                        class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Indicación</label>
-                    <input type="text" id=indicacion" name=indicacion"
-                        class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                        placeholder="Indicación">
-                </div>
-            </div>
         <!-- </form> -->
     </div>
     <!-- footer -->
@@ -354,8 +330,8 @@
         <a href="/pos/crm/acta/"
             class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]"
             id="btn-cancelar"><i class="fas fa-times"></i> Cancelar</a>
-        <button type="submit" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]"
-            id="btn-create"><i class="fas fa-save"></i> Agregar</button>
+        <!-- <button type="button" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]"
+            id="btn-create"><i class="fas fa-save"></i> Agregar</button> -->
     </div>
 
     <script src="{% static 'crm/colindantes/js/selectors.js' %}"></script>
@@ -363,7 +339,7 @@
     <!-- <script src="{% static 'crm/colindantes/js/init-data.js' %}"></script> -->
     <script src="{% static 'crm/colindantes/js/validators.js' %}"></script>
     <script src="{% static 'crm/colindantes/js/modal.js' %}"></script>
-    <!-- <script src="{% static 'crm/colindantes/js/create.js' %}"></script> -->
+    <script src="{% static 'crm/colindantes/js/create.js' %}"></script>
 </body>
 
 </html>

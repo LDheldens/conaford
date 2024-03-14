@@ -110,6 +110,7 @@ function insertarHtmlTitulares(titulares) {
                 <td>${titular.apellidos}</td>
                 <td>${titular.estado_civil}</td>
                 <td>${titular.num_doc}</td>
+                <td>${titular.representante}</td>
             `;
             tbody.appendChild(tr);
         });

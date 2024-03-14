@@ -10,66 +10,35 @@ from config import settings
 from core.pos.forms import ClientForm, User, Client
 from core.security.mixins import ModuleMixin, PermissionMixin
 
-from core.pos.models import Titular
+from core.pos.models import Titular, Colindancia
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
-class ColindantesCreateView(CreateView):
-    model = Client
+@method_decorator(csrf_exempt, name='dispatch')
+class ColindantesCreateView(TemplateView):
     template_name = 'crm/colindantes/create.html'
-    form_class = ClientForm
     success_url = reverse_lazy('client_list')
-    permission_required = 'add_client'
-
-    def validate_data(self):
-        data = {'valid': True}
-        try:
-            type = self.request.POST['type']
-            obj = self.request.POST['obj'].strip()
-            if type == 'dni':
-                if User.objects.filter(dni=obj):
-                    data['valid'] = False
-            elif type == 'mobile':
-                if Client.objects.filter(mobile=obj):
-                    data['valid'] = False
-            elif type == 'email':
-                if User.objects.filter(email=obj):
-                    data['valid'] = False
-        except:
-            pass
-        return JsonResponse(data)
 
     def post(self, request, *args, **kwargs):
-        data = {}
-        action = request.POST['action']
-        try:
-            if action == 'add':
-                with transaction.atomic():
-                    user = User()
-                    user.first_name = request.POST['first_name']
-                    user.last_name = request.POST['last_name']
-                    user.dni = request.POST['dni']
-                    user.username = user.dni
-                    if 'image' in request.FILES:
-                        user.image = request.FILES['image']
-                    user.create_or_update_password(user.dni)
-                    user.email = request.POST['email']
-                    user.save()
-
-                    client = Client()
-                    client.user_id = user.id
-                    client.mobile = request.POST['mobile']
-                    client.address = request.POST['address']
-                    client.birthdate = request.POST['birthdate']
-                    client.save()
-
-                    group = Group.objects.get(pk=settings.GROUPS.get('client'))
-                    user.groups.add(group)
-            elif action == 'validate_data':
-                return self.validate_data()
-            else:
-                data['error'] = 'No ha seleccionado ninguna opción'
-        except Exception as e:
-            data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        data = json.loads(request.body)
+        colindancia_data = data['colindancia_data'];
+        acta_id = data['acta_id']
+        print(colindancia_data)
+        print(acta_id)
+        colindancia = Colindancia(
+            frente_distancia = colindancia_data['frente'],
+            fondo_distancia = colindancia_data['fondo'],
+            derecha_distancia = colindancia_data['derecha'],
+            izquierda_distancia = colindancia_data['izquierda'],
+            area_documento = colindancia_data['areaDocumento'],
+            area_levantamiento = colindancia_data['areaLevantamiento'],
+            diferencias = colindancia_data['diferencias'],
+            contingencia = colindancia_data['diferencias'],
+            indicacion = colindancia_data['indicacion'],
+            acta_id=acta_id,
+        )
+        colindancia.save()
+        return JsonResponse({'message': 'colindancia registrado'})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

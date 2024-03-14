@@ -165,8 +165,8 @@ class TitularesPorActaListView(View):
                     'apellidos': titular.apellidos,
                     'nombres': titular.nombres,
                     'estado_civil': titular.estado_civil,
-                    'tipo_doc': titular.tipo_doc,
-                    'num_doc': titular.num_doc
+                    'num_doc': titular.num_doc,
+                    'representante': titular.representante,
                 } 
                 for titular in titulares
             ]

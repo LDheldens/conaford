@@ -421,30 +421,14 @@ class Acta(models.Model):
     sector = models.CharField(max_length=100)
     etapa = models.CharField(max_length=10)
     # 2.- IDENTIFICACIÓN DEL PREDIO
-    descripcion_fisica = models.CharField(max_length=20)
     direccion_fiscal = models.CharField(max_length=20)
+    descripcion_fisica = models.CharField(max_length=20)
+    descripcion_fisica_otros = models.CharField(max_length=20)
     tipo_uso = models.CharField(max_length=20)
+    tipo_uso_otros = models.CharField(max_length=20)
     servicios_basicos = models.JSONField()
     # 3.- DATOS DE(LOS) TITULAR(ES)/REPRESENTANTE(S)
-    carta_poder = models.CharField(null=True, blank=True,max_length=10)
-
-    # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
-    codigo_dlt = models.CharField(max_length=50)
-    hora = models.TimeField()
-    n_punto = models.IntegerField()
-    operador = models.CharField(max_length=100)
-    equipo_tp = models.CharField(max_length=100)
-    tiempo_atmosferico = models.CharField(max_length = 20)
-    # comentario con respecto al predio
-    comentario1 = models.TextField()
-    # 6.- DE LOS TITULAR(ES) O REPRESENTATE(S)
-    # Aquí solo hay texto
-    # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
-    # Aquí solo hay texto
-    # 8.- ADICIONALES:
-    adjunta_toma_topografica = models.CharField(max_length=10)
-    adicionales_otros = models.CharField(max_length = 100)
-    # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
+    # 4.- BOCETO DEL PREDIO
     hitos_consolidados = models.CharField(max_length=10)
     acceso_a_via = models.CharField(max_length=10)
     cantidad_lotes = models.IntegerField()
@@ -456,6 +440,25 @@ class Acta(models.Model):
     litigio_denuncia = models.CharField(max_length=10)
     area_segun_el_titular_representante = models.FloatField()
     comentario2 = models.TextField()
+    # carta_poder = models.CharField(null=True, blank=True,max_length=10)
+    # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
+    codigo_dlt = models.CharField(max_length=50)
+    hora = models.TimeField()
+    n_punto = models.IntegerField()
+    tiempo_atmosferico = models.CharField(max_length = 20)
+    # operador = models.CharField(max_length=100)
+    # equipo_tp = models.CharField(max_length=100)
+    # comentario con respecto al predio
+    comentario1 = models.TextField()
+    # 6.- DE LOS TITULAR(ES) O REPRESENTATE(S)
+    # Aquí solo hay texto
+    # 7.- DE LAS AUTORIDADES Y/O MIEMBROS DE COMISIÓN DESIGNADOS:
+    # Aquí solo hay texto
+    # 8.- ADICIONALES:
+    casos_toma_predio = models.CharField(max_length=4)
+    descripcion_toma_predio = models.TextField()
+    # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
+    comentario3 = models.TextField()
 
     def toJSON(self):
         # Obtener el primer titular asociado a esta acta
@@ -486,7 +489,22 @@ class Posesion(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     anios_posesion = models.IntegerField(default=1)
-    
+
+class Colindancia(models.Model):
+    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
+    frente_nombre = models.CharField(max_length=100, null=True)
+    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    fondo_nombre = models.CharField(max_length=100, null=True)
+    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    derecha_nombre = models.CharField(max_length=100, null=True)
+    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    izquierda_nombre = models.CharField(max_length=100, null=True)
+    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
+    area_documento = models.DecimalField(max_digits=10, decimal_places=2)
+    area_levantamiento = models.DecimalField(max_digits=10, decimal_places=2)
+    diferencias = models.DecimalField(max_digits=10, decimal_places=2)
+    contingencia = models.CharField(max_length=100)
+    indicacion = models.CharField(max_length=100)
 
 
 class Titular(models.Model):
@@ -497,7 +515,9 @@ class Titular(models.Model):
     num_doc = models.CharField(max_length=20)
     pdf_documento = models.FileField(upload_to='titulares/', blank=True, null=True)
     acta = models.ForeignKey(Acta, related_name='titulares', on_delete=models.CASCADE, null=True, blank=True)
-    
+    representante = models.CharField(max_length=4)
+    observaciones = models.TextField(blank=True, null=True)
+
     def toJSON(self):
         return {
             'id': self.id,
@@ -505,25 +525,13 @@ class Titular(models.Model):
             'apellidos': self.apellidos,
             'nombres': self.nombres,
             'estado_civil': self.estado_civil,
-            'tipo_doc': self.tipo_doc,
             'num_doc': self.num_doc,
         }
 
-class Colindancia(models.Model):
-    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindancias')
-
-    frente_nombre = models.CharField(max_length=100)
-    frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    fondo_nombre = models.CharField(max_length=100)
-    fondo_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    derecha_nombre = models.CharField(max_length=100)
-    derecha_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-    izquierda_nombre = models.CharField(max_length=100)
-    izquierda_distancia = models.DecimalField(max_digits=10, decimal_places=2)
-
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
-    boceto = models.ImageField(upload_to='acta/imagenes', null=True)
-    archivo_firmas = models.FileField(upload_to='acta/archivos/', null=True)
+    boceto_pdf = models.ImageField(upload_to='acta/archivos', null=True)
+    toma_predio_imagen = models.ImageField(upload_to='acta/imagenes', null=True)
+    documentos_predio_pdf = models.ImageField(upload_to='acta/archivos', null=True)
+    archivo_firmas_pdf = models.FileField(upload_to='acta/archivos/', null=True)
     comentario3 = models.TextField(blank=True, null=True)
-

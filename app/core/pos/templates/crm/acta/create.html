@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="{% static 'css/tailwindcss/output.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/tailwindcss/output.css' %}" rel="stylesheet"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="{% static 'css/tailwindcss/conaford.css' %}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e00c278a93.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -25,10 +26,10 @@
 }
 
 
-.swal2-actions {
+/* .swal2-actions {
   margin-top: 0;
   margin-bottom: 0;
-}
+} */
 
 </style>
 <body>
@@ -377,7 +378,7 @@
                         <li class="bg-[#00A5A5] flex sm:w-[30%] justify-start items-center gap-x-2 px-2 py-4">
                             <input id="descripcion-fisica-predio-otros" type="radio" value="otros" name="list-radio-descripcion-fisica-predio" class="w-4 h-4">
                             <label for="descripcion-fisica-predio-otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
-                            <input type="text" id="descripcion-fisica-predio-otros-value" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
+                            <input type="text" id="descripcion-fisica-predio-otros-value" name="descripcion-fisica-predio-otros-value" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
                         </li>
                         </ul>
                 </div>
@@ -419,7 +420,7 @@
                             <input id="uso-otros" type="radio" value="otros" name="list-radio-uso" class="w-4 h-4">
                             <label for="uso-otros"
                                 class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
-                            <input type="text" id="uso-otros-value"
+                            <input type="text" id="uso-otros-value" name="uso-otros-value"
                                 class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none"
                                 placeholder="Especificar">
                         </li>
@@ -495,6 +496,9 @@
                                         Observaciones
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        Representante
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
                                         Opciones
                                     </th>
                                     
@@ -511,7 +515,7 @@
                     </div>
                 </div>
                 <!-- representantes -->
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4  mb-4">
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-4  mb-4 hidden">
                     <div class="mb-2 py-2">
                         <h2 class="text-sm text-gray-700 font-bold">REPRESENTANTES <i class="fa-solid fa-user-large"></i></h2>
                     </div>
@@ -832,7 +836,7 @@
                     ADJUNTA, TOMA FOTOGRAFICA DEL PREDIO:</h2>
                 <div class="p-5 mb-4 bg-white">
                     <label for="toma-fotografica-predio-imagen" class="font-bold">Suba una imagen:</label>
-                    <input type="file" name="toma-fotografica-predio-imagen" id="toma-fotografica-predio" accept="image/png, image/jpeg">
+                    <input type="file" name="toma-fotografica-predio-imagen" id="toma-fotografica-predio-imagen" accept="image/png, image/jpeg">
                 </div>
                 <!-- casos -->
                 <div class="flex gap-2 mb-2">
@@ -853,12 +857,12 @@
                     <hr class="h-px bg-red-700 border-0 mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold mb-2">DOCUMENTOS</h2>
                     <div class="p-5 mb-4 bg-white">
-                        <label for="documentos-casos-pdf" class="font-bold">Suba un pdf:</label>
-                        <input type="file" name="documentos-casos-pdf" id="documentos-casos-pdf" accept=".pdf">
+                        <label for="documentos-casos-si-pdf" class="font-bold">Suba un pdf:</label>
+                        <input type="file" name="documentos-casos-si-pdf" id="documentos-casos-si-pdf" accept=".pdf">
                     </div>
                     <div class="mb-2">
-                        <label for="descripcion-documentos-casos" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">DESCRIPCIÓN</label>
-                        <textarea id="descripcion-documentos-casos" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Descripción"></textarea>
+                        <label for="descripcion-documentos-casos-si" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">DESCRIPCIÓN</label>
+                        <textarea id="descripcion-documentos-casos-si" name="descripcion-documentos-casos-si" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Descripción"></textarea>
                     </div>
                 </div>
             </div>
@@ -880,6 +884,7 @@
                     <label for="firma-actores-intervinientes-comentario-observaciones"
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">COMENTARIOS/OBSERVACIONES:</label>
                     <textarea id="firma-actores-intervinientes-comentario-observaciones" rows="4"
+                    name="firma-actores-intervinientes-comentario-observaciones"
                         class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2"
                         placeholder="Comentario/observaciones."></textarea>
                 </div>

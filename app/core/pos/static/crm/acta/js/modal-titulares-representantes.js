@@ -124,6 +124,7 @@ const editRow = (options) => {
             copiaDoc: row[4],
             docPdf: row[5],
             observaciones: row[6],
+            representante: row[7],
         };
     } else {
         data = {
@@ -141,6 +142,9 @@ const editRow = (options) => {
         prev[next] = data[next].innerText.trim();
         return prev;
     }, { });
+    console.log({
+        newData
+    })
     // make modal
     const html = getHtmlModal({
         isAdd: false,
@@ -159,6 +163,7 @@ const editRow = (options) => {
             a.href = `data:application/pdf;base64,${value.docPdfValue}`
 
             data.observaciones.innerText = value.observaciones;
+            data.representante.innerText = value.representante;
             if(!isTitular) {
                 data.cartaPoder.innerText = value.cartaPoder;
             }
@@ -179,18 +184,29 @@ const addRow = (options) => {
         estadoCivil,
         copiaDoc,
         cartaPoder,
+        representante,
         // docPdf,
         docPdfValue,
         observaciones,
     } = options.data || { };
+    console.log({
+        addRow: options.data
+    })
 
     const container = isTitular? titularesContainer: representantesContainer;
     const no = container.childElementCount;
-const cartaPoderHtml = isTitular? '':
+    const cartaPoderHtml = isTitular? '':
     /*html*/
 `
 <td class="px-6 py-4 text-justify">
         ${ cartaPoder }
+</td>
+`;
+const representanteHtml = !isTitular? '':
+/*html*/
+`
+<td class="px-6 py-4 text-justify">
+    ${ representante }
 </td>
 `;
 
@@ -220,7 +236,8 @@ const cartaPoderHtml = isTitular? '':
     </td>
     <td class="px-6 py-4 text-justify">
         ${ observaciones }
-    </td>
+    </td>}
+    ${ representanteHtml }
     <td class="px-6 py-4">
         <div class="flex gap-2">
             <button id="edit${no}"
@@ -252,8 +269,9 @@ const getRowsTitulares = () => {
             dni: td[2].innerText.trim(),
             estadoCivil: td[3].innerText.trim(),
             copiaDoc: td[4].innerText.trim(),
-            documentos: td[5].innerText.trim(),
-            observaciones: td[6].innerText.trim()
+            documentos: td[5].querySelector('a').getAttribute('href').replace('data:application/pdf;base64,', ''),
+            observaciones: td[6].innerText.trim(),
+            representante: td[7].innerText.trim(),
         });
         return result;
     });
@@ -294,9 +312,13 @@ function getHtmlModal (options) {
         estadoCivil = '',
         copiaDoc = '',
         cartaPoder = '',
+        representante = '',
         documentos = '',
         observaciones = '',
     } = options.data || { };
+    console.log({
+        getHtmlModalX: options.data
+    })
 
     const cartaPoderHtml = isTitular? '':
     /*html*/
@@ -312,6 +334,25 @@ function getHtmlModal (options) {
             Si
         </option>
         <option value="no" ${cartaPoder==='no' ? 'selected' : '' }>
+            No
+        </option>
+    </select>
+</div>
+`;
+    const representanteHtml = !isTitular? '':
+    /*html*/
+`
+<div class="w-full flex flex-col items-start">
+    <label for="representante-modal"
+        class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">¿Es representante?</label> <select id="representante-modal" name="representante-modal"
+        class="text-sm sm:w-fit w-full border-2 border-black p-2 shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
+        <option value="" ${representante==='' ? 'selected' : '' }>
+            Seleccione una opción
+        </option>
+        <option value="si" ${representante==='si' ? 'selected' : '' }>
+            Si
+        </option>
+        <option value="no" ${representante==='no' ? 'selected' : '' }>
             No
         </option>
     </select>
@@ -387,6 +428,7 @@ function getHtmlModal (options) {
                 </select>
             </div>
             ${ cartaPoderHtml }
+            ${ representanteHtml }
         </div>
         <div class="w-full flex flex-col items-start">
             <label for="documentos-pdf-modal"
@@ -427,6 +469,7 @@ const handleModal = (options) => {
 };
 
 function makeModal(html) {
+
     return Swal.fire({
         // title:
         // /*html*/`
@@ -486,8 +529,11 @@ function makeModal(html) {
                 docPdfValue: selectorsModal.docPdfValue,
 
                 observaciones:  popup.querySelector('#observaciones-modal').value.trim(),
+
                 cartaPoder:  popup.querySelector('#carta-poder-modal')?.value.trim() || '',
+                representante:  popup.querySelector('#representante-modal')?.value.trim() || '',
             };
+            console.log({resultValues})
             return resultValues;
         },
         willClose: () => {
@@ -508,9 +554,9 @@ btnAgregarTitular.addEventListener('click', () => {
     });
 });
 
-btnAgregarRepresentante.addEventListener('click', () => {
-    console.log('representante');
-    handleModal({
-        isTitular: false,
-    });
-});
+// btnAgregarRepresentante.addEventListener('click', () => {
+//     console.log('representante');
+//     handleModal({
+//         isTitular: false,
+//     });
+// });
