@@ -408,7 +408,7 @@ class PosesionInformal(models.Model):
         return item
 
 class Acta(models.Model):
-    posesion_informal = models.ForeignKey(PosesionInformal, related_name='actas', on_delete=models.CASCADE)
+    # posesion_informal = models.ForeignKey(PosesionInformal, related_name='actas', on_delete=models.CASCADE)
     # INICIAL
     codigo_predio = models.CharField(max_length = 150, default="PHY-76567576")
     fecha = models.DateField()
