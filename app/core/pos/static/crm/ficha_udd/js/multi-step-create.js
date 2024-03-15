@@ -1,3 +1,4 @@
+
 // step
 const toggleContent = (li, elementToActivateIds) => {
     // elements all gray
@@ -17,7 +18,7 @@ const toggleContent = (li, elementToActivateIds) => {
     span.classList.remove('border-gray-500');
     span.classList.add('border-blue-600');
 
-    const allElementIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part6', 'part7', 'part8', 'part9', 'part10', 'part11'];
+    const allElementIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part8', 'part9'];
     const elementsToDeactivateIds = allElementIds.filter(el => !elementToActivateIds.includes(el));
     //disable elements            
     for (const id of elementsToDeactivateIds) {

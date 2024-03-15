@@ -503,12 +503,12 @@
                 <div class="bg-white rounded-md p-5 my-5">
                     <div class="mb-2">
                         {% if archivos_acta.boceto_pdf %}
-                            <a href="{{ archivos_acta.boceto_pdf.url }}" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                            <a href="{{ archivos_acta.boceto_pdf.url }}" target="_blank" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
                         {% else %}
                             <a href="#" class="text-red-700 font-bold underline mt-2">Sin pdf</a>
                         {% endif %}
                     </div>
-                    <label for="boceto-predio-pdf" class="font-bold">Modificar: Suba un pdf:</label>
+                    <label for="boceto-predio-pdf" class="font-bold">Suba un nuevo pdf:</label>
                     <input type="file" name="boceto-predio-pdf" id="boceto-predio-pdf" accept=".pdf">
                 </div>
                 <!-- ¿HITOS CONSOLIDADOS?, ¿ACCESO A VIA?, ¿REQUIERE SUBDIVISIÓN?, ¿REQUIERE ALINEAMIENTO?, ¿APERTURA DE VIA?, ¿LIBRE DE RIESGO?, ¿REQ. TRANSF. DE TITULAR?, ¿LITIGIO, DENUNCIA, ETC? -->
@@ -825,13 +825,12 @@
                 <div class="p-5 mb-4 bg-white">
                     <div class="mb-2">
                         {% if archivos_acta.toma_predio_imagen %}
-                            <a href="{{ archivos_acta.toma_predio_imagen.url }}" class="text-blue-700 font-bold underline mt-2">Imagen actual</a>
+                            <a href="{{ archivos_acta.toma_predio_imagen.url }}" target="_blank" class="text-blue-700 font-bold underline mt-2">Imagen actual</a>
                         {% else %}
                             <a href="#" class="text-red-700 font-bold underline mt-2">Sin Imagen</a>
                         {% endif %}
-                        
                     </div>
-                    <label for="toma-fotografica-predio-imagen" class="font-bold">Modificar: Suba una imagen:</label>
+                    <label for="toma-fotografica-predio-imagen" class="font-bold">Suba una nueva imagen:</label>
                     <input type="file" name="toma-fotografica-predio-imagen" id="toma-fotografica-predio-imagen" accept="image/png, image/jpeg">
                 </div>
                 <!-- casos -->
@@ -853,16 +852,24 @@
                      </div>
                 </div>
                 <!-- casos si -->
-                <div id="container-casos" class="hidden">
+                <div id="container-casos" class="{% if acta.casos_toma_predio == 'no' %}hidden{% endif %}">
                     <hr class="h-px bg-red-700 border-0 mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold mb-2">DOCUMENTOS</h2>
                     <div class="p-5 mb-4 bg-white">
-                        <label for="documentos-casos-si-pdf" class="font-bold">Suba un pdf:</label>
+
+                        <div class="mb-2">
+                            {% if archivos_acta.documento_predio_pdf %}
+                                <a href="{{ archivos_acta.documento_predio_pdf.url }}" target="_blank" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                            {% else %}
+                                <a href="#" class="text-red-700 font-bold underline mt-2">Sin Pdf</a>
+                            {% endif %}
+                        </div>
+                        <label for="documentos-casos-si-pdf" class="font-bold">Suba un nuevo pdf:</label>
                         <input type="file" name="documentos-casos-si-pdf" id="documentos-casos-si-pdf" accept=".pdf">
                     </div>
                     <div class="mb-2">
                         <label for="descripcion-documentos-casos-si" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">DESCRIPCIÓN</label>
-                        <textarea id="descripcion-documentos-casos-si" name="descripcion-documentos-casos-si" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Descripción"></textarea>
+                        <textarea id="descripcion-documentos-casos-si" name="descripcion-documentos-casos-si" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Descripción">{{ acta.descripcion_toma_predio }}</textarea>
                     </div>
                 </div>
             </div>
@@ -876,12 +883,12 @@
                 <div class="p-5 mb-4 bg-white">
                     <div class="mb-2">
                         {% if archivos_acta.archivo_firmas_pdf %}
-                            <a href="{{ archivos_acta.archivo_firmas_pdf.url }}" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
+                            <a href="{{ archivos_acta.archivo_firmas_pdf.url }}" target="_blank" class="text-blue-700 font-bold underline mt-2">Pdf actual</a>
                         {% else %}
                             <a href="#" class="text-red-700 font-bold underline mt-2">Sin pdf</a>
                         {% endif %}
                     </div>
-                    <label for="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" class="font-bold">Modificar: Suba un pdf:</label>
+                    <label for="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" class="font-bold">Suba un nuevo pdf:</label>
                     <input type="file" name="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" id="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" accept=".pdf">
                 </div>
                 <hr class="h-px bg-red-700 border-0">
@@ -949,6 +956,7 @@
     </div>
     <script src="{% static 'crm/acta/js/selectors.js' %}"></script>
     <script src="{% static 'crm/acta/js/navbar.js' %}"></script>
+    <script src="{% static 'crm/acta/js/init-data-update.js' %}"></script>
     <script src="{% static 'crm/acta/js/multi-step-update.js' %}"></script>
     <script src="{% static 'crm/acta/js/validators.js' %}"></script>
     <!-- <script src="{% static 'crm/acta/js/modal-titulares-representantes.js' %}"></script> -->

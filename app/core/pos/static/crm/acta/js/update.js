@@ -26,8 +26,8 @@ function fileToBase64(archivo) {
         reader.readAsDataURL(archivo);
     });
 }
-const formFicha = document.getElementById('form_ficha_levantamiento')
-formFicha.addEventListener('submit', async (event) => {
+const submitActa = document.getElementById('form_ficha_levantamiento')
+submitActa.addEventListener('submit', async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
     const formDataObject = { };
@@ -54,8 +54,6 @@ formFicha.addEventListener('submit', async (event) => {
     formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes']);
     formDataObject['area-segun-titular-representante'] = Number(formDataObject['area-segun-titular-representante']);
     formDataObject['numero-puntos'] = Number(formDataObject['numero-puntos']);
-    console.log(formDataObject);
-    // return;
     
     try {
         const response = await fetch(window.location.pathname, {
@@ -72,8 +70,8 @@ formFicha.addEventListener('submit', async (event) => {
             title: "Ficha actualizada exitosamente!",
             // text: "Ficha creada exitosamente!",
             icon: "success"
-          })
-          window.location.replace("/pos/crm/acta/")
+        });
+        window.location.replace("/pos/crm/acta/")
     } catch (error) {
         console.error('Error al enviar los datos:', error);
     }

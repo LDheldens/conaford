@@ -222,38 +222,39 @@ class ActaUpdateView(TemplateView):
         # acta.equipo_tp = data.get('equipo-tp')
         # 8.- ADICIONALES:
         acta.casos_toma_predio = data.get('list-radio-casos')
+        # descripcion_toma_predio
         acta.descripcion_toma_predio = data.get('descripcion-documentos-casos-si')
+        print("'descripcion-documentos-casos-si'", data.get('descripcion-documentos-casos-si'))
         # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
         acta.comentario3 = data.get('firma-actores-intervinientes-comentario-observaciones')
 
         # Guardar la instancia de Acta en la base de datos
         acta.save()
-        # # Procesar las imágenes
-        # archivos_acta = ImagenActa()
-        # # Asignar la instancia de acta a la imagen
-        # archivos_acta.acta = acta
-        # # boceto-predio-pdf
-        # boceto_predio_pdf_base64 = data.get('boceto-predio-pdf')
-        # if boceto_predio_pdf_base64:
-        #     boceto_predio_pdf_content = ContentFile(base64.b64decode(boceto_predio_pdf_base64), name='boceto.pdf')
-        #     archivos_acta.boceto_pdf.save('boceto.pdf', boceto_predio_pdf_content)
-        # # toma-fotografica-predio-imagen
-        # toma_fotografica_predio_imagen_base64 = data['toma-fotografica-predio-imagen']
-        # if toma_fotografica_predio_imagen_base64:
-        #     toma_fotografica_predio_imagen_content = ContentFile(base64.b64decode(toma_fotografica_predio_imagen_base64), name='toma.png')
-        #     archivos_acta.toma_predio_imagen.save('toma.png', toma_fotografica_predio_imagen_content)
-        # # documentos-casos-si-pdf
-        # documentos_casos_si_pdf_base64 = data['documentos-casos-si-pdf']
-        # if documentos_casos_si_pdf_base64:
-        #     documentos_casos_si_pdf_base64_content = ContentFile(base64.b64decode(documentos_casos_si_pdf_base64), name='documentos_predio.pdf')
-        #     archivos_acta.documento_predio_pdf.save('documentos_predio.pdf', documentos_casos_si_pdf_base64_content)
-        # # archivo_firmas_pdf
-        # firmas_pdf_base64 = data['documentos-casos-si-pdf']
-        # if firmas_pdf_base64:
-        #     firmas_pdf_base64_content = ContentFile(base64.b64decode(firmas_pdf_base64), name='firmas.pdf')
-        #     archivos_acta.archivo_firmas_pdf.save('firmas.pdf', firmas_pdf_base64_content)
-        # # Guardar la instancia de ImagenActa en la base de datos
-        # archivos_acta.save()
+
+        # Procesar archivos
+        archivos_acta = acta.imagenes.get()
+        # boceto-predio-pdf
+        boceto_predio_pdf_base64 = data.get('boceto-predio-pdf')
+        if boceto_predio_pdf_base64:
+            boceto_predio_pdf_content = ContentFile(base64.b64decode(boceto_predio_pdf_base64), name='boceto.pdf')
+            archivos_acta.boceto_pdf.save('boceto.pdf', boceto_predio_pdf_content)
+        
+        # toma-fotografica-predio-imagen
+        toma_fotografica_predio_imagen_base64 = data['toma-fotografica-predio-imagen']
+        if toma_fotografica_predio_imagen_base64:
+            toma_fotografica_predio_imagen_content = ContentFile(base64.b64decode(toma_fotografica_predio_imagen_base64), name='toma.png')
+            archivos_acta.toma_predio_imagen.save('toma.png', toma_fotografica_predio_imagen_content)
+        # documentos-casos-si-pdf
+        documentos_casos_si_pdf_base64 = data['documentos-casos-si-pdf']
+        if documentos_casos_si_pdf_base64:
+            documentos_casos_si_pdf_base64_content = ContentFile(base64.b64decode(documentos_casos_si_pdf_base64), name='documentos_predio.pdf')
+            archivos_acta.documento_predio_pdf.save('documentos_predio.pdf', documentos_casos_si_pdf_base64_content)
+        # archivo_firmas_pdf
+        firmas_pdf_base64 = data['firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf']
+        if firmas_pdf_base64:
+            firmas_pdf_base64_content = ContentFile(base64.b64decode(firmas_pdf_base64), name='firmas.pdf')
+            archivos_acta.archivo_firmas_pdf.save('firmas.pdf', firmas_pdf_base64_content)
+        archivos_acta.save()
 
         # # Procesar los titulares
         # titulares_data = data['titulares']

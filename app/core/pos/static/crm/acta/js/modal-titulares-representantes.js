@@ -240,11 +240,11 @@ const representanteHtml = !isTitular? '':
     ${ representanteHtml }
     <td class="px-6 py-4">
         <div class="flex gap-2">
-            <button id="edit${no}"
+            <button id="edit${no}" type="button"
             class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">
                 <i class="fa-solid fa-pen"></i>
             </button>
-            <button id="delete${no}"
+            <button id="delete${no}" type="button"
                 class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]">
                 <i class="fa-solid fa-trash"></i>
             </button>
