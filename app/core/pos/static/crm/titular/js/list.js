@@ -17,14 +17,12 @@ function getData() {
         },
         columns: [
             {"data": "id"},
-            {"data": "user.full_name"},
-            {"data": "user.dni"},
-            {"data": "mobile"},
-            {"data": "user.email"},
-            {"data": "address"},
-            {"data": "id"},
-        ],
-       
+            {"data": "apellidos"},
+            {"data": "nombres"},
+            {"data": "num_doc"},
+            {"data": "estado_civil"},
+            {"data": "copia_doc_identidad"},
+        ],        
         columnDefs: [
             {
                 targets: [-1],

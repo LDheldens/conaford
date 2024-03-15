@@ -16,16 +16,28 @@ function getData() {
             dataSrc: ""
         },
         columns: [
-            {"data": "primer_titular"},
-            {"data": "num_titulares"},
-            {"data": "cel_wsp"},
-            {"data": "direccion_fiscal"},
+            {"data": "departamento"},
+            {"data": "provincia"},
+            {"data": "distrito"},
+            {"data": "denominacion_segun_inei"},
             {"data":null},
-            // {"data":null},
+            {"data":null},
         ],        
         columnDefs: [
             {
                 targets: 4,
+                class: 'text-center',
+                orderable: false,
+                render: function (data, type, row) {
+                    var porcentaje = parseFloat(row.porcentaje_llenado - 2.33).toFixed(2); // Redondear el porcentaje a dos decimales
+                    var progressBarHTML = '<div class="progress rounded">';
+                    progressBarHTML += '<div class="progress-bar" role="progressbar" style="width: ' + porcentaje + '%" aria-valuenow="' + porcentaje + '" aria-valuemin="0" aria-valuemax="100">' + porcentaje + '%</div>';
+                    progressBarHTML += '</div>';
+                    return progressBarHTML;
+                }
+            },
+            {
+                targets: 5,
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {

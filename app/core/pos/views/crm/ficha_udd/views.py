@@ -1,4 +1,5 @@
 import json
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
@@ -8,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 # from django.core.exceptions import ObjectDoesNotExist
-from core.pos.models import Acta, Colindancia, Titular, ImagenActa
+from core.pos.models import Acta, Colindancia, Titular, ImagenActa, PosesionInformal
 from django.core.files.base import ContentFile
 import base64
 from django.shortcuts import get_object_or_404
@@ -65,13 +66,13 @@ class FichaListView(TemplateView):
         try:
             action = request.POST['action']
             if action == 'search':
-                data = [acta.toJSON() for acta in Acta.objects.all()]
-                print(data)
+                queryset = PosesionInformal.objects.all()
+                data = [posesion.toJSON() for posesion in queryset]  # Corregir aquí
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data, safe=False, encoder=DjangoJSONEncoder)  # Corregir aquí
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
