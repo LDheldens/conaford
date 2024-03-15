@@ -16,10 +16,10 @@ function getData() {
             dataSrc: ""
         },
         columns: [
-            {"data": "primer_titular"},
-            {"data": "num_titulares"},
-            {"data": "cel_wsp"},
-            {"data": "direccion_fiscal"},
+            {"data": "departamento"},
+            {"data": "provincia"},
+            {"data": "distrito"},
+            {"data": "denominacion_segun_inei"},
             {"data":null},
             {"data":null},
         ],        
@@ -29,7 +29,7 @@ function getData() {
                 class: 'text-center',
                 orderable: false,
                 render: function (data, type, row) {
-                    var porcentaje = parseFloat(row.porcentaje_llenado - 3.57).toFixed(2); // Redondear el porcentaje a dos decimales
+                    var porcentaje = parseFloat(row.porcentaje_llenado - 2.33).toFixed(2); // Redondear el porcentaje a dos decimales
                     var progressBarHTML = '<div class="progress rounded">';
                     progressBarHTML += '<div class="progress-bar" role="progressbar" style="width: ' + porcentaje + '%" aria-valuenow="' + porcentaje + '" aria-valuemin="0" aria-valuemax="100">' + porcentaje + '%</div>';
                     progressBarHTML += '</div>';
@@ -42,7 +42,7 @@ function getData() {
                 orderable: false,
                 render: function (data, type, row) {
                     var dropdownMenu = '<div class="dropdown">';
-                    dropdownMenu += '<button class="btn-list-actas dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</button>';
+                    dropdownMenu += '<button class="btn-list-fichas dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Acciones</button>';
 
                     dropdownMenu += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
 
@@ -50,9 +50,7 @@ function getData() {
 
                     dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
 
-                    dropdownMenu += '<button type="button" class="dropdown-item" data-id="' + row.id + '" onclick="agregarTitular(' + row.id + ')"><i class="fas fa-plus text-info"></i> Agregar Titular</button>';
-
-                    dropdownMenu += '<button type="button" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-eye text-success"></i> Ver titulares</button>';
+                    dropdownMenu += '<a href="/pos/crm/ficha/login" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-plus-circle text-primary"></i> Generar Matrix</a>';
 
                     dropdownMenu += '</div></div>';
 

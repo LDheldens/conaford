@@ -301,10 +301,10 @@
                         <!-- Cel. Wssp -->
                         <div class="flex-1">
                             <label for="num-reporte"
-                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° de reporte</label>
-                            <input type="number" id="num-reporte" name="num-reporte"
+                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Codigo: Formato</label>
+                            <input type="text" id="num-reporte" name="num-reporte"
                                 class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="N° de reporte">
+                                placeholder="Codigo">
                         </div>
                     </div>
                     <h1 class="font-bold mb-2 font-gotham-bold">1.- DATOS DE LA POSESIÓN INFORMAL</h1>
@@ -446,8 +446,14 @@
                     <div class="flex flex-col gap-x-2 sm:flex-row mb-2">
                         <!-- Tipo de calzada -->
                         <div class="flex-1">
-                            <label for="tipo-calzada" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de calzada</label>
-                            <input type="text" id="tipo-calzada" name="tipo-calzada" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tipo de calzada">
+                            <label for="tipo-calzada" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Rutas</label>
+                            <select id="tipo-calzada" name="tipo-calzada" class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
+                                <option value="">Opción</option>
+                                <option value="Afirmativo">Afirmativo</option>
+                                <option value="Pavimento">Pavimento</option>
+                                <option value="Rijido">Rijido</option>
+                                <option value="Flexible">Flexible</option>
+                            </select>
                         </div>
                         <!-- Referencia (Local) -->
                         <div class="flex-1">
@@ -469,12 +475,15 @@
                         <!-- Distancia -->
                         <div class="flex-1">
                             <label for="distancia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
-                            <input type="text" id="distancia" name="distancia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia">
+                            <div class="mt-1 w-full flex items-center gap-2">
+                                <input type="text" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia">
+                                <span class="font-bold w-fit">KM</span>
+                            </div>
                         </div>
                         <!-- Tiempo -->
                         <div class="flex-1">
                             <label for="tiempo" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tiempo</label>
-                            <input type="text" id="tiempo" name="tiempo" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tiempo">
+                            <input type="time" id="tiempo" name="tiempo" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tiempo">
                         </div>
                         <!-- Especificar -->
                         <div class="flex-1">
@@ -514,16 +523,21 @@
                         <!-- Vivencia -->
                         <div class="flex-1">
                         <label for="porcentaje_vivencia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Vivencia %</label>
-                        <input type="number" id="porcentaje_vivencia" name="porcentaje_vivencia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Vivencia %">
+                        <input id="porcentaje_vivencia" name="porcentaje_vivencia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Vivencia %" type="text">
                         </div>
                     </div>
                     <!-- Equipamientos -->
                     <div class="mb-2">
                         <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Equipamientos</h2>
                         <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
-                            <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                                <input id="equipamientos-salud" type="checkbox" value="Salud" name="list-checkbox-equipamientos" class="w-4 h-4">
-                                <label for="equipamientos-salud" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Salud</label>
+                            <li class="bg-[#acacac] flex w-fit items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center gap-2">
+                                    <label for="equipamientos-salud" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Salud</label>
+                                    <input id="equipamientos-salud" type="checkbox" value="Salud" name="list-checkbox-equipamientos" class="w-4 h-4">
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <input id="equipamientos-salud-cantidad" type="text" name="equipamientos-salud-cantidad" class="w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Cantidad"/>
+                                </div>
                             </li>
                             <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
                                 <input id="equipamientos-educación" type="checkbox" value="Educación" name="list-checkbox-equipamientos" class="w-4 h-4">

@@ -57,6 +57,7 @@ urlpatterns = [
 
     #fichaUdd
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
+    path('crm/ficha_udd/', FichaListView.as_view(), name='ficha_udd_list'),
 
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),

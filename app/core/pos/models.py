@@ -403,8 +403,19 @@ class PosesionInformal(models.Model):
     imagen_areas_restrinjidas = models.ImageField(upload_to='posesion_informal/')
     imagen_areas_restrinjidas_comentario = models.TextField(max_length=300)
     
+    def calcular_porcentaje_llenado(self):
+        total_campos = len(self._meta.fields) - 1  # Excluir el campo 'id'
+        if total_campos == 0:
+            return 0  # Manejar el caso de que no haya campos para evitar división por cero
+        campos_llenos = sum(1 for field in self._meta.fields if getattr(self, field.name))
+
+        return (campos_llenos / total_campos) * 100
+    
     def toJSON(self):
-        item = model_to_dict(self)
+        # Crear un diccionario con todos los campos, excluyendo los campos JSON
+        exclude_fields = ['equipamientos', 'material_predominante', 'servicios_basicos','imagen_satelital', 'imagen_areas_restrinjidas']
+        item = model_to_dict(self, exclude=exclude_fields)
+        item['porcentaje_llenado'] = self.calcular_porcentaje_llenado()
         return item
 
 class Acta(models.Model):
@@ -459,7 +470,15 @@ class Acta(models.Model):
     descripcion_toma_predio = models.TextField()
     # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
     comentario3 = models.TextField()
+    
+    def calcular_porcentaje_llenado(self):
+        total_campos = len(self._meta.fields) - 1  # Excluir el campo 'id'
+        if total_campos == 0:
+            return 0  # Manejar el caso de que no haya campos para evitar división por cero
+        campos_llenos = sum(1 for field in self._meta.fields if getattr(self, field.name) or getattr(self, field.name) == 0)
+        return (campos_llenos / total_campos) * 100
 
+    
     def toJSON(self):
         # Obtener el primer titular asociado a esta acta
         primer_titular = self.titulares.first()
@@ -471,6 +490,7 @@ class Acta(models.Model):
         
         # Crear un diccionario con los datos del acta y los datos del primer titular
         item = model_to_dict(self, exclude=["titulares"])
+        item['porcentaje_llenado'] = self.calcular_porcentaje_llenado()
         item['fecha'] = fecha_str
         item['hora'] = hora_str
         item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
