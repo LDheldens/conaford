@@ -58,7 +58,7 @@ inputProvincia.addEventListener('keyup', (e) => {
     inputDistrito.value = ''
     listaResultados2.classList.remove('hidden')
     const searchTerm = e.target.value.trim().toLowerCase();
-    const provinciasFiltradasPorTexto = ubigeoData.provinciasFiltradas.filter((provincia) => {
+    const provinciasFiltradasPorTexto = provinciasFiltradas.filter((provincia) => {
         return provincia.name.toLowerCase().includes(searchTerm);
     });
     mostrarProvincias(provinciasFiltradasPorTexto);
@@ -87,7 +87,7 @@ inputDistrito.addEventListener('keyup', (e) => {
     listaResultados.classList.remove('hidden')
     const searchTerm = e.target.value.trim().toLowerCase();
 
-    const distritosFiltradosPorTexto = ubigeoData.distritosFiltrados.filter((distrito) => {
+    const distritosFiltradosPorTexto = distritosFiltrados.filter((distrito) => {
         return distrito.name.toLowerCase().includes(searchTerm);
     });
     mostrarDistritos(distritosFiltradosPorTexto);
