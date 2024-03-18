@@ -509,6 +509,7 @@ class Posesion(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     anios_posesion = models.IntegerField(default=1)
+    pdf_documento = models.FileField(upload_to='posesion/', blank=True, null=True)
 
 
 class Titular(models.Model):

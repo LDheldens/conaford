@@ -2,17 +2,11 @@ import json
 from django.shortcuts import get_object_or_404
 import string
 import random
+from django.core.files.storage import default_storage
 
-# from django.shortcuts import render
-# from django.views import View
-# from django.contrib.auth.models import Group
-# from django.db import transaction
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, View
-# from config import settings
-# from core.pos.forms import ClientForm, User, Client
-# from core.security.mixins import ModuleMixin, PermissionMixin
 
 from core.pos.models import Titular, Acta, Colindancia
 # vistas creadas por Daniel
@@ -49,7 +43,6 @@ class TitularCreateView(TemplateView):
         nombre_pdf = f"pdf_{nombre_random}_{numero_random}_{otro_random}.pdf"
         return nombre_pdf
 
-    
     def post(self, request, *args, **kwargs):
         # Obtener datos del formulario
         copia_doc_identidad = request.POST.get('copia_doc_identidad')
@@ -93,7 +86,7 @@ class TitularCreateView(TemplateView):
         return context
     
 class TitularUpdateView(TemplateView):
-    template_name = 'crm/titular/create.html'
+    template_name = 'crm/titular/update.html'
     success_url = reverse_lazy('titular_list')
 
     def get_context_data(self, **kwargs):
@@ -114,8 +107,17 @@ class TitularUpdateView(TemplateView):
             titular.apellidos = request.POST.get('apellidos')
             titular.nombres = request.POST.get('nombres')
             titular.estado_civil = request.POST.get('estado_civil')
-            titular.tipo_doc = request.POST.get('tipo_doc')
             titular.num_doc = request.POST.get('num_doc')
+
+            # Actualizar el campo 'pdf_documento' si se proporciona un nuevo archivo
+            if request.FILES.get('pdf_documento'):
+                titular.pdf_documento = request.FILES['pdf_documento']
+                if titular.pdf_documento:
+                    default_storage.delete(titular.pdf_documento.path)
+
+            # Agregar los campos adicionales
+            titular.representante = request.POST.get('representante')
+            titular.observaciones = request.POST.get('observaciones')
 
             titular.save()
 
@@ -125,7 +127,7 @@ class TitularUpdateView(TemplateView):
             data['success'] = False
             data['message'] = str(e)
         return JsonResponse(data)
-
+    
 class TitularDeleteView(TemplateView):
     template_name = 'crm/titular/delete.html'
     success_url = reverse_lazy('titular_list') 
