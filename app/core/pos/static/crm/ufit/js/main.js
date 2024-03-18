@@ -200,13 +200,13 @@ btnAgregarColindancia.addEventListener('click',(e)=>{
 
     newRow.innerHTML = `
         <td>${data.frente.descripcion}</td>
-        <td>${acum1} m²</td>
+        <td>${acum1} Ml</td>
         <td>${data.fondo.descripcion}</td>
-        <td>${acum2} m²</td>
+        <td>${acum2} Ml</td>
         <td>${data.izquierda.descripcion}</td>
-        <td>${acum3} m²</td>
+        <td>${acum3} Ml</td>
         <td>${data.derecha.descripcion}</td>
-        <td>${acum4} m²</td>
+        <td>${acum4} Ml</td>
     `;
     tableBody.appendChild(newRow);
 });
@@ -292,10 +292,10 @@ registrarUfit.addEventListener('click',()=>{
 
 
 inputNumeroManzana.addEventListener('input', function() {
-    const regex = /^[A-Z]\d{1,2}?$/;
+    const regex = /^[A-Z]\d{0,2}$/;
     const valor = this.value.trim();
     const contenedor = inputNumeroManzana.parentElement;
-    const P = contenedor.querySelector('p')
+    const P = contenedor.querySelector('p');
 
     if (regex.test(valor)) {
         P.textContent =  "";

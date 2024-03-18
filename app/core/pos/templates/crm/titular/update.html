@@ -27,47 +27,58 @@ data-url="{{ list_url }}">
                 <div class="form-group">
                     <label for="copia_doc_identidad">Copia Documento de Identidad</label>
                     <select class="form-control" id="copia_doc_identidad" name="copiadocidentidad">
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
+                        <option value="no" {% if titular.copia_doc_identidad == 'no' %}selected{% endif %}>No</option>
+                        <option value="si" {% if titular.copia_doc_identidad == 'si' %}selected{% endif %}>Sí</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="apellidos">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ titular.apellidos }}" required>
                 </div>
                 <div class="form-group">
                     <label for="nombres">Nombres</label>
-                    <input type="text" class="form-control" id="nombres" name="nombres" required>
+                    <input type="text" class="form-control" id="nombres" name="nombres" value="{{ titular.nombres }}" required>
                 </div>
                 <div class="form-group">
                     <label for="estado_civil">Estado Civil</label>
-                    <input type="text" class="form-control" id="estado_civil" name="estado_civil" required>
+                    <input type="text" class="form-control" id="estado_civil" name="estado_civil" value="{{ titular.estado_civil }}" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="num_doc">Número de Documento</label>
-                    <input type="text" class="form-control" id="num_doc" name="num_doc" required>
+                    <input type="text" class="form-control" id="num_doc" name="num_doc" value="{{ titular.num_doc }}" required>
                 </div>
-
                 <div class="form-group">
                     <label for="representante">Representante</label>
                     <select class="form-control" id="representante" name="representante">
-                        <option value="no">No</option>
-                        <option value="si">Sí</option>
+                        <option value="no" {% if titular.representante == 'no' %}selected{% endif %}>No</option>
+                        <option value="si" {% if titular.representante == 'si' %}selected{% endif %}>Sí</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones</label>
-                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+                    <textarea class="form-control" id="observaciones" name="observaciones" rows="3">{{ titular.observaciones }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="pdf_documento">Documento PDF</label>
-                    <input type="file" class="form-control-file" id="pdf_documento" name="pdf_documento">
+                    <div>
+                        <label for="pdf_documento">Documento PDF</label>
+                        <div>
+                            <!-- Mostrar el documento PDF actual -->
+                            {% if titular.pdf_documento %}
+                                <a href="{{ titular.pdf_documento.url }}" target="_blank" class="btn btn-danger btn-sm"><i class="fas fa-file"></i> Ver PDF actual</a>
+                            {% else %}
+                                <p>No hay documento PDF actual</p>
+                            {% endif %}
+                        </div>
+                        <!-- Input para seleccionar un nuevo archivo PDF -->
+                        <input type="file" class="form-control-file w-100 mt-2" id="pdf_documento" name="pdf_documento">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
     
     {% block box_footer %}
         <div class="card-footer">

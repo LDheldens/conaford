@@ -141,7 +141,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#num_doc').value = posecionario.numDoc;
         document.querySelector('#fecha_inicio').value = posecionario.fechaInicio;
         document.querySelector('#fecha_fin').value = posecionario.fechaFin;
+    
+        // Verificar si hay un documento anterior
+        if (posecionario.pdf_documento !== null) {
+            // Mostrar el botón "Ver Documento Anterior" y asignarle la URL del documento
+            document.getElementById('btnVerDocumento').style.display = 'block';
+            document.getElementById('btnVerDocumento').href = posecionario.pdf_documento;
+        } else {
+            // Ocultar el botón si no hay documento anterior
+            document.getElementById('btnVerDocumento').style.display = 'none';
+        }
     }
+    
 
     function actualizarTabla(posecionarios) {
         const tabla = document.querySelector('.table tbody');
@@ -206,48 +217,58 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cargarActas();
 
-    
-    btnAgregarPosesionario.addEventListener('click', function() {
+    function validarFormularioPosesion() {
         const apellidos = document.querySelector('#apellidos').value.trim();
         const nombres = document.querySelector('#nombres').value.trim();
         const estadoCivil = document.querySelector('#estado_civil').value.trim();
         const numDoc = document.querySelector('#num_doc').value.trim();
         const fechaInicio = document.querySelector('#fecha_inicio').value.trim();
         const fechaFin = document.querySelector('#fecha_fin').value.trim();
-        const codigoActa = document.querySelector('#codigo_acta').value.trim()
-
-
-        if (codigoActa=='') {
-            alert('Ingresa un codigo de ficha de levantamiento')
-            return;
+        const codigoActa = document.querySelector('#codigo_acta').value.trim();
+    
+        if (codigoActa === '') {
+            alert('Ingresa un código de ficha de levantamiento');
+            return false;
         }
-
-        if (apellidos && nombres && estadoCivil && numDoc && fechaInicio && fechaFin) {
-            const nuevoPosecionario = {
-                apellidos: apellidos,
-                nombres: nombres,
-                estadoCivil: estadoCivil,
-                numDoc: numDoc,
-                fechaInicio: fechaInicio,
-                fechaFin: fechaFin,
-            };
-
-            const [anios, meses, diferenciaAniosMeses] = calcularDiferenciaAniosMeses(fechaInicio, fechaFin);
-            nuevoPosecionario.aniosPosesion = anios;
-            nuevoPosecionario.mesesPosesion = meses;
-            nuevoPosecionario.diferenciaAniosMeses = diferenciaAniosMeses;
-
-            const data = {
-                posecionario: nuevoPosecionario,
-                acta_id: acta_id
-            };
-            if(posecionarioID!=null){
-                data.posecionario.id = posecionarioID
-            }
-            registrarPosecion(data);
-        } else {
+    
+        if (!(apellidos && nombres && estadoCivil && numDoc && fechaInicio && fechaFin)) {
             alert('Por favor, complete todos los campos.');
+            return false;
         }
+    
+        // Agregar más validaciones según sea necesario
+    
+        return true; // Retorna true si todas las validaciones pasan
+    }
+
+    formularioPosesion.addEventListener('submit', function(e) {
+        e.preventDefault()
+        const fechaInicio = document.querySelector('#fecha_inicio').value.trim();
+        const fechaFin = document.querySelector('#fecha_fin').value.trim();
+        const fileInput = document.querySelector('#documento');
+
+        // if (fileInput.files.length === 0) {
+        //     alert('Por favor, seleccione un archivo.');
+        //     return; 
+        // }
+
+        if (validarFormularioPosesion()) {
+            const formData = new FormData(formularioPosesion);
+            const [anios, meses, diferenciaAniosMeses] = calcularDiferenciaAniosMeses(fechaInicio, fechaFin);
+            formData.append('aniosPosesion',anios)
+            formData.append('mesesPosesion',meses)
+            formData.append('diferenciaAniosMeses',diferenciaAniosMeses)
+            formData.append('pdf_documento', fileInput.files[0]);
+            formData.append('acta_id',acta_id)
+            if(posecionarioID!=null){
+                formData.append('id',posecionarioID)
+            }
+            formData.forEach((valor, clave) => {
+                console.log(`${clave}: ${valor}`);
+            });
+            registrarPosecion(formData);
+        }
+        
     });
 
     function registrarPosecion(data) {
@@ -260,10 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            body: data
         })
         .then(response => response.json())
         .then(data => {

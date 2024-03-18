@@ -1,4 +1,5 @@
 import json
+from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -20,45 +21,60 @@ class GetAllActaView(TemplateView):
         return JsonResponse(list(actas), safe=False)
     
 class PosesionariosPorActaListView(TemplateView):
-     def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
             # Obtener el ID del acta de los argumentos de la URL
             acta_id = self.kwargs.get('pk')
             # Obtener todos los posecionarios asociados al acta especificada
             posecionarios = Posesion.objects.filter(acta_id=acta_id)
             # Serializar los posecionarios a formato JSON
-            posecionarios_serializados = [{'id':p.id,'acta_id': p.acta_id,'apellidos': p.apellidos, 'nombres': p.nombres, 'estadoCivil': p.estado_civil, 'numDoc': p.num_doc, 'fechaInicio': p.fecha_inicio, 'fechaFin': p.fecha_fin,'aniosPosesion':p.anios_posesion} for p in posecionarios]
+            posecionarios_serializados = [
+                {
+                    'id': p.id,
+                    'acta_id': p.acta_id,
+                    'copia_doc_identidad': p.copia_doc_identidad,
+                    'apellidos': p.apellidos,
+                    'nombres': p.nombres,
+                    'estadoCivil': p.estado_civil,
+                    'numDoc': p.num_doc,
+                    'fechaInicio': p.fecha_inicio,
+                    'fechaFin': p.fecha_fin,
+                    'aniosPosesion': p.anios_posesion,
+                    'pdf_documento': p.pdf_documento.url if p.pdf_documento else None
+                } for p in posecionarios
+            ]
             # Devolver los posecionarios serializados como una respuesta JSON
             return JsonResponse({'posecionarios': posecionarios_serializados})
         except Exception as e:
             # Manejar cualquier error que pueda ocurrir durante el proceso
             return JsonResponse({'error': str(e)}, status=500)
-        
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PosesionCreateView(TemplateView):
     template_name = 'crm/posesion/create.html'
     
     def post(self, request, *args, **kwargs):
-        # Obtener los datos del cuerpo de la solicitud
-        data = json.loads(request.body)
-        posecionario_data = data['posecionario']
-        
-        acta_id = data['acta_id']
-
+        # Depurar los datos del formulario POST
+        # Obtener los datos del formulario POST
+        posecionario_data = {
+            'apellidos': request.POST.get('apellidos'),
+            'nombres': request.POST.get('nombres'),
+            'estado_civil': request.POST.get('estado_civil'),
+            'num_doc': request.POST.get('num_doc'),
+            'copia_doc_identidad':request.POST.get('copia_doc_identidad'),
+            'fecha_inicio': request.POST.get('fecha_inicio'),
+            'fecha_fin': request.POST.get('fecha_fin'),
+            'anios_posesion': request.POST.get('aniosPosesion'),
+            # 'mesesPosesion': request.POST.get('mesesPosesion'),
+            # 'diferencia_aniosMeses': request.POST.get('diferenciaAniosMeses'),
+            'acta_id': request.POST.get('acta_id'),
+        }
+        # Verificar si se ha subido un archivo PDF
+        if 'pdf_documento' in request.FILES:
+            pdf_documento = request.FILES['pdf_documento']
+            posecionario_data['pdf_documento'] = pdf_documento
         # Guardar el posecionario en la base de datos
-        posecionario = Posesion(
-            apellidos=posecionario_data['apellidos'],
-            nombres=posecionario_data['nombres'],
-            estado_civil=posecionario_data['estadoCivil'],
-            num_doc=posecionario_data['numDoc'],
-            fecha_inicio=posecionario_data['fechaInicio'],
-            fecha_fin=posecionario_data['fechaFin'],
-            acta_id=acta_id,
-            anios_posesion=posecionario_data['aniosPosesion'],
-            # meses_posesion=posecionario_data['mesesPosesion'],
-            # diferencia_anios_meses=posecionario_data['diferenciaAniosMeses']
-        )
+        posecionario = Posesion(**posecionario_data)
         posecionario.save()
 
         # Devolver una respuesta de éxito
@@ -66,7 +82,6 @@ class PosesionCreateView(TemplateView):
             
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['list_url'] = self.success_url
         context['title'] = 'Análisis de posesión'
         context['action'] = 'add'
         return context
@@ -75,29 +90,41 @@ class PosesionCreateView(TemplateView):
 class PosesionUpdateView(TemplateView):
     
     def post(self, request, *args, **kwargs):
-        # Obtener los datos del cuerpo de la solicitud
-        data = json.loads(request.body)
-        posecionario_data = data['posecionario']
-        posecionario_id = posecionario_data['id']  # Obtener el ID del posecionario a editar
+        # Obtener los datos del formulario POST
+        posecionario_data = {
+            'apellidos': request.POST.get('apellidos'),
+            'nombres': request.POST.get('nombres'),
+            'estado_civil': request.POST.get('estado_civil'),
+            'num_doc': request.POST.get('num_doc'),
+            'fecha_inicio': request.POST.get('fecha_inicio'),
+            'fecha_fin': request.POST.get('fecha_fin'),
+            'anios_posesion': request.POST.get('aniosPosesion'),
+            'copia_doc_identidad':request.POST.get('copia_doc_identidad'),
+            # 'otros_campos': request.POST.get('otros_campos'),
+        }
+        
+        # Obtener el ID del posecionario a editar
+        posecionario_id = kwargs.get('pk')
 
         # Obtener el posecionario a editar desde la base de datos
         posecionario = get_object_or_404(Posesion, pk=posecionario_id)
 
         # Actualizar los campos del posecionario con los nuevos datos
-        posecionario.apellidos = posecionario_data['apellidos']
-        posecionario.nombres = posecionario_data['nombres']
-        posecionario.estado_civil = posecionario_data['estadoCivil']
-        posecionario.num_doc = posecionario_data['numDoc']
-        posecionario.fecha_inicio = posecionario_data['fechaInicio']
-        posecionario.fecha_fin = posecionario_data['fechaFin']
-        posecionario.anios_posesion =posecionario_data['aniosPosesion']
-        # Actualizar otros campos si es necesario
+        for key, value in posecionario_data.items():
+            setattr(posecionario, key, value)
 
+        # Actualizar el documento adjunto si se proporciona uno nuevo
+        if request.FILES.get('pdf_documento'):
+            posecionario.pdf_documento = request.FILES['pdf_documento']
+            if posecionario.pdf_documento:
+                default_storage.delete(posecionario.pdf_documento.path)
+            
         # Guardar los cambios en la base de datos
         posecionario.save()
 
         # Devolver una respuesta de éxito
         return JsonResponse({'message': 'El posecionario ha sido actualizado exitosamente.'})
+    
 @method_decorator(csrf_exempt, name='dispatch')
 class PosesionDeleteView(TemplateView):
     

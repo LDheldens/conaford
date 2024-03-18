@@ -50,67 +50,72 @@
         <button type="button" class="btn btn-primary" onclick="mostrarPaso(1)">Paso 1</button>
         <button type="button" class="btn btn-primary" onclick="mostrarPaso(2)">Paso 2</button>
     </div>
-    <form id="form-posesion" class="bg-white p-5 rounded" data-url="{{ list_url }}" method="post" action=".">
+
+    <div>
         <div id="paso-1">
-            <h3 class="text-center text-gray-500 text-xl font-bold my-2">Registro de Poseción</h3>
-            <div class="form-row">
-                <div class="col-lg-6">
-            
-                    <div class="form-group">
-                        <label for="apellidos">Apellidos:</label>
-                        <input type="text" id="apellidos" name="apellidos" class="form-control">
-                    </div>
-            
-                    <div class="form-group">
-                        <label for="estado_civil">Estado Civil:</label>
-                        <input type="text" id="estado_civil" name="estado_civil" class="form-control">
-                    </div>
-            
-
-                    <div class="form-group">
-                        <label for="documento">Subir documento</label>
-                        <input type="file" id="documento" name="documento" class="form-control" accept=".pdf">
-                    </div>
-                    <div class="form-group">
-                        <label for="fecha_inicio">Fecha de Inicio:</label>
-                        <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
-                    </div>
-                </div>
+            <form id="form-posesion" class="bg-white p-5 rounded" data-url="{{ list_url }}" method="post" action=".">
+                <h3 class="text-center text-gray-500 text-xl font-bold my-2">Registro de Poseción</h3>
+                <div class="form-row">
+                    <div class="col-lg-6">
                 
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <label for="copia_doc_identidad">Copia de Documento de Identidad:</label>
-                        <select id="copia_doc_identidad" name="copia_doc_identidad" class="form-control">
-                            <option value="si">Sí</option>
-                            <option value="no" selected>No</option>
-                        </select>
+                        <div class="form-group">
+                            <label for="apellidos">Apellidos:</label>
+                            <input type="text" id="apellidos" name="apellidos" class="form-control">
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="estado_civil">Estado Civil:</label>
+                            <input type="text" id="estado_civil" name="estado_civil" class="form-control">
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="documento">Subir documento</label>
+                            <input type="file" id="documento" name="documento" class="form-control" accept=".pdf">
+                            <a class="btn btn-danger fw-bold pt-2" id="btnVerDocumento" href="#" target="_blank" style="display:none; width:170px"><i class="fas fa-file-pdf"></i>
+                                Ver Documento</a>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fecha_inicio">Fecha de Inicio:</label>
+                            <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control">
+                        </div>
                     </div>
-            
-                    <div class="form-group">
-                        <label for="nombres">Nombres:</label>
-                        <input type="text" id="nombres" name="nombres" class="form-control">
-                    </div>
-            
-                    <div class="form-group">
-                        <label for="num_doc">Número de DNI:</label>
-                        <input type="number" id="num_doc" name="num_doc" class="form-control">
-                    </div>
-            
                     
-                    <div class="form-group">
-                        <label for="fecha_fin">Fecha de Fin:</label>
-                        <input type="date" id="fecha_fin" name="fecha_fin" class="form-control">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="copia_doc_identidad">Copia de Documento de Identidad:</label>
+                            <select id="copia_doc_identidad" name="copia_doc_identidad" class="form-control">
+                                <option value="si">Sí</option>
+                                <option value="no" selected>No</option>
+                            </select>
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="nombres">Nombres:</label>
+                            <input type="text" id="nombres" name="nombres" class="form-control">
+                        </div>
+                
+                        <div class="form-group">
+                            <label for="num_doc">Número de DNI:</label>
+                            <input type="number" id="num_doc" name="num_doc" class="form-control">
+                        </div>
+                
+                        
+                        <div class="form-group">
+                            <label for="fecha_fin">Fecha de Fin:</label>
+                            <input type="date" id="fecha_fin" name="fecha_fin" class="form-control">
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
-            <div>
-                <button type="button" class="btn btn-info mb-2 btn-agregar-posesionario fw-bold ">
-                    Agregar
-                </button>
-            </div>
+                <div>
+                    <button type="submit" class="btn btn-info mb-2 btn-agregar-posesionario fw-bold ">
+                        Agregar
+                    </button>
+                </div>
+            
+            </form>
         </div>
-
         <div style="display: none;" id="paso-2">
             <h3 class="text-center text-gray-500 text-xl font-bold my-2">Registro de colindancia</h3>
             <div id="contenedor-inputs">
@@ -190,7 +195,8 @@
                 <button type="button" id="btn-agregar-colindancia" class="btn btn-primary fw-bold">Agregar</button>
             </div>
         </div>
+    </div>
         
-    </form>
+    
 </section>
 {% endblock  %}
