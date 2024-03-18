@@ -350,6 +350,8 @@ class PaymentsCtaCollect(models.Model):
 
 class PosesionInformal(models.Model):
     #datos posecion informal
+    fecha = models.DateField()
+    codigo = models.CharField(max_length=100)
     departamento = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)

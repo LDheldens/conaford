@@ -28,6 +28,8 @@ class FichaUddCreateView(TemplateView):
         # return JsonResponse({'message': 'Ficha Udd creada correctamente'}, status=201)
         posesionInformal = PosesionInformal()
         #datos posecion informal
+        posesionInformal.fecha = data.get('fecha')
+        posesionInformal.codigo = data.get('codigo')
         posesionInformal.departamento = data.get('departamento')
         posesionInformal.provincia = data.get('provincia')
         posesionInformal.distrito = data.get('distrito')
