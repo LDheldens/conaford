@@ -10,9 +10,9 @@ const getValuesListCheckbox = (listCheckbox) => {
     return result;
 };
 
-function fileToBase64(archivo) {
+function fileToBase64(file) {
     return new Promise((resolve, reject) => {
-        if (!archivo) {
+        if (!file) {
             resolve('');
         }
         const reader = new FileReader();
@@ -23,7 +23,7 @@ function fileToBase64(archivo) {
         reader.onerror = function (error) {
             reject(error);
         };
-        reader.readAsDataURL(archivo);
+        reader.readAsDataURL(file);
     });
 }
 const submitActa = document.getElementById('form_ficha_levantamiento')

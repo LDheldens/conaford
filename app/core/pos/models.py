@@ -383,25 +383,29 @@ class PosesionInformal(models.Model):
     zonas_arquelogicas_o_reservas = models.BooleanField()
     zonas_a_o_r_nombre = models.CharField(null=True, blank=True,max_length=200)
     zonas_a_o_r_ubicacion = models.CharField(null=True, blank=True,max_length=200)
+    zonas_arquelogicas_o_reservas_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+
     zonas_riesgo = models.BooleanField()
     zonas_riesgo_nombre = models.CharField(null=True, blank=True,max_length=200)
     zonas_riesgo_ubicacion = models.CharField(null=True, blank=True,max_length=200)
+    zonas_riesgo_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+
     conceciones_mineras = models.CharField(max_length=100)
     canales_postes_cables = models.TextField(max_length=500)
     posibles_propietarios = models.TextField(max_length=500)
     otros = models.CharField(null=True, blank=True, max_length=200)
     #conflictos dirigenciales
     conflictos_dirigenciales = models.BooleanField()
-    conflictos_dirigenciales_descripcion = models.TextField(max_length=300)
+    conflictos_dirigenciales_nombre = models.TextField(max_length=300)
+    conflictos_dirigenciales_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+    conflictos_dirigenciales_comentarios = models.TextField(max_length=300)
+    #conflictos judiciales
     conflictos_judiciales = models.BooleanField()
     conflictos_judiciales_descripcion = models.TextField(max_length=300)
+    #imagen satelital de lamposecion informal
+    imagen_satelital_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
     #comentario u observaciones
     comentarios_observaciones = models.TextField(max_length=300)
-    #imagen satelital de lamposecion informal
-    imagen_satelital = models.ImageField(upload_to='posesion_informal/')
-    #areas restrinjidas existentes y peligros geologicos
-    imagen_areas_restrinjidas = models.ImageField(upload_to='posesion_informal/')
-    imagen_areas_restrinjidas_comentario = models.TextField(max_length=300)
     
     def calcular_porcentaje_llenado(self):
         total_campos = len(self._meta.fields) - 1  # Excluir el campo 'id'
@@ -413,7 +417,15 @@ class PosesionInformal(models.Model):
     
     def toJSON(self):
         # Crear un diccionario con todos los campos, excluyendo los campos JSON
-        exclude_fields = ['equipamientos', 'material_predominante', 'servicios_basicos','imagen_satelital', 'imagen_areas_restrinjidas']
+        exclude_fields = [
+            'equipamientos',
+            'material_predominante',
+            'servicios_basicos',
+            'zonas_arquelogicas_o_reservas_pdf',
+            'zonas_riesgo_pdf',
+            'conflictos_dirigenciales_pdf',
+            'imagen_satelital_pdf',
+            ]
         item = model_to_dict(self, exclude=exclude_fields)
         item['porcentaje_llenado'] = self.calcular_porcentaje_llenado()
         return item

@@ -46,9 +46,9 @@ function getData() {
 
                     dropdownMenu += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
 
-                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/update/' + row.id + '/"><i class="fas fa-edit text-warning"></i> Editar</a>';
+                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/ficha_udd/update/' + row.id + '/"><i class="fas fa-edit text-warning"></i> Editar</a>';
 
-                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
+                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/ficha_udd/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
 
                     dropdownMenu += '<a href="/pos/crm/ficha/login" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-plus-circle text-primary"></i> Generar Matrix</a>';
 

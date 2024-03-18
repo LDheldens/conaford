@@ -18,7 +18,7 @@ const toggleContent = (li, elementToActivateIds) => {
     span.classList.remove('border-gray-500');
     span.classList.add('border-blue-600');
 
-    const allElementIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part8', 'part9'];
+    const allElementIds = ['part1', 'part2', 'part3', 'part4', 'part5', 'part6', 'part7', 'part8', 'part9'];
     const elementsToDeactivateIds = allElementIds.filter(el => !elementToActivateIds.includes(el));
     //disable elements            
     for (const id of elementsToDeactivateIds) {
@@ -35,8 +35,8 @@ const stepInit = () => {
     const condition = {
         0: ['part1', 'part2'],
         1: ['part3', 'part4'],
-        2: ['part5', 'part6', 'part7', 'part8'],
-        3: ['part9', 'part10', 'part11'],
+        2: ['part5', 'part6'],
+        3: ['part7', 'part8', 'part9'],
     };
     // add listener click element li
     for (let [index, liElement] of Object.entries(liElements)) {

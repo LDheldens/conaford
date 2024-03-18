@@ -1,18 +1,19 @@
 // const utils
-const getValueListRadio = (listRadio) => {
-    console.log(listRadio)
-    const selected = [...listRadio].find(element => element.checked);
+const getValueListRadio = (nameListRadio) => {
+    const listRadio = document.getElementsByName(nameListRadio)
+    const selected = Array.from(listRadio).find(element => element.checked);
     return selected.value;
 };
-const getValuesListCheckbox = (listCheckbox) => {
+const getValuesListCheckbox = (nameListCheckbox) => {
+    const listCheckbox = document.getElementsByName(nameListCheckbox)
     const result = Array.from(listCheckbox).filter(checkbox => checkbox.checked)
                         .map(checkbox => checkbox.value);
     return result;
 };
 
-function fileToBase64(archivo) {
+function fileToBase64(file) {
     return new Promise((resolve, reject) => {
-        if (!archivo) {
+        if (!file) {
             resolve('');
         }
         const reader = new FileReader();
@@ -23,43 +24,105 @@ function fileToBase64(archivo) {
         reader.onerror = function (error) {
             reject(error);
         };
-        reader.readAsDataURL(archivo);
+        reader.readAsDataURL(file);
     });
 }
-const submitActa = document.getElementById('form_ficha_levantamiento')
+const submitActa = document.getElementById('form_ficha_udd')
 submitActa.addEventListener('submit', async (event) => {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     const formDataObject = { };
     formData.forEach((value, key) => {
       formDataObject[key] = value;
     });
-    if(!formDataObject['list-radio-descripcion-fisica-predio']) {
-        formDataObject['list-radio-descripcion-fisica-predio'] = '';
+
+    formDataObject['wgs-x84-x'] = Number(formDataObject['wgs-x84-x'] || 0);
+    formDataObject['wgs-x84-y'] = Number(formDataObject['wgs-x84-y'] || 0);
+    formDataObject['distancia'] = Number(formDataObject['distancia'] || 0);
+    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes'] || 0);
+    formDataObject['numero-manzanas'] = Number(formDataObject['numero-manzanas'] || 0);
+    formDataObject['porcentaje-vivencia'] = Number(formDataObject['porcentaje-vivencia'] || 0);
+
+    if(!formDataObject['list-radio-tipo-posesion-informal']) {
+        formDataObject['list-radio-tipo-posesion-informal'] = '';
     }
-    if(!formDataObject['list-radio-uso']) {
-        formDataObject['list-radio-uso'] = '';
+    if(!formDataObject['list-radio-tipo-configuracion-urbana']) {
+        formDataObject['list-radio-tipo-configuracion-urbana'] = '';
     }
-    if(formDataObject['list-checkbox-serv-bas']) {
-        formDataObject['list-checkbox-serv-bas'] = getValuesListCheckbox(listCheckboxServBas);
+
+    if(!formDataObject['list-checkbox-equipamientos']) {
+        formDataObject['list-checkbox-equipamientos'] = []
     } else {
-        formDataObject['list-checkbox-serv-bas'] = [ ];
+        formDataObject['list-checkbox-equipamientos'] = getInfoCheckbox({
+            nameListCheckbox: 'list-checkbox-equipamientos',
+            nameListInputCantidad: 'list-input-equipamientos-cantidad',
+        });
     }
-    titulares = getRowsTitulares();
-    formDataObject['titulares'] = titulares;
-    formDataObject['boceto-predio-pdf'] = await fileToBase64(document.getElementById('boceto-predio-pdf').files[0]);
-    formDataObject['toma-fotografica-predio-imagen'] = await fileToBase64(document.getElementById('toma-fotografica-predio-imagen').files[0]);
-    formDataObject['documentos-casos-si-pdf'] = await fileToBase64(document.getElementById('documentos-casos-si-pdf').files[0]);
-    formDataObject['firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf'] = await fileToBase64(document.getElementById('firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf').files[0]);
-    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes']);
-    formDataObject['area-segun-titular-representante'] = Number(formDataObject['area-segun-titular-representante']);
-    formDataObject['numero-puntos'] = Number(formDataObject['numero-puntos']);
+    if(!formDataObject['list-checkbox-material-predominante']) {
+        formDataObject['list-checkbox-material-predominante'] = []
+    } else {
+        formDataObject['list-checkbox-material-predominante'] = getInfoCheckbox({
+            nameListCheckbox: 'list-checkbox-material-predominante',
+            nameListInputCantidad: 'list-input-material-predominante-cantidad',
+        });
+    }
+    if(!formDataObject['list-checkbox-servicios-basicos']) {
+        formDataObject['list-checkbox-servicios-basicos'] = []
+    } else {
+        formDataObject['list-checkbox-servicios-basicos'] = getInfoCheckbox({
+            nameListCheckbox: 'list-checkbox-servicios-basicos',
+            nameListInputCantidad: 'list-input-servicios-basicos-cantidad',
+        });
+    }
+    
+    if(!formDataObject['list-radio-zonificacion-municipal']) {
+        formDataObject['list-radio-zonificacion-municipal'] = false;
+    } else {
+        formDataObject['list-radio-zonificacion-municipal'] === getValueListRadio('list-radio-zonificacion-municipal') === 'si'? true: false;
+    }
+    if(!formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales']) {
+        formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales'] = false;
+    } else {
+        formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales'] = getValueListRadio('list-radio-zonas-arqueologica-o-reservas-naturales') === 'si'? true: false;
+    }
+
+    if(!formDataObject['list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion']) {
+        formDataObject['list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion'] = '';
+    } else {
+        formDataObject['list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion'] = getValueListRadio('list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion')
+    }
+    formDataObject['zonas-arqueologicas-o-reservas-naturales-pdf'] = await fileToBase64(document.getElementById('zonas-arqueologicas-o-reservas-naturales-pdf').files[0]);
+    //
+    if(!formDataObject['list-radio-zonas-riesgo']) {
+        formDataObject['list-radio-zonas-riesgo'] = false;
+    } else {
+        formDataObject['list-radio-zonas-riesgo'] = getValueListRadio('list-radio-zonas-riesgo') === 'si'? true: false;
+    }
+    if(!formDataObject['list-radio-zonas-riesgo-ubicacion']) {
+        formDataObject['list-radio-zonas-riesgo-ubicacion'] = '';
+    } else {
+        formDataObject['list-radio-zonas-riesgo-ubicacion'] = getValueListRadio('list-radio-zonas-riesgo-ubicacion')
+    }
+    formDataObject['zonas-riesgo-pdf'] = await fileToBase64(document.getElementById('zonas-riesgo-pdf').files[0]);
+    //
+    if(!formDataObject['list-radio-conflictos-digerenciales']) {
+        formDataObject['list-radio-conflictos-digerenciales'] = false;
+    } else {
+        formDataObject['list-radio-conflictos-digerenciales'] = getValueListRadio('list-radio-conflictos-digerenciales') === 'si'? true: false;
+    }
+    formDataObject['conflictos-dirigenciales-pdf'] = await fileToBase64(document.getElementById('conflictos-dirigenciales-pdf').files[0]);
+    //
+    if(!formDataObject['list-radio-conflictos-judiciales-o-administrativo']) {
+        formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = false;
+    } else {
+        formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = getValueListRadio('list-radio-conflictos-judiciales-o-administrativo') === 'si'? true: false;
+    }
+    formDataObject['imagen-satelital-pdf'] = await fileToBase64(document.getElementById('imagen-satelital-pdf').files[0]);
     // console.log(formDataObject);
     // return;
     
     try {
-        const response = await fetch('/pos/crm/acta/add/', {
+        const response = await fetch('/pos/crm/ficha_udd/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,11 +133,11 @@ submitActa.addEventListener('submit', async (event) => {
         // window.location.href = "pos/crm/acta/";
         console.log('Respuesta del servidor:', data);
         await Swal.fire({
-            title: "Ficha creada exitosamente!",
+            title: "Ficha_udd creada exitosamente!",
             // text: "Ficha creada exitosamente!",
             icon: "success"
           })
-          window.location.replace("/pos/crm/acta/")
+          window.location.replace("/pos/crm/ficha_udd/")
     } catch (error) {
         console.error('Error al enviar los datos:', error);
     }

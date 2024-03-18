@@ -55,9 +55,7 @@ urlpatterns = [
     #acta - titulares
     path('crm/acta/<int:acta_id>/titulares/', TitularesPorActaListView.as_view(), name='titulares_por_acta'),
 
-    #fichaUdd
-    path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
-    path('crm/ficha_udd/', FichaListView.as_view(), name='ficha_udd_list'),
+
 
     #actas
     path('crm/acta/', ActaListView.as_view(), name='acta_list'),
@@ -73,10 +71,14 @@ urlpatterns = [
     path('crm/acta/<int:pk>/posecionarios/', PosesionariosPorActaListView.as_view(), name='posesionarios_por_acta'),
     
     #UDD 
+    path('crm/ficha_udd/', FichaUddListView.as_view(), name='ficha_udd_list'),
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd_create'),
-    path('crm/ficha/login', LoginFichaView.as_view(), name='ficha_login'),
-    path('crm/ficha/', FichaListView.as_view(), name='ficha_list'),
-    
+    path('crm/ficha/login', LoginFichaView.as_view(), name='ficha_udd_login'),
+    # path('crm/ficha/', FichaUddListView.as_view(), name='ficha_udd_list'),
+    path('crm/ficha_udd/delete/<int:pk>/', FichaUddDeleteView.as_view(), name='ficha_udd_delete'),
+     #fichaUdd
+    # path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd'),
+
     #UFIN - posesión
     path('crm/acta/posesion/add',PosesionCreateView.as_view(),name='posesion_add'),
     path('crm/acta/posesion/update/<int:pk>/',PosesionUpdateView.as_view(),name='posesion_edit'),
