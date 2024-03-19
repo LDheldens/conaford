@@ -346,7 +346,7 @@ class PaymentsCtaCollect(models.Model):
         default_permissions = ()
         ordering = ['-id']
 
-# ------- MODELOS XDD -------# 
+# ------- MODELOS XDD ------- # 
 
 class PosesionInformal(models.Model):
     #datos posecion informal
@@ -520,9 +520,9 @@ class Posesion(models.Model):
     nombres = models.CharField(max_length=100)
     estado_civil = models.CharField(max_length=20)
     num_doc = models.CharField(max_length=20)
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
-    anios_posesion = models.IntegerField(default=1)
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin = models.DateField(blank=True, null=True)
+    anios_posesion = models.IntegerField(null=True, blank=True)
     pdf_documento = models.FileField(upload_to='posesion/', blank=True, null=True)
 
 

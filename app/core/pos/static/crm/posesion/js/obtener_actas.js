@@ -167,6 +167,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${posecionario.nombres}</td>
                 <td>${posecionario.estadoCivil}</td>
                 <td>${posecionario.numDoc}</td>
+                <td>
+                    ${
+                        posecionario.pdf_documento != null ? 
+                        `<a 
+                            target="_blank" 
+                            class="btn btn-danger btn-sm" 
+                            href="${posecionario.pdf_documento}"
+                        >
+                            Ver <i class="far fa-file-pdf"></i>
+                        </a>` 
+                        : 'Sin documento'
+                    }
+                </td>
                 <td>${posecionario.aniosPosesion}</td>
                 <td>
                     <button class="btn btn-success btn-sm btn-editar">Editar</button>
