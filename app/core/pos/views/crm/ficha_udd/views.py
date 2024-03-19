@@ -19,7 +19,6 @@ from datetime import date, datetime
 @method_decorator(csrf_exempt, name='dispatch')
 class FichaUddCreateView(TemplateView):
     template_name = 'crm/ficha_udd/create.html'
-    list_url = 'ficha_udd_list'
     success_url = reverse_lazy('ficha_udd_list')
     
     def post(self, request, *args, **kwargs):
@@ -109,7 +108,7 @@ class FichaUddCreateView(TemplateView):
 class FichaUddUpdateView(TemplateView):
     model = PosesionInformal
     template_name = 'crm/ficha_udd/update.html'
-    success_url = reverse_lazy('acta_list')
+    success_url = reverse_lazy('ficha_udd_list')
     # http_method_names = ["get", "post"]
     def post(self, request, *args, **kwargs):
         # Obtener los datos del cuerpo de la solicitud
