@@ -1,4 +1,5 @@
 import json
+from django.urls import reverse
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
@@ -195,19 +196,26 @@ class LoginFichaView(TemplateView):
         print(username,password,'probando')
         # Autenticar al usuario
         user = authenticate(request, username=username, password=password)
-        print(user,'dweweww')
+        print(user,'dweweww',self.kwargs.get('pk'))
         if user is not None:
             # Si el usuario es autenticado correctamente, iniciar sesión
             login(request, user)
             # Cambiar el campo 'auth_login_dashboard' del usuario
             user.auth_login_dashboard = True
             user.save()  # Guardar los cambios en la base de datos
+            
+            pk = self.kwargs.get('pk')
+            posesion_informal = get_object_or_404(PosesionInformal, pk=pk)
+            
+            # Cambiar el campo 'is_matriz' y guardar el objeto
+            posesion_informal.is_matriz = True
+            posesion_informal.save()
             # Redirigir a una página de inicio o a donde desees
-            print(user.auth_login_dashboard,'wnherfewijhnriuewhnwk PROBADO')
+            
             return redirect('dashboard')  # Cambia 'pagina_de_inicio' por el nombre de tu URL
         else:
             # Si la autenticación falla, mostrar un mensaje de error o manejarlo de otra manera
-            return redirect('ficha_login')  # Redirigir nuevamente a la página de inicio de sesión con un mensaje de error
+            return redirect(reverse('ficha_udd_login', kwargs={'pk': self.kwargs.get('pk')}))
 
 class FichaUddListView(TemplateView):
     template_name = 'crm/ficha_udd/list.html'
