@@ -385,12 +385,12 @@ class PosesionInformal(models.Model):
     zonas_arquelogicas_o_reservas = models.BooleanField()
     zonas_a_o_r_nombre = models.CharField(null=True, blank=True,max_length=200)
     zonas_a_o_r_ubicacion = models.CharField(null=True, blank=True,max_length=200)
-    zonas_arquelogicas_o_reservas_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+    zonas_arquelogicas_o_reservas_pdf = models.FileField(upload_to='posesion_informal/archivos/', null=True)
 
     zonas_riesgo = models.BooleanField()
     zonas_riesgo_nombre = models.CharField(null=True, blank=True,max_length=200)
     zonas_riesgo_ubicacion = models.CharField(null=True, blank=True,max_length=200)
-    zonas_riesgo_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+    zonas_riesgo_pdf = models.FileField(upload_to='posesion_informal/archivos/', null=True)
 
     conceciones_mineras = models.CharField(max_length=100)
     canales_postes_cables = models.TextField(max_length=500)
@@ -399,15 +399,16 @@ class PosesionInformal(models.Model):
     #conflictos dirigenciales
     conflictos_dirigenciales = models.BooleanField()
     conflictos_dirigenciales_nombre = models.TextField(max_length=300)
-    conflictos_dirigenciales_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+    conflictos_dirigenciales_pdf = models.FileField(upload_to='posesion_informal/archivos/', null=True)
     conflictos_dirigenciales_comentarios = models.TextField(max_length=300)
     #conflictos judiciales
     conflictos_judiciales = models.BooleanField()
     conflictos_judiciales_descripcion = models.TextField(max_length=300)
     #imagen satelital de lamposecion informal
-    imagen_satelital_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+    imagen_satelital_pdf = models.FileField(upload_to='posesion_informal/archivos/', null=True)
     #comentario u observaciones
     comentarios_observaciones = models.TextField(max_length=300)
+    is_matriz = models.BooleanField(default=False)
     
     def calcular_porcentaje_llenado(self):
         total_campos = len(self._meta.fields) - 1  # Excluir el campo 'id'

@@ -50,9 +50,9 @@ function getData() {
 
                     dropdownMenu += '<a class="dropdown-item" href="/pos/crm/ficha_udd/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
 
-                    dropdownMenu += '<a href="/pos/crm/ficha/login" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-plus-circle text-primary"></i> Generar Matrix</a>';
-
+                    dropdownMenu += '<a href="/pos/crm/ficha/' + row.id + '/login" class="dropdown-item" data-id="' + row.id + '" onclick="mostrarTitulares(' + row.id + ')"><i class="fas fa-plus-circle text-primary"></i> Generar Matrix</a>';
                     dropdownMenu += '</div></div>';
+
 
                     return dropdownMenu;
                 }

@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 # from django.core.exceptions import ObjectDoesNotExist
-from core.pos.models import Acta, Colindancia, Titular, ImagenActa, Posesion
+from core.pos.models import Acta, Colindancia, Titular, ImagenActa, Posesion, PosesionInformal
 from django.core.files.base import ContentFile
 import base64
 from django.shortcuts import get_object_or_404
@@ -161,8 +161,10 @@ class ActaCreateView(TemplateView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        posesiones_matriz = PosesionInformal.objects.filter(is_matriz=True)
         # Agregar los datos al contexto que deseas pasar al template
         context['list_url'] = self.success_url
+        context['posesiones_matriz'] = posesiones_matriz
         return context
 
 @method_decorator(csrf_exempt, name='dispatch')
