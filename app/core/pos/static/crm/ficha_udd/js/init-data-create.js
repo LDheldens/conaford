@@ -120,13 +120,18 @@ const getInfoCheckbox = (options) => {
                             const checkbox = li.querySelector(`input[name="${nameListCheckbox}"]`);
                             if(checkbox.checked) {
                                 const quantity = li.querySelector(`input[name="${nameListInputCantidad}"]`);
-                                acc.push({
+                                const result = {
                                     name: checkbox.value,
                                     quantity: Number(quantity.value || 0)
-                                });
+                                };
+                                if(checkbox.value === 'Otros') {
+                                    result['valueOtros'] = quantity.previousElementSibling.value;
+                                }
+                                acc.push(result);
                             }
                             return acc;
                         }, [ ]);
+    console.log(info)
     return info;
 };
 
@@ -150,7 +155,7 @@ setDinamicListCheckbox({
     nameListCheckbox: 'list-checkbox-servicios-basicos',
     nameListInputCantidad: 'list-input-servicios-basicos-cantidad',
     nameListSpanPorcentaje: 'list-input-porcentaje',
-    idInputTotal: 'material-predominante-cantidad',
+    idInputTotal: 'servicios-basicos-total',
 });
 showHideElementByListRadio({
     nameListRadio: 'list-radio-zonas-arqueologica-o-reservas-naturales',

@@ -73,6 +73,7 @@ urlpatterns = [
     #UDD 
     path('crm/ficha_udd/', FichaUddListView.as_view(), name='ficha_udd_list'),
     path('crm/ficha_udd/add', FichaUddCreateView.as_view(), name='ficha_udd_create'),
+    path('crm/ficha_udd/update/<int:pk>/', FichaUddUpdateView.as_view(), name='ficha_udd_update'),
     path('crm/ficha/login', LoginFichaView.as_view(), name='ficha_udd_login'),
     # path('crm/ficha/', FichaUddListView.as_view(), name='ficha_udd_list'),
     path('crm/ficha_udd/delete/<int:pk>/', FichaUddDeleteView.as_view(), name='ficha_udd_delete'),

@@ -270,7 +270,7 @@
                 <header>
                     <!-- title -->
                     <h1 class="font-bold text-center text-2xl mb-4 font-gotham-bold">
-                        AÑADIR FICHA DE IDENTIFICACIÓN PRELIMINAR(FiPre)
+                        ACTUALIZAR FICHA DE IDENTIFICACIÓN PRELIMINAR(FiPre)
                     </h1>
                     <!-- linea -->
                     <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200">
@@ -297,7 +297,7 @@
                         placeholder="dd/mm/aaaa"
                         class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"> -->
                             <input type="date" id="fecha" name="fecha" class="w-full px-4 mt-1 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]
-                        ">
+                        " value="{{ ficha_udd.fecha }}">
                         </div>
                         <!-- Cel. Wssp -->
                         <div class="flex-1">
@@ -305,7 +305,7 @@
                                 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Codigo</label>
                             <input type="text" id="codigo" name="codigo"
                                 class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="Codigo">
+                                placeholder="Codigo" value="{{ ficha_udd.codigo }}">
                         </div>
                     </div>
                     <h1 class="font-bold mb-2 font-gotham-bold">1.- DATOS DE LA POSESIÓN INFORMAL</h1>
@@ -320,7 +320,9 @@
                                 id="departamento" 
                                 name="departamento"
                                 class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="Departamento">
+                                placeholder="Departamento"
+                                value="{{ ficha_udd.departamento }}"
+                                >
                             <!-- Departamento -> muestra resultados de busqueda en el autocompletado -->
                             <ul
                                 class="absolute z-40 lista-resultados bg-white border border-[#A7CF42] rounded w-full hidden overflow-y-auto">
@@ -333,7 +335,9 @@
                             <input type="text" 
                                 id="provincia" name="provincia"
                                 class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="Provincia">
+                                placeholder="Provincia"
+                                value="{{ ficha_udd.provincia }}"
+                                >
                             <!-- Provincia -> muestra resultados de busqueda en el autocompletado -->
                             <ul
                                 class="absolute z-40 lista-resultados2 bg-white border border-[#A7CF42] rounded w-full hidden overflow-y-auto">
@@ -348,7 +352,9 @@
                                 id="distrito" 
                                 name="distrito"
                                 class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                placeholder="Distrito">
+                                placeholder="Distrito"
+                                value="{{ ficha_udd.distrito }}"
+                                >
                             <!-- Distrito -> muestra resultados de busqueda en el autocompletado -->
                             <ul
                                 class="absolute z-40 lista-resultados3 bg-white border border-[#A7CF42] rounded w-full hidden overflow-y-auto">
@@ -364,7 +370,9 @@
                                         class="text-sm font-medium text-gray-700 font-gotham-bold">X</label>
                                     <input type="text" id="wgs-x84-x" name="wgs-x84-x"
                                         class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                        placeholder="X">
+                                        placeholder="X"
+                                        value="{{ ficha_udd.coordenada_x }}"
+                                        >
                                 </div>
                                 <!-- Y -->
                                 <div class="flex-1 flex items-center gap-2">
@@ -372,7 +380,10 @@
                                         class="text-sm font-medium text-gray-700 font-gotham-bold">Y</label>
                                     <input type="text" id="wgs-x84-y" name="wgs-x84-y"
                                         class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                                        placeholder="Y">
+                                        placeholder="Y"
+                                        value="{{ ficha_udd.coordenada_y }}"
+                                        {# value="{{ ficha_udd.coordenada_y|floatformat:"0" }}" #}
+                                        >
                                 </div>
                             </div>
                         </div>
@@ -383,15 +394,21 @@
                         <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de posesión informal predio</h2>
                         <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex divide-x divide-y divide-gray-100">
                             <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                <input id="tipo-posesion-informal-Centro-poblado" type="radio" value="Centro poblado" name="list-radio-tipo-posesion-informal" class="w-4 h-4">
+                                <input id="tipo-posesion-informal-Centro-poblado" type="radio" value="Centro poblado" name="list-radio-tipo-posesion-informal" class="w-4 h-4"
+                                {% if ficha_udd.tipo_posecion_informal == 'Centro poblado' %}checked{% endif %}
+                                >
                                 <label for="tipo-posesion-informal-Centro-poblado" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Centro poblado</label>
                             </li>
                             <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                <input id="tipo-posesion-informal-Asentamiento-Humano" type="radio" value="Asentamiento Humano" name="list-radio-tipo-posesion-informal" class="w-4 h-4">
+                                <input id="tipo-posesion-informal-Asentamiento-Humano" type="radio" value="Asentamiento Humano" name="list-radio-tipo-posesion-informal" class="w-4 h-4"
+                                {% if ficha_udd.tipo_posecion_informal == 'Asentamiento Humano' %}checked{% endif %}
+                                >
                                 <label for="tipo-posesion-informal-Asentamiento-Humano" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Asentamiento Humano</label>
                             </li>
                             <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                <input id="tipo-posesion-informal-Otros" type="radio" value="Otros(CUI, UU, PP, PI)" name="list-radio-tipo-posesion-informal" class="w-4 h-4">
+                                <input id="tipo-posesion-informal-Otros" type="radio" value="Otros(CUI, UU, PP, PI)" name="list-radio-tipo-posesion-informal" class="w-4 h-4"
+                                {% if ficha_udd.tipo_posecion_informal == 'Otros(CUI, UU, PP, PI)' %}checked{% endif %}
+                                >
                                 <label for="tipo-posesion-informal-Otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros(CUI, UU, PP, PI)</label>
                             </li>
                         </ul>
@@ -399,7 +416,7 @@
                     <!-- Denominacion según INEI -->
                     <div class="sm:w-[30%] w-full">
                         <label for="denominacion-inei" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Denominacion según INEI</label>
-                        <input type="text" id="denominacion-inei" name="denominacion-inei" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Denominacion según INEI">
+                        <input type="text" id="denominacion-inei" name="denominacion-inei" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Denominacion según INEI" value="{{ ficha_udd.denominacion_segun_inei }}">
                     </div>
                 </div>
                 <!-- 2.- FORMA DE ASENTAMIENTO -->
@@ -410,33 +427,33 @@
                             <label for="tipo-matriz" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de matriz</label>
                             <!-- appearance-none  -->
                             <select id="tipo-matriz" name="tipo-matriz" class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
-                                <option value="">Opción</option>
-                                <option value="Predio Comunal">Predio Comunal</option>
-                                <option value="Predio Estatal">Predio Estatal</option>
-                                <option value="Predio Privado">Predio Privado</option>
+                                <option value="" {% if ficha_udd.tipo_matriz == '' %}selected{% endif %}>Opción</option>
+                                <option value="Predio Comunal" {% if ficha_udd.tipo_matriz == 'Predio Comunal' %}selected{% endif %}>Predio Comunal</option>
+                                <option value="Predio Estatal" {% if ficha_udd.tipo_matriz == 'Predio Estatal' %}selected{% endif %}>Predio Estatal</option>
+                                <option value="Predio Privado" {% if ficha_udd.tipo_matriz == 'Predio Privado' %}selected{% endif %}>Predio Privado</option>
                             </select>
                         </div>
                         <div class="flex-1">
                             <label for="contexto-legal" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Contexto legal</label>
                             <!-- appearance-none  -->
                             <select id="contexto-legal" name="contexto-legal" class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
-                                <option value="">Opcion</option>
-                                <option value="Antes 31.12.03 - Ley N°24657">Antes 31.12.03 - Ley N°24657</option>
-                                <option value="Antes 31.12.04 - Ley N°28687">Antes 31.12.04 - Ley N°28687</option>
-                                <option value="Del 01.01.05 al 31.12.15 - Ley N° 31056">Del 01.01.05 al 31.12.15 - Ley N° 31056</option>
+                                <option value="" {% if ficha_udd.contexto_legal == '' %}selected{% endif %}>Opcion</option>
+                                <option value="Antes 31.12.03 - Ley N°24657" {% if ficha_udd.contexto_legal == 'Antes 31.12.03 - Ley N°24657' %}selected{% endif %}>Antes 31.12.03 - Ley N°24657</option>
+                                <option value="Antes 31.12.04 - Ley N°28687" {% if ficha_udd.contexto_legal == 'Antes 31.12.04 - Ley N°28687' %}selected{% endif %}>Antes 31.12.04 - Ley N°28687</option>
+                                <option value="Del 01.01.05 al 31.12.15 - Ley N° 31056" {% if ficha_udd.contexto_legal == 'Del 01.01.05 al 31.12.15 - Ley N° 31056' %}selected{% endif %}>Del 01.01.05 al 31.12.15 - Ley N° 31056</option>
                             </select>
                         </div>
                         <div class="flex-1">
                             <label for="acciones-formalizacion" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Acciones de formalización</label>
                             <!-- appearance-none  -->
                             <select id="acciones-formalizacion" name="acciones-formalizacion" class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
-                                <option value="">Opción</option>
-                                <option value="Inmatriculación">Inmatriculación</option>
-                                <option value="Independizacion">Independizacion</option>
-                                <option value="Desmembramiento">Desmembramiento</option>
-                                <option value="Acumulación">Acumulación</option>
-                                <option value="Correlación">Correlación</option>
-                                <option value="Cierre">Cierre</option>
+                                <option value="" {% if ficha_udd.aciones_de_formalizacion == '' %}selected{% endif %}>Opción</option>
+                                <option value="Inmatriculación" {% if ficha_udd.aciones_de_formalizacion == 'Inmatriculación' %}selected{% endif %}>Inmatriculación</option>
+                                <option value="Independizacion" {% if ficha_udd.aciones_de_formalizacion == 'Independizacion' %}selected{% endif %}>Independizacion</option>
+                                <option value="Desmembramiento" {% if ficha_udd.aciones_de_formalizacion == 'Desmembramiento' %}selected{% endif %}>Desmembramiento</option>
+                                <option value="Acumulación" {% if ficha_udd.aciones_de_formalizacion == 'Acumulación' %}selected{% endif %}>Acumulación</option>
+                                <option value="Correlación" {% if ficha_udd.aciones_de_formalizacion == 'Correlación' %}selected{% endif %}>Correlación</option>
+                                <option value="Cierre" {% if ficha_udd.aciones_de_formalizacion == 'Cierre' %}selected{% endif %}>Cierre</option>
                             </select>
                         </div>
                     </div>
@@ -448,21 +465,21 @@
                         <!-- Tipo de calzada -->
                         <div class="flex-1">
                             <label for="tipo-calzada" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de calzada</label>
-                            <input type="text" id="tipo-calzada" name="tipo-calzada" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tipo de calzada">
+                            <input type="text" id="tipo-calzada" name="tipo-calzada" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tipo de calzada" value="{{ ficha_udd.tipo_calzada }}">
                         </div>
                         <!-- Referencia (Local) -->
                         <div class="flex-1">
                             <label for="referencia-local" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Referencia local</label>
-                            <input type="text" id="referencia-local" name="referencia-local" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Referencia local">
+                            <input type="text" id="referencia-local" name="referencia-local" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Referencia local" value="{{ ficha_udd.referencia_local }}">
                         </div>
                         <!-- Rutas -->
                         <div class="flex-1">
                             <label for="rutas" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Rutas</label>
                             <select id="rutas" name="rutas" class="w-full border-2 border-gray-950 px-4 py-2 pr-8 rounded shadow-sm leading-tight focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]">
-                                <option value="">Opción</option>
-                                <option value="Terrestre">Terrestre</option>
-                                <option value="Aéreo">Aéreo</option>
-                                <option value="Fluvial">Fluvial</option>
+                                <option value="" {% if ficha_udd.ruta == '' %}selected{% endif %}>Opción</option>
+                                <option value="Terrestre" {% if ficha_udd.ruta == 'Terrestre' %}selected{% endif %}>Terrestre</option>
+                                <option value="Aéreo" {% if ficha_udd.ruta == 'Aéreo' %}selected{% endif %}>Aéreo</option>
+                                <option value="Fluvial" {% if ficha_udd.ruta == 'Fluvial' %}selected{% endif %}>Fluvial</option>
                             </select>
                         </div>
                     </div>
@@ -471,19 +488,19 @@
                         <div class="flex-1">
                             <label for="distancia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
                             <div class="mt-1 w-full flex items-center gap-2">
-                                <input type="text" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia">
+                                <input type="text" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia" value="{{ ficha_udd.tipo_calzada_distancia }}">
                                 <span class="font-bold w-fit">KM</span>
                             </div>
                         </div>
                         <!-- Tiempo -->
                         <div class="flex-1">
                             <label for="tiempo" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tiempo</label>
-                            <input type="time" id="tiempo" name="tiempo" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tiempo">
+                            <input type="time" id="tiempo" name="tiempo" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Tiempo" value="{{ ficha_udd.referencia_local_tiempo }}">
                         </div>
                         <!-- Especificar -->
                         <div class="flex-1">
                             <label for="especificar" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Especificar</label>
-                            <input type="text" id="especificar" name="especificar" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Especificar">
+                            <input type="text" id="especificar" name="especificar" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Especificar" value="{{ ficha_udd.ruta_especifica}}">
                         </div>
                     </div>
                 </div>
@@ -495,11 +512,15 @@
                         <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Tipo de configuracion urbana</h2>
                         <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex divide-x divide-y divide-gray-100">
                             <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4">
-                                <input id="tipo-configuracion-urbana-continua" type="radio" value="Continua" name="list-radio-tipo-configuracion-urbana" class="w-4 h-4">
+                                <input id="tipo-configuracion-urbana-continua" type="radio" value="Continua" name="list-radio-tipo-configuracion-urbana" class="w-4 h-4"
+                                {% if ficha_udd.tipo_configuracion_urbana == 'Continua' %}checked{% endif %}
+                                >
                                 <label for="tipo-configuracion-urbana-continua" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Continua</label>
                             </li>
                             <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4">
-                                <input id="tipo-configuracion-dispersa" type="radio" value="Dispersa" name="list-radio-tipo-configuracion-urbana" class="w-4 h-4">
+                                <input id="tipo-configuracion-dispersa" type="radio" value="Dispersa" name="list-radio-tipo-configuracion-urbana" class="w-4 h-4"
+                                {% if ficha_udd.tipo_configuracion_urbana == 'Dispersa' %}checked{% endif %}
+                                >
                                 <label for="tipo-configuracion-dispersa" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Dispersa</label>
                             </li>
                         </ul>
@@ -508,17 +529,17 @@
                         <!-- N° de lotes -->
                         <div class="flex-1">
                         <label for="numero-lotes" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° de lotes</label>
-                        <input type="text" id="numero-lotes" name="numero-lotes" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de lotes">
+                        <input type="text" id="numero-lotes" name="numero-lotes" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de lotes" value="{{ ficha_udd.numero_lotes }}">
                         </div>
                         <!-- N° de manzanos -->
                         <div class="flex-1">
                         <label for="numero-manzanas" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° de manzanas</label>
-                        <input type="text" id="numero-manzanas" name="numero-manzanas" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de manzanas">
+                        <input type="text" id="numero-manzanas" name="numero-manzanas" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de manzanas" value="{{ ficha_udd.numero_manzanas }}">
                         </div>
                         <!-- Vivencia -->
                         <div class="flex-1">
                         <label for="porcentaje-vivencia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Vivencia %</label>
-                        <input id="porcentaje-vivencia" name="porcentaje-vivencia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Vivencia %" type="text">
+                        <input id="porcentaje-vivencia" name="porcentaje-vivencia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Vivencia %" type="text" value="{{ ficha_udd.porcentaje_vivencia }}">
                         </div>
                     </div>
 
@@ -586,13 +607,17 @@
                                 </li>
                             </ul>
                         </div>
+                        <!-- {{ ficha_udd.equipamientos }}
+                        {{ ficha_udd.material_predominante }}
+                        {{ ficha_udd.servicios_basicos }} -->
                         <!-- Material predominante -->
                         <div>
                             <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Material predominante</h2>
                             <ul class="mt-1 text-sm font-medium text-gray-700 divide-x divide-y divide-gray-100">
                                 <li class="bg-[#acacac] flex items-center gap-x-2 px-2 py-4">
                                     <div class="flex items-center gap-2 sm:w-24 w-[25%]">
-                                        <input id="material-predominante-Ladrillo" type="checkbox" value="Ladrillo" name="list-checkbox-material-predominante" class="w-4 h-4">
+                                        <input id="material-predominante-Ladrillo" type="checkbox" value="Ladrillo" name="list-checkbox-material-predominante" class="w-4 h-4"
+                                        >
                                         <label for="material-predominante-Ladrillo" class="font-gotham-bold font-medium text-gray-100 cursor-pointer hover:text-gray-300">Ladrillo:</label>
                                     </div>
                                     <div class="flex-1 flex items-center gap-2">
@@ -933,16 +958,75 @@
                     class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]"
                     id="btn-cancelar"><i class="fas fa-times"></i> Cancelar</a>
                 <button type="submit" class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]"
-                    id="btn-create"><i class="fas fa-save"></i> Agregar</button>
+                    id="btn-update"><i class="fas fa-save"></i> Actualizar</button>
             </div>
         </form>
     </div>
+    <script>
+        const equipamientos = {{ ficha_udd.equipamientos|safe }};
+        const material_predominante = {{ ficha_udd.material_predominante|safe }};
+        const servicios_basicos = {{ ficha_udd.servicios_basicos|safe }};
+        const setDataListCheckbox = () => {
+            const getPercent = (value, total) => {
+                const num = value * 100 / total;
+                // return num;
+                return (num || 0).toFixed(2);
+            };
+            equipamientos.map(value => {
+                const total = equipamientos.reduce((acc, curr) => acc+curr.quantity, 0);
+                const percent = getPercent(value.quantity, total);
+                if(value.name === 'Otros') {
+                    document.getElementById(`equipamientos-Otros-value`).value = value.valueOtros;
+                }
+
+                const name = value.name.split(' ').join('-');
+                const checkbox = document.getElementById(`equipamientos-${name}`);
+                checkbox.checked = true;
+                const inputCantidad = document.getElementById(`equipamientos-${name}-cantidad`);
+                const span = inputCantidad.nextElementSibling;
+                span.innerText = `${percent}%`;
+                inputCantidad.value = value.quantity;
+                document.getElementById('equipamientos-total').innerText = total;
+            });
+            material_predominante.map(value => {
+                const total = material_predominante.reduce((acc, curr) => acc+curr.quantity, 0);
+                const percent = getPercent(value.quantity, total);
+                if(value.name === 'Otros') {
+                    document.getElementById(`material-predominante-Otros-value`).value = value.valueOtros;
+                }
+
+                const name = value.name.split(' ').join('-');
+                const checkbox = document.getElementById(`material-predominante-${name}`);
+                checkbox.checked = true;
+                const inputCantidad = document.getElementById(`material-predominante-${name}-cantidad`);
+                const span = inputCantidad.nextElementSibling;
+                span.innerText = `${percent}%`;
+                inputCantidad.value = value.quantity
+                document.getElementById('material-predominante-total').innerText = total;
+            });
+            servicios_basicos.map(value => {
+                const total = servicios_basicos.reduce((acc, curr) => acc+curr.quantity, 0);
+                const percent = getPercent(value.quantity, total);
+
+                const name = value.name.split(' ').join('-');
+                const checkbox = document.getElementById(`servicios-basicos-${name}`);
+                checkbox.checked = true;
+                const inputCantidad = document.getElementById(`servicios-basicos-${name}-cantidad`);
+                const span = inputCantidad.nextElementSibling;
+                span.innerText = `${percent}%`;
+                inputCantidad.value = value.quantity
+                document.getElementById('servicios-basicos-total').innerText = total;
+            });
+        };
+        setDataListCheckbox();
+
+    </script>
     <script src="{% static 'crm/ficha_udd/js/navbar.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/selectors.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/init-data-create.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/multi-step-create.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/autocomplete-ubigeo.js' %}"></script>
-    <script src="{% static 'crm/ficha_udd/js/create.js' %}"></script>
+    <script src="{% static 'crm/ficha_udd/js/update.js' %}"></script>
 </body>
 
 </html>

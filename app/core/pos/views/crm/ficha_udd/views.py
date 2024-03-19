@@ -104,7 +104,58 @@ class FichaUddCreateView(TemplateView):
         context['title'] = 'Nuevo registro de una ficha de identificacion preliminar'
         context['action'] = 'add'
         return context
-    
+
+@method_decorator(csrf_exempt, name='dispatch')
+class FichaUddUpdateView(TemplateView):
+    model = PosesionInformal
+    template_name = 'crm/ficha_udd/update.html'
+    success_url = reverse_lazy('acta_list')
+    # http_method_names = ["get", "post"]
+    def post(self, request, *args, **kwargs):
+        # Obtener los datos del cuerpo de la solicitud
+        pk = self.kwargs.get('pk')
+        data = json.loads(request.body)
+
+        # print(f'pk {pk}')
+        # print(data)
+        # return JsonResponse({'message': 'Ficha_udd actualizada exitosamente'}, status=201)
+        
+        # Crear una instancia de Acta
+        posesionInformal = get_object_or_404(PosesionInformal, pk=pk)
+        print(posesionInformal)
+        #datos posesion informal
+        posesionInformal.fecha = data.get('fecha')
+        posesionInformal.codigo = data.get('codigo')
+        posesionInformal.departamento = data.get('departamento')
+        posesionInformal.provincia = data.get('provincia')
+        posesionInformal.distrito = data.get('distrito')
+        posesionInformal.coordenada_x = data.get('wgs-x84-x')
+        posesionInformal.coordenada_y = data.get('wgs-x84-y')
+        posesionInformal.tipo_posecion_informal = data.get('list-radio-tipo-posesion-informal')
+        posesionInformal.denominacion_segun_inei = data.get('denominacion-inei')
+        #forma de asentamiento
+        posesionInformal.tipo_matriz = data.get('tipo-matriz')
+        posesionInformal.contexto_legal = data.get('contexto-legal')
+        posesionInformal.aciones_de_formalizacion = data.get('acciones-formalizacion')
+        #accesibilidad
+        posesionInformal.tipo_calzada = data.get('tipo-calzada')
+        posesionInformal.tipo_calzada_distancia = data.get('distancia')
+        posesionInformal.referencia_local = data.get('referencia-local')
+        posesionInformal.referencia_local_tiempo = data.get('tiempo')
+        posesionInformal.ruta = data.get('rutas')
+        posesionInformal.ruta_especifica = data.get('especificar')
+        posesionInformal.save()
+
+        return JsonResponse({'message': 'Ficha_udd creada exitosamente'}, status=201)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        ficha_udd = get_object_or_404(PosesionInformal, pk=pk)
+        context['list_url'] = self.success_url
+        context['ficha_udd'] = ficha_udd
+        # context['archivos_acta'] = acta.imagenes.get()
+        return context
 
 class FichaUddDeleteView(DeleteView):
     model = PosesionInformal
