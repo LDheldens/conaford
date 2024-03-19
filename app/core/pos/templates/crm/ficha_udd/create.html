@@ -739,7 +739,7 @@
                                 <label for="zonificacion-municipal-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="zonificacion-municipal-no" type="radio" value="no" name="list-radio-zonificacion-municipal" class="w-4 h-4">
+                                <input id="zonificacion-municipal-no" type="radio" value="no" name="list-radio-zonificacion-municipal" class="w-4 h-4" checked>
                                 <label for="zonificacion-municipal-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
                         </div>
@@ -884,7 +884,7 @@
                     <h2 class="font-bold text-sm mb-2 font-gotham-bold">8.- CONFLICTOS JUDICIALES O ADMINISTRATIVOS</h2>
                     <ul class="mt-1 text-sm font-medium text-gray-700 flex sm:flex-row flex-col divide-x divide-y divide-gray-100">
                         <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4">
-                            <input id="conflictos-judiciales-o-administrativo-si" type="radio" value="si" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4">
+                            <input id="conflictos-judiciales-o-administrativo-si" name="list-radio-conflictos-judiciales-o-administrativo" type="radio" value="si"  checked>
                             <label for="conflictos-judiciales-o-administrativo-si" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Si</label>
                         </li>
                         <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4">
@@ -937,12 +937,15 @@
             </div>
         </form>
     </div>
+    <script>
+        const action = '{{ action }}'
+    </script>
     <script src="{% static 'crm/ficha_udd/js/navbar.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/selectors.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/init-data-create.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/multi-step-create.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/autocomplete-ubigeo.js' %}"></script>
-    <script src="{% static 'crm/ficha_udd/js/create.js' %}"></script>
+    <script src="{% static 'crm/ficha_udd/js/create-update.js' %}"></script>
 </body>
 
 </html>

@@ -760,11 +760,11 @@
                         <h1 class="font-bold text-sm font-gotham-bold">5.- ZONIFICACION MUNICIPAL:</h1>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="zonificacion-municipal-si" type="radio" value="si" name="list-radio-zonificacion-municipal" class="w-4 h-4">
+                                <input id="zonificacion-municipal-si" type="radio" value="si" name="list-radio-zonificacion-municipal" class="w-4 h-4" {% if ficha_udd.zonificacion_municipal %}checked{% endif %}>
                                 <label for="zonificacion-municipal-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="zonificacion-municipal-no" type="radio" value="no" name="list-radio-zonificacion-municipal" class="w-4 h-4">
+                                <input id="zonificacion-municipal-no" type="radio" value="no" name="list-radio-zonificacion-municipal" class="w-4 h-4" {% if not ficha_udd.zonificacion_municipal %}checked{% endif %}>
                                 <label for="zonificacion-municipal-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
                         </div>
@@ -776,7 +776,7 @@
                     <!-- Zonas reservadas -->
                     <div class="mb-4 bg-[#d3d3d3] rounded-md p-4">
                         <label for="zonas-reservadas" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold block mb-2">Zonas reservadas:</label>
-                        <input type="text" id="zonas-reservadas" name="zonas-reservadas" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas reservadas" value="">
+                        <input type="text" id="zonas-reservadas" name="zonas-reservadas" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas reservadas" value="{{ ficha_udd.zonas_reservadas }}">
                     </div>
                     <!-- Zonas Arqueológicas o Reservas Naturales -->
                     <div class="mb-4 bg-[#d3d3d3] rounded-md p-4">
@@ -784,29 +784,29 @@
                             <label for="zonas-arqueologica-o-reservas-naturales" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Zonas Arqueológicas o Reservas Naturales:</label>
                             <div class="flex gap-x-1">
                                 <div class="flex items-center gap-x-1">
-                                    <input id="zonas-arqueologica-o-reservas-naturales-si" type="radio" value="si" name="list-radio-zonas-arqueologica-o-reservas-naturales" class="w-4 h-4">
+                                    <input id="zonas-arqueologica-o-reservas-naturales-si" type="radio" value="si" name="list-radio-zonas-arqueologica-o-reservas-naturales" class="w-4 h-4" {% if ficha_udd.zonas_arquelogicas_o_reservas %}checked{% endif %}>
                                     <label for="zonas-arqueologica-o-reservas-naturales-si" class="font-gotham-bold text-sm">SI</label>
                                 </div>
                                 <div class="flex items-center gap-x-1">
-                                    <input id="zonas-arqueologica-o-reservas-naturales-no" type="radio" value="no"  name="list-radio-zonas-arqueologica-o-reservas-naturales" class="w-4 h-4" checked>
+                                    <input id="zonas-arqueologica-o-reservas-naturales-no" type="radio" value="no"  name="list-radio-zonas-arqueologica-o-reservas-naturales" class="w-4 h-4" {% if not ficha_udd.zonas_arquelogicas_o_reservas %}checked{% endif %}>
                                     <label for="zonas-arqueologica-o-reservas-naturales-no" class="font-gotham-bold text-sm">NO</label>
                                 </div>
                             </div>
                         </div>
-                        <div  id="container-zonas-arqueologica-o-reservas-naturales" class="hidden">
-                            <input type="text" id="zonas-arqueologica-o-reservas-naturales" name="zonas-arqueologica-o-reservas-naturales" class="sm:w-[30%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas Arqueológicas o Reservas Naturales" value="">
+                        <div  id="container-zonas-arqueologica-o-reservas-naturales" class="{% if not ficha_udd.zonas_arquelogicas_o_reservas %}hidden{% endif %}">
+                            <input type="text" id="zonas-arqueologica-o-reservas-naturales" name="zonas-arqueologica-o-reservas-naturales" class="sm:w-[30%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas Arqueológicas o Reservas Naturales" value="{{ ficha_udd.zonas_a_o_r_nombre }}">
                             <!-- <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Ubicación</h2> -->
                             <ul class="mt-2 text-sm font-medium text-gray-700 flex sm:flex-row flex-col divide-x divide-y divide-gray-100 mb-2">
                                 <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                    <input id="zonas-arqueologicas-o-reservas-naturales-ubicacion-Fuera" type="radio" value="Fuera" name="list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion" class="w-4 h-4">
+                                    <input id="zonas-arqueologicas-o-reservas-naturales-ubicacion-Fuera" type="radio" value="Fuera" name="list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion" class="w-4 h-4" {% if ficha_udd.zonas_a_o_r_ubicacion == 'Fuera' %}checked{% endif %}>
                                     <label for="zonas-arqueologicas-o-reservas-naturales-ubicacion-Fuera" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Fuera</label>
                                 </li>
                                 <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                    <input id="zonas-arqueologicas-o-reservas-naturales-ubicacion-Colindante" type="radio" value="Colindante" name="list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion" class="w-4 h-4">
+                                    <input id="zonas-arqueologicas-o-reservas-naturales-ubicacion-Colindante" type="radio" value="Colindante" name="list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion" class="w-4 h-4" {% if ficha_udd.zonas_a_o_r_ubicacion == 'Colindante' %}checked{% endif %}>
                                     <label for="zonas-arqueologicas-o-reservas-naturales-ubicacion-Colindante" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Colindante</label>
                                 </li>
                                 <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                    <input id="zonas-arqueologicas-o-reservas-naturales-ubicacion-Dentro" type="radio" value="Dentro" name="list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion" class="w-4 h-4">
+                                    <input id="zonas-arqueologicas-o-reservas-naturales-ubicacion-Dentro" type="radio" value="Dentro" name="list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion" class="w-4 h-4" {% if ficha_udd.zonas_a_o_r_ubicacion == 'Dentro' %}checked{% endif %}>
                                     <label for="zonas-arqueologicas-o-reservas-naturales-ubicacion-Dentro" class="w-full font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Dentro</label>
                                 </li>
                             </ul>
@@ -822,29 +822,31 @@
                             <label for="zonas-riesgo" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Zonas de riesgo:</label>
                             <div class="flex gap-x-1">
                                 <div class="flex items-center gap-x-1">
-                                    <input id="zonas-riesgo-si" type="radio" value="si" name="list-radio-zonas-riesgo" class="w-4 h-4">
+                                    <input id="zonas-riesgo-si" type="radio" value="si" name="list-radio-zonas-riesgo" class="w-4 h-4"
+                                    {% if ficha_udd.zonas_riesgo %}checked{% endif %}>
                                     <label for="zonas-riesgo-si" class="font-gotham-bold text-sm">SI</label>
                                 </div>
                                 <div class="flex items-center gap-x-1">
-                                    <input id="zonas-riesgo-no" type="radio" value="no" name="list-radio-zonas-riesgo" class="w-4 h-4" checked>
+                                    <input id="zonas-riesgo-no" type="radio" value="no" name="list-radio-zonas-riesgo" class="w-4 h-4"
+                                    {% if not ficha_udd.zonas_riesgo %}checked{% endif %}>
                                     <label for="zonas-riesgo-no" class="font-gotham-bold text-sm">NO</label>
                                 </div>
                             </div>
                         </div>
-                        <div id="container-zonas-riesgo" class="hidden">
-                            <input type="text" id="zonas-riesgo" name="zonas-riesgo" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas Riesgo" value="">
+                        <div id="container-zonas-riesgo" class="{% if not ficha_udd.zonas_riesgo %}hidden{% endif %}">
+                            <input type="text" id="zonas-riesgo" name="zonas-riesgo" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Zonas Riesgo" value="{{ ficha_udd.zonas_riesgo_nombre }}">
                             <!-- <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Ubicación</h2> -->
                             <ul class="mt-2 text-sm font-medium text-gray-700 flex sm:flex-row flex-col divide-x divide-y divide-gray-100 mb-2">
                                <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                  <input id="zonas-riesgo-ubicacion-Fuera" type="radio" value="Fuera" name="list-radio-zonas-riesgo-ubicacion" class="w-4 h-4">
+                                  <input id="zonas-riesgo-ubicacion-Fuera" type="radio" value="Fuera" name="list-radio-zonas-riesgo-ubicacion" class="w-4 h-4" {% if ficha_udd.zonas_riesgo_ubicacion == 'Fuera' %}checked{% endif %}>
                                   <label for="zonas-riesgo-ubicacion-Fuera" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Fuera</label>
                                </li>
                                <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                  <input id="zonas-riesgo-ubicacion-Colindante" type="radio" value="Colindante" name="list-radio-zonas-riesgo-ubicacion" class="w-4 h-4">
+                                  <input id="zonas-riesgo-ubicacion-Colindante" type="radio" value="Colindante" name="list-radio-zonas-riesgo-ubicacion" class="w-4 h-4" {% if ficha_udd.zonas_riesgo_ubicacion == 'Colindante' %}checked{% endif %}>
                                   <label for="zonas-riesgo-ubicacion-Colindante" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Colindante</label>
                                </li>
                                <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4">
-                                  <input id="zonas-riesgo-ubicacion-Dentro" type="radio" value="Dentro" name="list-radio-zonas-riesgo-ubicacion" class="w-4 h-4">
+                                  <input id="zonas-riesgo-ubicacion-Dentro" type="radio" value="Dentro" name="list-radio-zonas-riesgo-ubicacion" class="w-4 h-4" {% if ficha_udd.zonas_riesgo_ubicacion == 'Dentro' %}checked{% endif %}>
                                   <label for="zonas-riesgo-ubicacion-Dentro" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Dentro</label>
                                </li>
                             </ul>
@@ -858,22 +860,22 @@
                     <!-- Concesiones mineras -->
                     <div class="mb-4 bg-[#d3d3d3] rounded-md p-4">
                         <label for="concesiones-mineras" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold block mb-2">Concesiones mineras:</label>
-                        <input type="text" id="concesiones-mineras" name="concesiones-mineras" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Concesiones mineras" value="">
+                        <input type="text" id="concesiones-mineras" name="concesiones-mineras" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Concesiones mineras" value="{{ ficha_udd.conceciones_mineras }}">
                      </div>
                     <!-- Canales de regadío, postes y cables de media y alta tensión -->
                     <div class="mb-4 bg-[#d3d3d3] rounded-md p-4">
                         <label for="canales-de-regadio-postes-cables" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold block mb-2">Canales de regadío, postes y cables de media y alta tensión:</label>
-                        <input type="text" id="canales-de-regadio-postes-cables" name="canales-de-regadio-postes-cables" class="sm:w-[40%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Canales de regadío, postes y cables de media y alta tensión" value="">
+                        <input type="text" id="canales-de-regadio-postes-cables" name="canales-de-regadio-postes-cables" class="sm:w-[40%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Canales de regadío, postes y cables de media y alta tensión" value="{{ ficha_udd.canales_postes_cables }}">
                      </div>
                     <!-- Posibles propietarios de fundos, haciendas, parcelas, etc. -->
                     <div class="mb-4 bg-[#d3d3d3] rounded-md p-4">
                         <label for="propietarios-de-fundos-haciendas-parcelas-etc" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold block mb-2">Posibles propietarios de fundos, haciendas, parcelas, etc.:</label>
-                        <input type="text" id="propietarios-de-fundos-haciendas-parcelas-etc" name="propietarios-de-fundos-haciendas-parcelas-etc" class="sm:w-[40%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Posibles propietarios de fundos, haciendas, parcelas, etc." value="">
+                        <input type="text" id="propietarios-de-fundos-haciendas-parcelas-etc" name="propietarios-de-fundos-haciendas-parcelas-etc" class="sm:w-[40%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Posibles propietarios de fundos, haciendas, parcelas, etc." value="{{ ficha_udd.posibles_propietarios }}">
                      </div>
                     <!-- Otros -->
                     <div class="mb-4 bg-[#d3d3d3] rounded-md p-4">
                         <label for="otros" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold block mb-2">Otros:</label>
-                        <input type="text" id="otros" name="otros" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="otros" value="">
+                        <input type="text" id="otros" name="otros" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="otros" value="{{ ficha_udd.otros }}">
                      </div>
                 </div>
                 <!-- 7.- CONFLICTOS DIRIGENCIALES -->
@@ -882,17 +884,17 @@
                         <h2 class="font-bold text-sm font-gotham-bold">7.- CONFLICTOS DIRIGENCIALES:</h2>
                         <div class="flex gap-x-1">
                             <div class="flex items-center gap-x-1">
-                                <input id="conflictos-digerenciales-si" type="radio" value="si" name="list-radio-conflictos-digerenciales" class="w-4 h-4">
+                                <input id="conflictos-digerenciales-si" type="radio" value="si" name="list-radio-conflictos-digerenciales" class="w-4 h-4" {% if ficha_udd.conflictos_dirigenciales %}checked{% endif %}>
                                 <label for="conflictos-digerenciales-si" class="font-gotham-bold text-sm">SI</label>
                             </div>
                             <div class="flex items-center gap-x-1">
-                                <input id="conflictos-digerenciales-no" type="radio" value="no" name="list-radio-conflictos-digerenciales" class="w-4 h-4" checked>
+                                <input id="conflictos-digerenciales-no" type="radio" value="no" name="list-radio-conflictos-digerenciales" class="w-4 h-4" {% if not ficha_udd.conflictos_dirigenciales %}checked{% endif %}>
                                 <label for="conflictos-digerenciales-no" class="font-gotham-bold text-sm">NO</label>
                             </div>
                         </div>
                     </div>
-                    <div  id="container-conflictos-dirigenciales" class="hidden">
-                        <input type="text" id="conflictos-dirigenciales" name="conflictos-dirigenciales" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] mb-2" placeholder="Conflictos dirigenciales" value="">
+                    <div  id="container-conflictos-dirigenciales" class="{% if not ficha_udd.conflictos_dirigenciales %}hidden{% endif %}">
+                        <input type="text" id="conflictos-dirigenciales" name="conflictos-dirigenciales" class="sm:w-[25%] w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] mb-2" placeholder="Conflictos dirigenciales" value="{{ ficha_udd.conflictos_dirigenciales_nombre }}">
                         <!-- <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Ubicación</h2> -->
                         <div class="bg-white rounded-md p-5 sm:w-[25%] w-full">
                             <label for="conflictos-dirigenciales-pdf" class="font-bold">Suba un pdf:</label>
@@ -900,7 +902,7 @@
                         </div>
                         <div class="mb-4 sm:w-[25%] w-full">
                             <label for="conflictos-dirigenciales-comentarios" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Comentarios:</label>
-                            <textarea id="conflictos-dirigenciales-comentarios" name="conflictos-dirigenciales-comentarios" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Comentarios"></textarea>
+                            <textarea id="conflictos-dirigenciales-comentarios" name="conflictos-dirigenciales-comentarios" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Comentarios">{{ ficha_udd.conflictos_dirigenciales_comentarios }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -909,13 +911,17 @@
                     <h2 class="font-bold text-sm mb-2 font-gotham-bold">8.- CONFLICTOS JUDICIALES O ADMINISTRATIVOS</h2>
                     <ul class="mt-1 text-sm font-medium text-gray-700 flex sm:flex-row flex-col divide-x divide-y divide-gray-100">
                         <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4">
-                            <input id="conflictos-judiciales-o-administrativo-si" type="radio" value="si" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4">
+                            <input id="conflictos-judiciales-o-administrativo-si" type="radio" value="si" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4"
+                            {% if ficha_udd.conflictos_judiciales %}checked{% endif %}
+                            >
                             <label for="conflictos-judiciales-o-administrativo-si" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">Si</label>
                         </li>
                         <li class="bg-[#FFAF00] flex items-center gap-x-2 px-2 py-4">
-                            <input id="conflictos-judiciales-o-administrativo-no" type="radio" value="no" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4">
+                            <input id="conflictos-judiciales-o-administrativo-no" type="radio" value="no" name="list-radio-conflictos-judiciales-o-administrativo" class="w-4 h-4"
+                            {% if not ficha_udd.conflictos_judiciales %}checked{% endif %}
+                            >
                             <label for="conflictos-judiciales-o-administrativo-no" class="font-gotham-bold text-sm font-medium text-gray-800 cursor-pointer hover:text-gray-500">No</label>
-                            <input type="text" id="conflictos-judiciales-o-administrativo-especificar" name="conflictos-judiciales-o-administrativo-especificar" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar">
+                            <input type="text" id="conflictos-judiciales-o-administrativo-especificar" name="conflictos-judiciales-o-administrativo-especificar" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar" value="{{ ficha_udd.conflictos_judiciales_descripcion }}">
                         </li>
                     </ul>
                 </div>
@@ -928,7 +934,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="imagen-areas-restringidas-comentarios" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Comentarios:</label>
-                        <textarea id="imagen-areas-restringidas-comentarios" name="imagen-areas-restringidas-comentarios" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Comentarios"></textarea>
+                        <textarea id="imagen-areas-restringidas-comentarios" name="imagen-areas-restringidas-comentarios" rows="4" class="block w-full px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42] hover:border-2" placeholder="Comentarios">{{ ficha_udd.comentarios_observaciones }}</textarea>
                     </div>
                 </div>
                 <!-- next && prev -->
@@ -962,6 +968,10 @@
             </div>
         </form>
     </div>
+    <script>
+        const action = '{{ action }}'
+    </script>
+    {% if action == 'update' %}
     <script>
         const equipamientos = {{ ficha_udd.equipamientos|safe }};
         const material_predominante = {{ ficha_udd.material_predominante|safe }};
@@ -1021,12 +1031,13 @@
         setDataListCheckbox();
 
     </script>
+    {% endif %}
     <script src="{% static 'crm/ficha_udd/js/navbar.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/selectors.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/init-data-create.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/multi-step-create.js' %}"></script>
     <script src="{% static 'crm/ficha_udd/js/autocomplete-ubigeo.js' %}"></script>
-    <script src="{% static 'crm/ficha_udd/js/update.js' %}"></script>
+    <script src="{% static 'crm/ficha_udd/js/create-update.js' %}"></script>
 </body>
 
 </html>

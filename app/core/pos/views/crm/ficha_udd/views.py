@@ -23,7 +23,7 @@ class FichaUddCreateView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
-        # print(data)
+        print(data)
         # return JsonResponse({'message': 'Ficha Udd creada correctamente'}, status=201)
         posesionInformal = PosesionInformal()
         #datos posecion informal
@@ -47,7 +47,7 @@ class FichaUddCreateView(TemplateView):
         posesionInformal.referencia_local_tiempo = data.get('tiempo')
         posesionInformal.ruta = data.get('rutas')
         posesionInformal.ruta_especifica = data.get('especificar')
-         #configuracion urbana
+        #configuracion urbana
         posesionInformal.tipo_configuracion_urbana = data.get('list-radio-tipo-configuracion-urbana')
         posesionInformal.numero_lotes = data.get('numero-lotes')
         posesionInformal.numero_manzanas = data.get('numero-manzanas')
@@ -121,7 +121,6 @@ class FichaUddUpdateView(TemplateView):
         
         # Crear una instancia de Acta
         posesionInformal = get_object_or_404(PosesionInformal, pk=pk)
-        print(posesionInformal)
         #datos posesion informal
         posesionInformal.fecha = data.get('fecha')
         posesionInformal.codigo = data.get('codigo')
@@ -143,9 +142,55 @@ class FichaUddUpdateView(TemplateView):
         posesionInformal.referencia_local_tiempo = data.get('tiempo')
         posesionInformal.ruta = data.get('rutas')
         posesionInformal.ruta_especifica = data.get('especificar')
-        posesionInformal.save()
+        #configuracion urbana
+        posesionInformal.tipo_configuracion_urbana = data.get('list-radio-tipo-configuracion-urbana')
+        posesionInformal.numero_lotes = data.get('numero-lotes')
+        posesionInformal.numero_manzanas = data.get('numero-manzanas')
+        posesionInformal.porcentaje_vivencia = data.get('porcentaje-vivencia')
+        posesionInformal.equipamientos = data.get('list-checkbox-equipamientos')
+        posesionInformal.material_predominante = data.get('list-checkbox-material-predominante')
+        posesionInformal.servicios_basicos = data.get('list-checkbox-servicios-basicos')
+        #zonificacion_municipal
+        posesionInformal.zonificacion_municipal = data.get('list-radio-zonificacion-municipal')
+        #areas restringidas y/o formas de dominio
+        posesionInformal.zonas_reservadas = data.get('zonas-reservadas')
+        posesionInformal.zonas_arquelogicas_o_reservas = data.get('list-radio-zonas-arqueologica-o-reservas-naturales')
+        posesionInformal.zonas_a_o_r_nombre = data.get('zonas-arqueologica-o-reservas-naturales')
+        posesionInformal.zonas_a_o_r_ubicacion = data.get('list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion')
+        zonas_arqueologicas_o_reservas_naturales_pdf_base64 = data.get('zonas-arqueologicas-o-reservas-naturales-pdf')
+        if zonas_arqueologicas_o_reservas_naturales_pdf_base64:
+            zonas_arquelogicas_o_reservas_pdf_content = ContentFile(base64.b64decode(zonas_arqueologicas_o_reservas_naturales_pdf_base64), name='zonas_arqueologicas_o_reservas_naturales.pdf')
+            posesionInformal.zonas_arquelogicas_o_reservas_pdf.save('zonas_arqueologicas_o_reservas_naturales.pdf', zonas_arquelogicas_o_reservas_pdf_content)
+            
+        posesionInformal.zonas_riesgo = data.get('list-radio-zonas-riesgo')
+        posesionInformal.zonas_riesgo_nombre = data.get('zonas-riesgo')
+        posesionInformal.zonas_riesgo_ubicacion = data.get('list-radio-zonas-riesgo-ubicacion')
+        zonas_riesgo_pdf_base64 = data.get('zonas-riesgo-pdf')
+        if zonas_riesgo_pdf_base64:
+            zonas_riesgo_pdf_base64_content = ContentFile(base64.b64decode(zonas_riesgo_pdf_base64), name='zonas_riesgo.pdf')
+            posesionInformal.zonas_riesgo_pdf.save('zonas_riesgo.pdf', zonas_riesgo_pdf_base64_content)
 
-        return JsonResponse({'message': 'Ficha_udd creada exitosamente'}, status=201)
+        posesionInformal.conceciones_mineras = data.get('concesiones-mineras')
+        posesionInformal.canales_postes_cables = data.get('canales-de-regadio-postes-cables')
+        posesionInformal.posibles_propietarios = data.get('propietarios-de-fundos-haciendas-parcelas-etc')
+        posesionInformal.otros = data.get('otros')
+        #conflictos dirigenciales
+        posesionInformal.conflictos_dirigenciales = data.get('list-radio-conflictos-digerenciales')
+        posesionInformal.conflictos_dirigenciales_nombre = data.get('conflictos-dirigenciales')
+        conflictos_dirigenciales_pdf_base64 = data.get('conflictos-dirigenciales-pdf')
+        if conflictos_dirigenciales_pdf_base64:
+            conflictos_dirigenciales_pdf_base64_content = ContentFile(base64.b64decode(conflictos_dirigenciales_pdf_base64), name='conflictos_dirigenciales.pdf')
+            posesionInformal.zonas_riesgo_pdf.save('conflictos_dirigenciales.pdf', conflictos_dirigenciales_pdf_base64_content)
+        posesionInformal.conflictos_dirigenciales_comentarios = data.get('conflictos-dirigenciales-comentarios')
+        posesionInformal.conflictos_judiciales = data.get('list-radio-conflictos-judiciales-o-administrativo')
+        posesionInformal.conflictos_judiciales_descripcion = data.get('conflictos-judiciales-o-administrativo-especificar')
+        imagen_satelital_pdf_base64 = data.get('imagen-satelital-pdf')
+        if imagen_satelital_pdf_base64:
+            imagen_satelital_pdf_base64_content = ContentFile(base64.b64decode(imagen_satelital_pdf_base64), name='imagen_satelital.pdf')
+            posesionInformal.imagen_satelital_pdf.save('imagen_satelital.pdf', imagen_satelital_pdf_base64_content)
+        posesionInformal.comentarios_observaciones = data.get('imagen-areas-restringidas-comentarios')
+        posesionInformal.save()
+        return JsonResponse({'message': 'Ficha_udd actualizada exitosamente'}, status=201)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -153,6 +198,7 @@ class FichaUddUpdateView(TemplateView):
         ficha_udd = get_object_or_404(PosesionInformal, pk=pk)
         context['list_url'] = self.success_url
         context['ficha_udd'] = ficha_udd
+        context['action'] = 'update'
         # context['archivos_acta'] = acta.imagenes.get()
         return context
 

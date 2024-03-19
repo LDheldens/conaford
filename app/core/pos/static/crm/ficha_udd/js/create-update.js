@@ -41,7 +41,7 @@ submitActa.addEventListener('submit', async (event) => {
     formDataObject['distancia'] = Number(formDataObject['distancia'] || 0);
     formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes'] || 0);
     formDataObject['numero-manzanas'] = Number(formDataObject['numero-manzanas'] || 0);
-    formDataObject['porcentaje-vivencia'] = Number(formDataObject['porcentaje-vivencia'] || 0);
+    formDataObject['porcentaje-vivencia'] = Number(formDataObject['porcentaje-vivencia'].replace(',', '.') || 0);
 
     if(!formDataObject['list-radio-tipo-posesion-informal']) {
         formDataObject['list-radio-tipo-posesion-informal'] = '';
@@ -49,7 +49,7 @@ submitActa.addEventListener('submit', async (event) => {
     if(!formDataObject['list-radio-tipo-configuracion-urbana']) {
         formDataObject['list-radio-tipo-configuracion-urbana'] = '';
     }
-
+    
     if(!formDataObject['list-checkbox-equipamientos']) {
         formDataObject['list-checkbox-equipamientos'] = []
     } else {
@@ -75,29 +75,19 @@ submitActa.addEventListener('submit', async (event) => {
         });
     }
     
-    if(!formDataObject['list-radio-zonificacion-municipal']) {
-        formDataObject['list-radio-zonificacion-municipal'] = false;
-    } else {
-        formDataObject['list-radio-zonificacion-municipal'] === getValueListRadio('list-radio-zonificacion-municipal') === 'si'? true: false;
-    }
-    if(!formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales']) {
-        formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales'] = false;
-    } else {
-        formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales'] = getValueListRadio('list-radio-zonas-arqueologica-o-reservas-naturales') === 'si'? true: false;
-    }
+    formDataObject['list-radio-zonificacion-municipal'] = getValueListRadio('list-radio-zonificacion-municipal') === 'si'? true: false;
+    formDataObject['list-radio-zonas-arqueologica-o-reservas-naturales'] = getValueListRadio('list-radio-zonas-arqueologica-o-reservas-naturales') === 'si'? true: false;
 
     if(!formDataObject['list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion']) {
         formDataObject['list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion'] = '';
     } else {
         formDataObject['list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion'] = getValueListRadio('list-radio-zonas-arqueologicas-o-reservas-naturales-ubicacion')
     }
+    
+    
     formDataObject['zonas-arqueologicas-o-reservas-naturales-pdf'] = await fileToBase64(document.getElementById('zonas-arqueologicas-o-reservas-naturales-pdf').files[0]);
     //
-    if(!formDataObject['list-radio-zonas-riesgo']) {
-        formDataObject['list-radio-zonas-riesgo'] = false;
-    } else {
-        formDataObject['list-radio-zonas-riesgo'] = getValueListRadio('list-radio-zonas-riesgo') === 'si'? true: false;
-    }
+    formDataObject['list-radio-zonas-riesgo'] = getValueListRadio('list-radio-zonas-riesgo') === 'si'? true: false;
     if(!formDataObject['list-radio-zonas-riesgo-ubicacion']) {
         formDataObject['list-radio-zonas-riesgo-ubicacion'] = '';
     } else {
@@ -105,24 +95,17 @@ submitActa.addEventListener('submit', async (event) => {
     }
     formDataObject['zonas-riesgo-pdf'] = await fileToBase64(document.getElementById('zonas-riesgo-pdf').files[0]);
     //
-    if(!formDataObject['list-radio-conflictos-digerenciales']) {
-        formDataObject['list-radio-conflictos-digerenciales'] = false;
-    } else {
-        formDataObject['list-radio-conflictos-digerenciales'] = getValueListRadio('list-radio-conflictos-digerenciales') === 'si'? true: false;
-    }
+    formDataObject['list-radio-conflictos-digerenciales'] = getValueListRadio('list-radio-conflictos-digerenciales') === 'si'? true: false;
     formDataObject['conflictos-dirigenciales-pdf'] = await fileToBase64(document.getElementById('conflictos-dirigenciales-pdf').files[0]);
     //
-    if(!formDataObject['list-radio-conflictos-judiciales-o-administrativo']) {
-        formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = false;
-    } else {
-        formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = getValueListRadio('list-radio-conflictos-judiciales-o-administrativo') === 'si'? true: false;
-    }
+    formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = getValueListRadio('list-radio-conflictos-judiciales-o-administrativo') === 'si'? true: false;
     formDataObject['imagen-satelital-pdf'] = await fileToBase64(document.getElementById('imagen-satelital-pdf').files[0]);
     // console.log(formDataObject);
     // return;
     
     try {
-        const response = await fetch(window.location.pathname, {
+        const path = action == 'add'? '/pos/crm/ficha_udd/add': window.location.pathname;
+        const response = await fetch(path, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -133,7 +116,7 @@ submitActa.addEventListener('submit', async (event) => {
         // window.location.href = "pos/crm/acta/";
         console.log('Respuesta del servidor:', data);
         await Swal.fire({
-            title: "Ficha_udd actualizada exitosamente!",
+            title: `Ficha_udd ${action === 'add'? 'añadida': 'actualizada'} exitosamente!`,
             // text: "Ficha creada exitosamente!",
             icon: "success"
           })
