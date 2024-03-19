@@ -57,7 +57,7 @@ submitActa.addEventListener('submit', async (event) => {
     formDataObject['numero-puntos'] = Number(formDataObject['numero-puntos']);
     // console.log(formDataObject);
     // return;
-    
+    console.log(formDataObject.titulares)
     try {
         const response = await fetch('/pos/crm/acta/add/', {
             method: 'POST',

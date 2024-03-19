@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
 # from django.core.exceptions import ObjectDoesNotExist
-from core.pos.models import Acta, Colindancia, Titular, ImagenActa
+from core.pos.models import Acta, Colindancia, Titular, ImagenActa, Posesion
 from django.core.files.base import ContentFile
 import base64
 from django.shortcuts import get_object_or_404
@@ -44,7 +44,7 @@ class ActaCreateView(TemplateView):
     def post(self, request, *args, **kwargs):
         # Obtener los datos del cuerpo de la solicitud
         data = json.loads(request.body)
-        print(data)
+        # print(data)
         # return JsonResponse({'message': 'Acta creada exitosamente'}, status=201)
         # Crear una instancia de Acta
         acta = Acta()
@@ -125,6 +125,20 @@ class ActaCreateView(TemplateView):
         # Procesar los titulares
         titulares_data = data['titulares']
         for titular_data in titulares_data:
+            # Verificar si el titular tiene el campo 'representante' con el valor 'si'
+            if 'representante' in titular_data and titular_data['representante'] == 'si':
+                # Agregar el titular a la lista de titulares con representante
+                poseedor = Posesion()
+                poseedor.acta = acta  # Asociación con el acta correspondiente
+                poseedor.copia_doc_identidad = titular_data.get('copiaDoc')
+                poseedor.apellidos = titular_data.get('apellidos')
+                poseedor.nombres = titular_data.get('nombres')
+                poseedor.estado_civil = titular_data.get('estadoCivil')
+                poseedor.num_doc = titular_data.get('dni')
+                
+                # Guardar la instancia de Posesion en la base de datos
+                poseedor.save()
+                
             titular = Titular()
             titular.copia_doc_identidad = titular_data.get('copiaDoc')
             titular.apellidos = titular_data.get('apellidos')

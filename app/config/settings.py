@@ -42,7 +42,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'widget_tweaks',
 ]
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 LOCAL_APPS = [
     'core.security',
     'core.user',
