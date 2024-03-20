@@ -597,7 +597,7 @@ class ColindanciaUfin(models.Model):
 class ImagenActa(models.Model):
     acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='imagenes')
     boceto_pdf = models.FileField(upload_to='acta/archivos', null=True)
-    toma_predio_imagen = models.ImageField(upload_to='acta/imagenes', null=True)
-    documento_predio_pdf = models.FileField(upload_to='acta/archivos', null=True)
+    toma_predio_imagen = models.ImageField(upload_to='acta/imagenes/', null=True)
+    documento_predio_pdf = models.FileField(upload_to='acta/archivos/', null=True)
     archivo_firmas_pdf = models.FileField(upload_to='acta/archivos', null=True)
     comentario3 = models.TextField(blank=True, null=True)

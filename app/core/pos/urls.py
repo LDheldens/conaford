@@ -14,6 +14,7 @@ from core.pos.views.crm.titular.view import *
 from core.pos.views.crm.ficha_udd.views import *
 from core.pos.views.crm.posesion.views import *
 from core.pos.views.crm.ufit.views import *
+from core.pos.views.crm.dashboard.views import *
 from core.pos.views.crm.sale.print.views import *
 
 urlpatterns = [
@@ -93,4 +94,11 @@ urlpatterns = [
     path('crm/acta/<int:pk>/colindancia/', ObtenerColindanciaActaView.as_view(), name='colindancia_por_acta'),
     path('crm/acta/colindancia/add',ColindanciaCreateView.as_view(),name='colindancia_add'),
     path('crm/acta/colindancia/update/<int:pk>/',ColindanciaUpdateView.as_view(),name='colindancia_edit'),
+    
+    # Dashboard
+    path('crm/dashboard/',DashboardView.as_view(),name='dashboard_general'),
+    path('crm/porcentaje_llenado/acta/', PorcentajeLlenadoActaView.as_view(), name='porcentaje_llenado_acta'),
+    
+    path('crm/porcentaje_llenado/posesion-informal/', PorcentajeLlenadoPosesionInformalView.as_view(), name='porcentaje_llenado_posesion_informal'),
+
 ]

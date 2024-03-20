@@ -316,8 +316,8 @@
             <div class="max-w-[500px] mx-auto my-5">
                 <label class="font-bold text-gray-500 my-2" for="id_posesion_informal">Seleccione un posesión informal:</label>
                 <select class="w-full rounded-md rounded outline-none border border-slate-200 p-1 focus:border-green-500 text-center" name="" id="id_posesion_informal">
+                    <option value="">-- Seleccione --</option>
                     {% for e in  posesiones_matriz%}
-                        <option value="">-- Seleccione --</option>
                         <option value="{{e.id}}">{{e.codigo}} - {{e.denominacion_segun_inei}}</option>
                     {% endfor %}
                 </select>
