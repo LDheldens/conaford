@@ -408,7 +408,7 @@ class PosesionInformal(models.Model):
     imagen_satelital_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
     #comentario u observaciones
     comentarios_observaciones = models.TextField(max_length=300)
-    
+    is_matriz = models.BooleanField(default=False)
     def calcular_porcentaje_llenado(self):
         total_campos = len(self._meta.fields) - 1  # Excluir el campo 'id'
         if total_campos == 0:
