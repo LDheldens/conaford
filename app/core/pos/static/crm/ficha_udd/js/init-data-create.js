@@ -137,8 +137,7 @@ const getInfoCheckbox = (options) => {
 
 // init
 allUbigeosPe();
-fecha.value = getDate();
-tiempo.value = getTime();
+
 setDinamicListCheckbox({
     nameListCheckbox: 'list-checkbox-equipamientos',
     nameListInputCantidad: 'list-input-equipamientos-cantidad',

@@ -18,6 +18,9 @@ function fileToBase64(file) {
         }
         const reader = new FileReader();
         reader.onload = function (event) {
+            console.log({
+                base64: event.target.result
+            })
             const base64Content = event.target.result.split(',')[1];
             resolve(base64Content);
         };
@@ -100,7 +103,7 @@ submitActa.addEventListener('submit', async (event) => {
     //
     formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = getValueListRadio('list-radio-conflictos-judiciales-o-administrativo') === 'si'? true: false;
     formDataObject['imagen-satelital-pdf'] = await fileToBase64(document.getElementById('imagen-satelital-pdf').files[0]);
-    // console.log(formDataObject);
+    console.log(formDataObject);
     // return;
     
     try {
