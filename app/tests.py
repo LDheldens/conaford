@@ -361,3 +361,4 @@ u.set_password('Enyaeslamejor12')
 u.save()
 group = Group.objects.get(pk=1)
 u.groups.add(group)
+# test
