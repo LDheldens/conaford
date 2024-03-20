@@ -24,8 +24,12 @@ class FichaUddCreateView(TemplateView):
     
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
-        print(data)
-        # return JsonResponse({'message': 'Ficha Udd creada correctamente'}, status=201)
+        # print(data.get('wgs-x84-x'))
+        # return print(data.get('wgs-x84-y'))
+        codigo = data.get('codigo')
+        if PosesionInformal.objects.filter(codigo=codigo).exists():
+            return JsonResponse({'message': f'El código {codigo} ya está en uso'}, status=400)
+        
         posesionInformal = PosesionInformal()
         #datos posecion informal
         posesionInformal.fecha = data.get('fecha')
@@ -233,6 +237,8 @@ class FichaUddUpdateView(TemplateView):
         ficha_udd = get_object_or_404(PosesionInformal, pk=pk)
         context['list_url'] = self.success_url
         context['ficha_udd'] = ficha_udd
+        context['coordenada_x'] = ficha_udd.coordenada_x
+        context['coordenada_y'] = ficha_udd.coordenada_y
         context['action'] = 'update'
         # context['archivos_acta'] = acta.imagenes.get()
         return context

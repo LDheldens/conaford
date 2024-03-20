@@ -38,6 +38,40 @@ submitActa.addEventListener('submit', async (event) => {
     formData.forEach((value, key) => {
       formDataObject[key] = value;
     });
+    // Validar si el campo de código está presente
+    if (!formDataObject['codigo']) {
+        await Swal.fire({
+            title: "Campo obligatorio faltante",
+            text: "Por favor, ingrese el código.",
+            icon: "warning"
+        });
+        return;
+    }
+    const coordinateX = formDataObject['wgs-x84-x'].trim();
+    const coordinateY = formDataObject['wgs-x84-y'].trim(); 
+    
+    const coordinateRegex = /^-?\d+(\.\d{1,4})?$/;
+    if (coordinateX !== '') {
+        if (!coordinateRegex.test(coordinateX)) {
+            await Swal.fire({
+                title: "Error de formato",
+                text: "La coordenada x debe tener hasta cuatro decimales.",
+                icon: "error"
+            });
+            return;
+        }
+    }
+    
+    if (coordinateY !== '') {
+        if (!coordinateRegex.test(coordinateY)) {
+            await Swal.fire({
+                title: "Error de formato",
+                text: "La coordenada y debe tener hasta cuatro decimales.",
+                icon: "error"
+            });
+            return;
+        }
+    }
 
     formDataObject['wgs-x84-x'] = Number(formDataObject['wgs-x84-x'].replace(',', '.') || 0);
     formDataObject['wgs-x84-y'] = Number(formDataObject['wgs-x84-y'].replace(',', '.') || 0);
@@ -103,11 +137,12 @@ submitActa.addEventListener('submit', async (event) => {
     //
     formDataObject['list-radio-conflictos-judiciales-o-administrativo'] = getValueListRadio('list-radio-conflictos-judiciales-o-administrativo') === 'si'? true: false;
     formDataObject['imagen-satelital-pdf'] = await fileToBase64(document.getElementById('imagen-satelital-pdf').files[0]);
-    console.log(formDataObject);
-    // return;
-    
+    console.log(formDataObject,'dfvdfgf');
+
+
+
     try {
-        const path = action == 'add'? '/pos/crm/ficha_udd/add': window.location.pathname;
+        const path = action == 'add' ? '/pos/crm/ficha_udd/add' : window.location.pathname;
         const response = await fetch(path, {
             method: 'POST',
             headers: {
@@ -115,16 +150,26 @@ submitActa.addEventListener('submit', async (event) => {
             },
             body: JSON.stringify(formDataObject),
         });
+    
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message);
+        }
+    
         const data = await response.json();
-        // window.location.href = "pos/crm/acta/";
         console.log('Respuesta del servidor:', data);
         await Swal.fire({
-            title: `Ficha_udd ${action === 'add'? 'añadida': 'actualizada'} exitosamente!`,
-            // text: "Ficha creada exitosamente!",
+            title: `Ficha_udd ${action === 'add' ? 'añadida' : 'actualizada'} exitosamente!`,
             icon: "success"
-          })
-          window.location.replace("/pos/crm/ficha_udd/")
+        })
+        window.location.replace("/pos/crm/ficha_udd/")
     } catch (error) {
         console.error('Error al enviar los datos:', error);
+        await Swal.fire({
+            title: 'Error',
+            text: error.message,
+            icon: 'error'
+        });
     }
+    
 });

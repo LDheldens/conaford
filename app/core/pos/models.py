@@ -351,12 +351,12 @@ class PaymentsCtaCollect(models.Model):
 class PosesionInformal(models.Model):
     #datos posecion informal
     fecha = models.DateField()
-    codigo = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=100, unique=True)
     departamento = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)
-    coordenada_x = models.DecimalField(max_digits=30, decimal_places=10) 
-    coordenada_y = models.DecimalField(max_digits=30, decimal_places=10)
+    coordenada_x = models.DecimalField(max_digits=30, decimal_places=4) 
+    coordenada_y = models.DecimalField(max_digits=30, decimal_places=4)
     tipo_posecion_informal = models.CharField(max_length=100)
     denominacion_segun_inei= models.CharField(max_length=200)
     #forma de asentamiento
@@ -433,9 +433,9 @@ class PosesionInformal(models.Model):
         return item
 
 class Acta(models.Model):
-    # posesion_informal = models.ForeignKey(PosesionInformal, related_name='actas', on_delete=models.CASCADE)
+    posesion_informal = models.ForeignKey(PosesionInformal, related_name='actas', on_delete=models.CASCADE)
     # INICIAL
-    codigo_predio = models.CharField(max_length = 150, default="PHY-76567576")
+    codigo_predio = models.CharField(max_length = 150, unique=True)
     fecha = models.DateField()
     cel_wsp = models.CharField(max_length=20)
     # 1.- DATOS DE LA POSESIÓN INFORMAL
