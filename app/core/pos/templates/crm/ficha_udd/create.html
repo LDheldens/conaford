@@ -233,7 +233,7 @@
             </a>
         </div>
 
-        <form method="post" id="form_ficha_udd" enctype="multipart/form-data">    
+        <form method="post" novalidate id="form_ficha_udd" enctype="multipart/form-data">    
             <!-- main -->
             <div class="md:container md:mx-auto bg-[#EAEBEB] w-full p-4 mb-4">
                 <!-- multi-step -->
@@ -369,7 +369,8 @@
                                 <div class="flex-1 flex items-center gap-2">
                                     <label for="wgs-x84-x"
                                         class="text-sm font-medium text-gray-700 font-gotham-bold">X</label>
-                                    <input type="text" id="wgs-x84-x" name="wgs-x84-x"
+                                    <input type="number" id="wgs-x84-x" name="wgs-x84-x"
+                                        
                                         class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                         placeholder="X"
                                         value="{{ ficha_udd.coordenada_x }}"
@@ -379,7 +380,7 @@
                                 <div class="flex-1 flex items-center gap-2">
                                     <label for="wgs-x84-y"
                                         class="text-sm font-medium text-gray-700 font-gotham-bold">Y</label>
-                                    <input type="text" id="wgs-x84-y" name="wgs-x84-y"
+                                    <input type="number" id="wgs-x84-y" name="wgs-x84-y"
                                         class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                         placeholder="Y"
                                         value="{{ ficha_udd.coordenada_y }}"
@@ -489,7 +490,7 @@
                         <div class="flex-1">
                             <label for="distancia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
                             <div class="mt-1 w-full flex items-center gap-2">
-                                <input type="text" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia" value="{{ ficha_udd.tipo_calzada_distancia }}">
+                                <input type="number" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia" value="{{ ficha_udd.tipo_calzada_distancia }}">
                                 <span class="font-bold w-fit">KM</span>
                             </div>
                         </div>

@@ -313,16 +313,17 @@
                     </div>
                 </div>
             </header>
+            
+        <form method="post" id="form_ficha_levantamiento" enctype="multipart/form-data">
             <div class="max-w-[500px] mx-auto my-5">
                 <label class="font-bold text-gray-500 my-2" for="id_posesion_informal">Seleccione un posesión informal:</label>
-                <select class="w-full rounded-md rounded outline-none border border-slate-200 p-1 focus:border-green-500 text-center" name="" id="id_posesion_informal">
+                <select class="w-full rounded-md rounded outline-none border border-slate-200 p-1 focus:border-green-500 text-center" name="id_posesion_informal" id="id_posesion_informal">
                     <option value="">-- Seleccione --</option>
                     {% for e in  posesiones_matriz%}
                         <option value="{{e.id}}">{{e.codigo}} - {{e.denominacion_segun_inei}}</option>
                     {% endfor %}
                 </select>
             </div>
-        <form method="post" id="form_ficha_levantamiento" enctype="multipart/form-data">
             <!-- 1.- DATOS DE LA POSESIÓN INFORMAL -->
                 <div class="hidden" id="part1">
                     <!-- Fecha, Cel. Wssp. -->
@@ -345,6 +346,14 @@
                             <input type="text" id="cel-wssp" name="cel-wssp"
                                 class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                 placeholder="Cel. Wssp">
+                        </div>
+                        <div class="flex-1">
+                            <label for="codigo_predio"
+                                class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">
+                                Código Predio:</label>
+                            <input type="text" id="codigo_predio" name="codigo_predio"
+                                class="w-full mt-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                                placeholder="Código del predio">
                         </div>
                     </div>
                 </div>

@@ -35,6 +35,24 @@ submitActa.addEventListener('submit', async (event) => {
     formData.forEach((value, key) => {
       formDataObject[key] = value;
     });
+
+    if (!formDataObject['id_posesion_informal']) {
+        await Swal.fire({
+            title: "Campos obligatorios faltantes",
+            text: "Por favor, Seleccione una posesión informal.",
+            icon: "warning"
+        });
+        return; // Detener el envío del formulario
+    }
+    if (!formDataObject['codigo_predio']) {
+        await Swal.fire({
+            title: "Campos obligatorios faltantes",
+            text: "Por favor, Ingrese el código del predio",
+            icon: "warning"
+        });
+        return; // Detener el envío del formulario
+    }
+
     if(!formDataObject['list-radio-descripcion-fisica-predio']) {
         formDataObject['list-radio-descripcion-fisica-predio'] = '';
     }
@@ -66,6 +84,12 @@ submitActa.addEventListener('submit', async (event) => {
             },
             body: JSON.stringify(formDataObject),
         });
+
+        if (!response.ok) {
+            const responseData = await response.json();
+            throw new Error(responseData.message);
+        }
+
         const data = await response.json();
         // window.location.href = "pos/crm/acta/";
         console.log('Respuesta del servidor:', data);
@@ -73,9 +97,14 @@ submitActa.addEventListener('submit', async (event) => {
             title: "Ficha creada exitosamente!",
             // text: "Ficha creada exitosamente!",
             icon: "success"
-          })
-          window.location.replace("/pos/crm/acta/")
+        });
+        window.location.replace("/pos/crm/acta/");
     } catch (error) {
         console.error('Error al enviar los datos:', error);
+        await Swal.fire({
+            title: "Error",
+            text: error.message,
+            icon: "error"
+        });
     }
 });

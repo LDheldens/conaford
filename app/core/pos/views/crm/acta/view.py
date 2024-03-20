@@ -44,14 +44,19 @@ class ActaCreateView(TemplateView):
     def post(self, request, *args, **kwargs):
         # Obtener los datos del cuerpo de la solicitud
         data = json.loads(request.body)
-        # print(data)
-        # return JsonResponse({'message': 'Acta creada exitosamente'}, status=201)
+        
+        codigo_predio = data.get('codigo_predio')
+        if Acta.objects.filter(codigo_predio=codigo_predio).exists():
+            return JsonResponse({'message': f'El código {codigo_predio} ya está en uso'}, status=400)
+        
         # Crear una instancia de Acta
         acta = Acta()
 
         # Llenar los campos de Acta
+        acta.posesion_informal_id = data.get('id_posesion_informal')
         acta.fecha = data.get('fecha')
         acta.cel_wsp = data.get('cel-wssp')
+        acta.codigo_predio = data.get('codigo_predio')
         # 1.- DATOS DE LA POSESIÓN INFORMAL
         # acta.departamento = data.get('departamento')
         # acta.provincia = data.get('provincia')
