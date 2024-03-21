@@ -200,7 +200,7 @@ btnAgregarColindancia.addEventListener('click',(e)=>{
 
     newRow.innerHTML = `
         <td>${data.frente.descripcion}</td>
-        <td>${acum1} Ml</td>
+        <td>${acum1} ML</td>
         <td>${data.fondo.descripcion}</td>
         <td>${acum2} Ml</td>
         <td>${data.izquierda.descripcion}</td>

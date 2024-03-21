@@ -78,21 +78,13 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
-    price = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Precio de Compra')
+    # price = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Precio de Compra')
     pvp = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Precio de Venta')
-    image = models.ImageField(upload_to='product/%Y/%m/%d', verbose_name='Imagen', null=True, blank=True)
+    # image = models.ImageField(upload_to='product/%Y/%m/%d', verbose_name='Imagen', null=True, blank=True)
 
     def __str__(self):
         return self.name
 
-    def remove_image(self):
-        try:
-            if self.image:
-                os.remove(self.image.path)
-        except:
-            pass
-        finally:
-            self.image = None
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -103,30 +95,6 @@ class Product(models.Model):
         item['pvp'] = format(self.pvp, '.2f')
         item['image'] = self.get_image()
         return item
-
-    def get_price_promotion(self):
-        promotions = self.promotionsdetail_set.filter(promotion__state=True)
-        if promotions.exists():
-            return promotions[0].price_final
-        return 0.00
-
-    def get_price_current(self):
-        price_promotion = self.get_price_promotion()
-        if price_promotion > 0:
-            return price_promotion
-        return self.pvp
-
-    def get_image(self):
-        if self.image:
-            return '{}{}'.format(settings.MEDIA_URL, self.image)
-        return '{}{}'.format(settings.STATIC_URL, 'img/default/empty.png')
-
-    def delete(self, using=None, keep_parents=False):
-        try:
-            os.remove(self.image.path)
-        except:
-            pass
-        super(Product, self).delete()
 
     class Meta:
         verbose_name = 'Producto'
@@ -172,7 +140,7 @@ class Sale(models.Model):
     igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total_igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
-    cash = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+    initial = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     change = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     card_number = models.CharField(max_length=30, null=True, blank=True)
     titular = models.CharField(max_length=30, null=True, blank=True)
