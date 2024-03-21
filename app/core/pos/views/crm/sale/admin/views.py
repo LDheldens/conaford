@@ -50,7 +50,7 @@ class SaleAdminListView(PermissionMixin, FormView):
         return context
 
 
-class SaleAdminCreateView(PermissionMixin, CreateView):
+class SaleAdminCreateView(CreateView):
     model = Sale
     template_name = 'crm/sale/admin/create.html'
     form_class = SaleForm
@@ -216,7 +216,7 @@ class SaleAdminCreateView(PermissionMixin, CreateView):
         context = super().get_context_data()
         context['frmClient'] = ClientForm()
         context['list_url'] = self.success_url
-        context['title'] = 'Nuevo registro de una Venta'
+        context['title'] = 'Nuevo registro de asesoria'
         context['action'] = 'add'
         context['igv'] = Company.objects.first().get_igv()
         return context
