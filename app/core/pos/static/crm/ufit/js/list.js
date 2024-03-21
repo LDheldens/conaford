@@ -43,9 +43,9 @@ function getData() {
 
                     dropdownMenu += '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">';
 
-                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/update/' + row.id + '/"><i class="fas fa-edit text-warning"></i> Editar</a>';
+                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/ufit/update/' + row.id + '/"><i class="fas fa-edit text-warning"></i> Editar</a>';
 
-                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/acta/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
+                    dropdownMenu += '<a class="dropdown-item" href="/pos/crm/ufit/delete/' + row.id + '/"><i class="fas fa-trash-alt text-danger"></i> Eliminar</a>';
 
                     // dropdownMenu += '<button type="button" class="dropdown-item" data-id="' + row.id + '" onclick="agregarTitular(' + row.id + ')"><i class="fas fa-plus text-info"></i> Agregar Titular</button>';
 

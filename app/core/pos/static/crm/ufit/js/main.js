@@ -270,6 +270,7 @@ registrarUfit.addEventListener('click',()=>{
                 title: 'Éxito',
                 text: 'Los datos se han enviado correctamente',
             });
+            window.location.href = '/pos/crm/ufit/';
         } else {
             // Manejar errores de respuesta del servidor
             Swal.fire({

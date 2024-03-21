@@ -85,11 +85,38 @@ class UfitCreateView(TemplateView):
             area=area,
             perimetro=perimetro,
         )
-        return JsonResponse({'message': 'Titular creado correctamente'}, status=201)
+        return HttpResponseRedirect(self.success_url)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['list_url'] = self.success_url
         context['title'] = 'Nuevo registro de una ficha de identificacion preliminar'
         context['action'] = 'add'
+        return context
+
+class UfitDeleteView(DeleteView):
+    model = ColindanciaUfin
+    template_name = 'crm/ufit/delete.html'
+    success_url = reverse_lazy('ufit_list') 
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            with transaction.atomic():
+                self.object = self.get_object()
+                self.object.delete()
+                data['success'] = True
+                data['redirect'] = str(self.get_success_url())  # Convertir a cadena para evitar problemas con JSON
+        except Exception as e:
+            data['success'] = False
+            data['error'] = str(e)
+        return JsonResponse(data)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Agrega el título de la página
+        context['title'] = 'Notificación de eliminación'
+        # Agrega la URL de redirección después de eliminar el Acta
+        context['list_url'] = self.success_url  
+        context['registro'] = self.kwargs.get('pk')
         return context

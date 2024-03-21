@@ -47,26 +47,35 @@ submitActa.addEventListener('submit', async (event) => {
         });
         return;
     }
-    const coordinateX = formDataObject['wgs-x84-x'].trim();
-    const coordinateY = formDataObject['wgs-x84-y'].trim(); 
-    
-    const coordinateRegex = /^-?\d+(\.\d{1,4})?$/;
+    // Función para validar las coordenadas con hasta cuatro decimales
+    function validarCoordenada(coordinate) {
+        const coordinateRegex = /^-?\d+\.\d{4}$/;
+        return coordinateRegex.test(coordinate);
+    }
+
+    const coordinateX = document.getElementById('wgs-x84-x').value;
+    const coordinateY = document.getElementById('wgs-x84-y').value;
+    console.log(coordinateX,coordinateY)
+
+     // Validar coordenada X si hay un valor
     if (coordinateX !== '') {
-        if (!coordinateRegex.test(coordinateX)) {
+        if (!validarCoordenada(coordinateX)) {
             await Swal.fire({
                 title: "Error de formato",
-                text: "La coordenada x debe tener hasta cuatro decimales.",
+                text: "La coordenada X debe ser un número con 4 cuatro decimales.",
                 icon: "error"
             });
             return;
         }
     }
     
-    if (coordinateY !== '') {
-        if (!coordinateRegex.test(coordinateY)) {
+    // Validar coordenada Y si hay un valor
+    if (coordinateY != '') {
+        console.log('sdfsdsdsdsddssd PRUEBA')
+        if (!validarCoordenada(coordinateY)) {
             await Swal.fire({
                 title: "Error de formato",
-                text: "La coordenada y debe tener hasta cuatro decimales.",
+                text: "La coordenada Y debe ser un número con 4 cuatro decimales.",
                 icon: "error"
             });
             return;
