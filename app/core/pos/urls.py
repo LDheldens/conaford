@@ -89,6 +89,8 @@ urlpatterns = [
     #UFIT
     path('crm/ufit/add',UfitCreateView.as_view(),name='ufit_create'),
     path('crm/ufit/',UfitListView.as_view(),name='ufit_list'),
+    path('crm/ufit/update/<int:pk>/',UfitListView.as_view(),name='ufit_update'),
+    path('crm/ufit/delete/<int:pk>/',UfitDeleteView.as_view(),name='ufit_delete'),
     
     # colindancia
     path('crm/acta/<int:pk>/colindancia/', ObtenerColindanciaActaView.as_view(), name='colindancia_por_acta'),
