@@ -15,7 +15,8 @@ from core.pos.forms import ProductForm, Product, Category
 from core.security.mixins import PermissionMixin, ModuleMixin
 
 
-class ProductListView(PermissionMixin, TemplateView):
+class ProductListView(TemplateView):
+# class ProductListView(PermissionMixin, TemplateView):
     template_name = 'scm/product/list.html'
     permission_required = 'view_product'
 
@@ -62,7 +63,8 @@ class ProductListView(PermissionMixin, TemplateView):
         return context
 
 
-class ProductCreateView(PermissionMixin, CreateView):
+class ProductCreateView(CreateView):
+# class ProductCreateView(PermissionMixin, CreateView):
     model = Product
     template_name = 'scm/product/create.html'
     form_class = ProductForm

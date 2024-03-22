@@ -12,7 +12,8 @@ from core.security.mixins import ModuleMixin, PermissionMixin
 
 from core.pos.models import Titular
 
-class ClientListView(PermissionMixin, TemplateView):
+class ClientListView(TemplateView):
+# class ClientListView(PermissionMixin, TemplateView):
     template_name = 'crm/client/list.html'
     permission_required = 'view_client'
 
@@ -37,7 +38,8 @@ class ClientListView(PermissionMixin, TemplateView):
         return context
 
 
-class ClientCreateView(PermissionMixin, CreateView):
+class ClientCreateView(CreateView):
+# class ClientCreateView(PermissionMixin, CreateView):
     model = Client
     template_name = 'crm/client/create.html'
     form_class = ClientForm

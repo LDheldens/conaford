@@ -1,4 +1,5 @@
 {% load static %}
+{% load security_extras %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -648,7 +649,7 @@
                             <label for="numero-lotes"
                                 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">¿CUÁNTOS
                                 LOTES?</label>
-                            <input type="text" id="numero-lotes" name="numero-lotes"
+                            <input type="number" id="numero-lotes" name="numero-lotes"
                                 class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                 placeholder="¿Cuántos lotes?">
                         </div>
@@ -747,9 +748,9 @@
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">ÁREA SEGÚN EL
                             TITULAR/REPRESENTANTE</label>
                         <div class="flex-1 flex items-center gap-2">
-                            <input type="text" id="area-segun-titular-representante" name="area-segun-titular-representante"
+                            <input type="number" id="area-segun-titular-representante" step="any" name="area-segun-titular-representante"
                             class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                            placeholder="Área según el titular/presidente m2"><b class="w-fit">m2</b>
+                            placeholder="Área según el titular/presidente m2"><b class="w-fit">m<sup>2</sup></b>
                         </div>
                     </div>
 
@@ -789,7 +790,7 @@
                             <label for="numero-puntos"
                                 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° DE
                                 PUNTOS LEVANTADOS</label>
-                            <input type="text" id="numero-puntos" name="numero-puntos"
+                            <input type="number" id="numero-puntos" name="numero-puntos"
                                 class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                 placeholder="N° de puntos levantados">
                         </div>

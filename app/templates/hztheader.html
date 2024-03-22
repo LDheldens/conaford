@@ -91,6 +91,40 @@
                                     </li>
                                 </ul>
                             </li>
+                            <!-- UPL -->
+                            <li class="dropdown-submenu dropdown-hover">
+                                <a id="dropdownSubMenu" href="#" role="button" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                    <i class="fas fa-suitcase"></i> UPL
+                                </a>
+                                <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                    class="dropdown-menu border-0 shadow">
+                                    <li>
+                                        <a tabindex="-1" href="/pos/crm/client/" class="dropdown-item">
+                                            <i class="fas fa-user-friends"></i>
+                                            Clientes
+                                        </a>
+                                        <a tabindex="-1" href="/pos/scm/category/" class="dropdown-item">
+                                            <i class="fas fa-truck-loading"></i> 
+                                            Categorías
+                                        </a>
+                                        <a tabindex="-1" href="/pos/scm/product/" class="dropdown-item">
+                                            
+                                            <i class="fas fa-box"></i> 
+                                            Productos
+                                        </a>
+                                        <a tabindex="-1" href="/pos/crm/sale/admin/" class="dropdown-item">
+                                            <i class="fas fa-chart-bar"></i>
+                                            Ventas
+                                        </a>
+                                        <a tabindex="-1" href="/pos/frm/ctas/collect/" class="dropdown-item">
+                                            <i class="fas fa-chart-bar"></i> 
+                                            Cuentas por cobrar
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             {% endif %}
                         {% if request.session.group %}
                             {% for mt in request.session.group.id|getmoduletype %}

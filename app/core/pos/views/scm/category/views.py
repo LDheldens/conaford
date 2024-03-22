@@ -8,7 +8,8 @@ from core.pos.forms import Category, CategoryForm
 from core.security.mixins import PermissionMixin
 
 
-class CategoryListView(PermissionMixin, ListView):
+class CategoryListView(ListView):
+# class CategoryListView(PermissionMixin, ListView):
     model = Category
     template_name = 'scm/category/list.html'
     permission_required = 'view_category'
@@ -20,7 +21,8 @@ class CategoryListView(PermissionMixin, ListView):
         return context
 
 
-class CategoryCreateView(PermissionMixin, CreateView):
+class CategoryCreateView(CreateView):
+# class CategoryCreateView(PermissionMixin, CreateView):
     model = Category
     template_name = 'scm/category/create.html'
     form_class = CategoryForm

@@ -1,4 +1,5 @@
 {% load static %}
+{% load security_extras %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -228,7 +229,7 @@
                 <i class="fas fa-home"></i> Panel
             </a>
             <span class="mx-2">/</span>
-            <a href="/pos/crm/ficha/" class="text-blue-500">
+            <a href="/pos/crm/ficha_udd/" class="text-blue-500">
                 <i class="fas fa-user-friends"></i> Ficha de identificacion preliminar
             </a>
         </div>
@@ -369,22 +370,21 @@
                                 <div class="flex-1 flex items-center gap-2">
                                     <label for="wgs-x84-x"
                                         class="text-sm font-medium text-gray-700 font-gotham-bold">X</label>
-                                    <input type="text" id="wgs-x84-x" name="wgs-x84-x"
+                                    <input type="number" id="wgs-x84-x" name="wgs-x84-x"
                                         
                                         class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                         placeholder="X"
-                                        value="{{ ficha_udd.coordenada_x }}"
+                                        value="{{ ficha_udd.coordenada_x|replace_commas }}"
                                         >
                                 </div>
                                 <!-- Y -->
                                 <div class="flex-1 flex items-center gap-2">
                                     <label for="wgs-x84-y"
                                         class="text-sm font-medium text-gray-700 font-gotham-bold">Y</label>
-                                    <input type="text" id="wgs-x84-y"           name="wgs-x84-y"
+                                    <input type="number" id="wgs-x84-y"           name="wgs-x84-y"
                                         class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                                         placeholder="Y"
-                                        value="{{ ficha_udd.coordenada_y }}"
-                                        {# value="{{ ficha_udd.coordenada_y|floatformat:"0" }}" #}
+                                        value="{{ ficha_udd.coordenada_y|replace_commas }}"
                                         >
                                 </div>
                             </div>
@@ -490,8 +490,8 @@
                         <div class="flex-1">
                             <label for="distancia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Distancia</label>
                             <div class="mt-1 w-full flex items-center gap-2">
-                                <input type="number" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia" value="{{ ficha_udd.tipo_calzada_distancia }}">
-                                <span class="font-bold w-fit">KM</span>
+                                <input type="number" id="distancia" name="distancia" class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Distancia" value="{{ ficha_udd.tipo_calzada_distancia|replace_commas }}">
+                                <span class="font-bold w-fit">km<sup>2</sup></span>
                             </div>
                         </div>
                         <!-- Tiempo -->
@@ -531,17 +531,18 @@
                         <!-- N° de lotes -->
                         <div class="flex-1">
                         <label for="numero-lotes" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° de lotes</label>
-                        <input type="text" id="numero-lotes" name="numero-lotes" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de lotes" value="{{ ficha_udd.numero_lotes }}">
+                        <input type="number" id="numero-lotes" name="numero-lotes" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de lotes" value="{{ ficha_udd.numero_lotes }}">
                         </div>
                         <!-- N° de manzanos -->
                         <div class="flex-1">
                         <label for="numero-manzanas" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° de manzanas</label>
-                        <input type="text" id="numero-manzanas" name="numero-manzanas" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de manzanas" value="{{ ficha_udd.numero_manzanas }}">
+                        <input type="number" id="numero-manzanas" name="numero-manzanas" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="N° de manzanas" value="{{ ficha_udd.numero_manzanas }}">
                         </div>
                         <!-- Vivencia -->
                         <div class="flex-1">
                         <label for="porcentaje-vivencia" class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Vivencia %</label>
-                        <input id="porcentaje-vivencia" name="porcentaje-vivencia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Vivencia %" type="text" value="{{ ficha_udd.porcentaje_vivencia }}">
+                        <input id="porcentaje-vivencia" name="porcentaje-vivencia" class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" placeholder="Vivencia %" type="number" value="{{ ficha_udd.porcentaje_vivencia|replace_commas }}">
+                        
                         </div>
                     </div>
 

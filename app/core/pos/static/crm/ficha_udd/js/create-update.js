@@ -82,12 +82,12 @@ submitActa.addEventListener('submit', async (event) => {
         }
     }
 
-    formDataObject['wgs-x84-x'] = Number(formDataObject['wgs-x84-x'].replace(',', '.') || 0);
-    formDataObject['wgs-x84-y'] = Number(formDataObject['wgs-x84-y'].replace(',', '.') || 0);
-    formDataObject['distancia'] = Number(formDataObject['distancia'] || 0);
-    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes'] || 0);
-    formDataObject['numero-manzanas'] = Number(formDataObject['numero-manzanas'] || 0);
-    formDataObject['porcentaje-vivencia'] = Number(formDataObject['porcentaje-vivencia'].replace(',', '.') || 0);
+    formDataObject['wgs-x84-x'] = Number(formDataObject['wgs-x84-x'].trim().replace(',', '.')) || null;
+    formDataObject['wgs-x84-y'] = Number(formDataObject['wgs-x84-y'].trim().replace(',', '.')) || null;
+    formDataObject['distancia'] = Number(formDataObject['distancia'].trim()) || null;
+    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes'].trim()) || null;
+    formDataObject['numero-manzanas'] = Number(formDataObject['numero-manzanas'].trim()) || null;
+    formDataObject['porcentaje-vivencia'] = Number(formDataObject['porcentaje-vivencia'].trim().replace(',', '.')) || null;
 
     if(!formDataObject['list-radio-tipo-posesion-informal']) {
         formDataObject['list-radio-tipo-posesion-informal'] = '';

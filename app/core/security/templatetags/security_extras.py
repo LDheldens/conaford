@@ -16,7 +16,11 @@ def getmoduletype(group_id):
 def getmodulehorizontal(group):
     return Module.objects.filter(groupmodule__group_id=group, moduletype_id=None, is_active=True,
                                  is_vertical=False).order_by('name')
-
+@register.filter
+def replace_commas(decimal):
+    if decimal:
+        return f"{decimal:,}".replace(",", ".");
+    return ''
 
 @register.filter()
 def is_checkbox(field):

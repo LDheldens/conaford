@@ -1,4 +1,5 @@
 {% load static %}
+{% load security_extras %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -508,7 +509,7 @@
                             <a href="#" class="text-red-700 font-bold underline mt-2">Sin pdf</a>
                         {% endif %}
                     </div>
-                    <label for="boceto-predio-pdf" class="font-bold">Suba un nuevo pdf:</label>
+                    <label for="boceto-predio-pdf" class="font-bold">Suba un pdf:</label>
                     <input type="file" name="boceto-predio-pdf" id="boceto-predio-pdf" accept=".pdf">
                 </div>
                 <!-- ¿HITOS CONSOLIDADOS?, ¿ACCESO A VIA?, ¿REQUIERE SUBDIVISIÓN?, ¿REQUIERE ALINEAMIENTO?, ¿APERTURA DE VIA?, ¿LIBRE DE RIESGO?, ¿REQ. TRANSF. DE TITULAR?, ¿LITIGIO, DENUNCIA, ETC? -->
@@ -580,14 +581,14 @@
                         </div>
                     </div>
                     <!-- ¿CUÁNTOS LOTES? -->
-                    <div class="w-full sm:w-1/3" id="container-numero-lotes">
+                    <div class="w-full sm:w-1/3 {% if not acta.requiere_subdivision == 'si' %}hidden{% endif %}" id="container-numero-lotes">
                         <label for="numero-lotes"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">¿CUÁNTOS
                             LOTES?</label>
-                        <input type="text" id="numero-lotes" name="numero-lotes"
+                        <input type="number" id="numero-lotes" name="numero-lotes"
                             class="w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
                             placeholder="¿Cuántos lotes?"
-                            value="{{ acta.cantidad_lotes }}"
+                            value="{{ acta.cantidad_lotes|default_if_none:'' }}"
                             >
                     </div>
                     <!-- ¿REQUIERE ALINEAMIENTO? -->
@@ -705,9 +706,10 @@
                         class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">ÁREA SEGÚN EL
                         TITULAR/REPRESENTANTE</label>
                     <div class="flex-1 flex items-center gap-2">
-                        <input type="text" id="area-segun-titular-representante" name="area-segun-titular-representante"
-                        class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                        placeholder="Área según el titular/presidente m2" value="{{ acta.area_segun_el_titular_representante }}" ><b class="w-fit">m2</b>
+                        <input type="number" id="area-segun-titular-representante" step="any" name="area-segun-titular-representante"
+                        class="flex-1 px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42]  focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
+                        placeholder="Área según el titular/presidente m2" value="{{ acta.area_segun_el_titular_representante|replace_commas }}" ><b class="w-fit">m<sup>2</sup></b>
+                        <!-- {{ acta.area_segun_el_titular_representante }} -->
                     </div>
                 </div>
 
@@ -747,9 +749,9 @@
                         <label for="numero-puntos"
                             class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">N° DE
                             PUNTOS LEVANTADOS</label>
-                        <input type="text" id="numero-puntos" name="numero-puntos"
+                        <input type="number" id="numero-puntos" name="numero-puntos"
                             class="mt-1 w-full px-4 py-2 text-gray-700 border-2 border-gray-950 rounded-md shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
-                            placeholder="N° de puntos levantados" value="{{ acta.n_punto }}">
+                            placeholder="N° de puntos levantados" value="{{ acta.n_punto|replace_commas }}">
                     </div>
                 </div>
 
@@ -830,7 +832,7 @@
                             <a href="#" class="text-red-700 font-bold underline mt-2">Sin Imagen</a>
                         {% endif %}
                     </div>
-                    <label for="toma-fotografica-predio-imagen" class="font-bold">Suba una nueva imagen:</label>
+                    <label for="toma-fotografica-predio-imagen" class="font-bold">Suba una imagen:</label>
                     <input type="file" name="toma-fotografica-predio-imagen" id="toma-fotografica-predio-imagen" accept="image/png, image/jpeg">
                 </div>
                 <!-- casos -->
@@ -864,7 +866,7 @@
                                 <a href="#" class="text-red-700 font-bold underline mt-2">Sin Pdf</a>
                             {% endif %}
                         </div>
-                        <label for="documentos-casos-si-pdf" class="font-bold">Suba un nuevo pdf:</label>
+                        <label for="documentos-casos-si-pdf" class="font-bold">Suba un pdf:</label>
                         <input type="file" name="documentos-casos-si-pdf" id="documentos-casos-si-pdf" accept=".pdf">
                     </div>
                     <div class="mb-2">
@@ -888,7 +890,7 @@
                             <a href="#" class="text-red-700 font-bold underline mt-2">Sin pdf</a>
                         {% endif %}
                     </div>
-                    <label for="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" class="font-bold">Suba un nuevo pdf:</label>
+                    <label for="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" class="font-bold">Suba un pdf:</label>
                     <input type="file" name="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" id="firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf" accept=".pdf">
                 </div>
                 <hr class="h-px bg-red-700 border-0">

@@ -231,12 +231,21 @@ const representanteHtml = !isTitular? '':
     </td>
     ${ cartaPoderHtml }
     <td class="px-6 py-4 text-justify">
+    ${
+        docPdfValue?
+        `
         <a id="pdfLink" href="data:application/pdf;base64,${docPdfValue}" download="documentos.pdf" target="_blank" class="font-bold"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+        `:
+        `
+        <a id="pdfLink" href="#null" class="font-bold"></i> Sin documentos</a>
+        `
+
+    }
         <!-- <a id="pdfLink" href="data:application/pdf;base64,${docPdfValue}" target="_blank" class="font-bold"><i class="fa-solid fa-download"></i> Descargar PDF</a> -->
     </td>
     <td class="px-6 py-4 text-justify">
         ${ observaciones }
-    </td>}
+    </td>
     ${ representanteHtml }
     <td class="px-6 py-4">
         <div class="flex gap-2">
@@ -269,7 +278,7 @@ const getRowsTitulares = () => {
             dni: td[2].innerText.trim(),
             estadoCivil: td[3].innerText.trim(),
             copiaDoc: td[4].innerText.trim(),
-            documentos: td[5].querySelector('a').getAttribute('href').replace('data:application/pdf;base64,', ''),
+            documentos: td[5].querySelector('a').getAttribute('href').replace('data:application/pdf;base64,', '').replace('#null', ''),
             observaciones: td[6].innerText.trim(),
             representante: td[7].innerText.trim(),
         });
@@ -352,7 +361,7 @@ function getHtmlModal (options) {
         <option value="si" ${representante==='si' ? 'selected' : '' }>
             Si
         </option>
-        <option value="no" ${representante==='no' ? 'selected' : '' }>
+        <option value="no" ${representante==='no' ? 'selected' : '' } selected>
             No
         </option>
     </select>
@@ -381,7 +390,7 @@ function getHtmlModal (options) {
             id="nombres-modal" name="nombres-modal"
             class="text-sm w-full p-2 text-gray-700 border-2 border-black shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
             placeholder="Nombres"> <label for="dni-modal"
-            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Dni</label> <input <input value="${dni}" type="number"
+            class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Dni</label> <input value="${dni}" type="number"
             id="dni-modal" name="dni-modal"
             class="text-sm sm:w-[50%] w-full p-2 text-gray-700 border-2 border-black shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]"
             placeholder="Dni">
@@ -533,7 +542,14 @@ function makeModal(html) {
                 cartaPoder:  popup.querySelector('#carta-poder-modal')?.value.trim() || '',
                 representante:  popup.querySelector('#representante-modal')?.value.trim() || '',
             };
-            console.log({resultValues})
+            if (!resultValues.apellidos) {
+                Swal.showValidationMessage(`<b>Por favor ingrese los Apellidos!<b/>`)
+            } else if(!resultValues.nombres) {
+                Swal.showValidationMessage(`<b>Por favor ingrese los Nombres!<b/>`)
+            } else if(!resultValues.dni) {
+                Swal.showValidationMessage(`<b>Por favor ingrese el Dni!<b/>`)
+            }
+
             return resultValues;
         },
         willClose: () => {

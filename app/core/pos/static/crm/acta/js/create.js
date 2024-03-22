@@ -70,9 +70,9 @@ submitActa.addEventListener('submit', async (event) => {
     formDataObject['toma-fotografica-predio-imagen'] = await fileToBase64(document.getElementById('toma-fotografica-predio-imagen').files[0]);
     formDataObject['documentos-casos-si-pdf'] = await fileToBase64(document.getElementById('documentos-casos-si-pdf').files[0]);
     formDataObject['firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf'] = await fileToBase64(document.getElementById('firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf').files[0]);
-    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes']);
-    formDataObject['area-segun-titular-representante'] = Number(formDataObject['area-segun-titular-representante']);
-    formDataObject['numero-puntos'] = Number(formDataObject['numero-puntos']);
+    formDataObject['numero-lotes'] = Number(formDataObject['numero-lotes'].trim()) || null
+    formDataObject['area-segun-titular-representante'] = Number(formDataObject['area-segun-titular-representante'].trim()) || null;
+    formDataObject['numero-puntos'] = Number(formDataObject['numero-puntos'].trim()) || null
     // console.log(formDataObject);
     // return;
     console.log(formDataObject.titulares)

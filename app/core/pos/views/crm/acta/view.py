@@ -17,17 +17,18 @@ from datetime import date, datetime
 # vistas creadas por Daniel
 class ActaListView(TemplateView):
     template_name = 'crm/acta/list.html'
-        
+
     def post(self, request, *args, **kwargs):
         data = {}
         try:
             action = request.POST['action']
             if action == 'search':
                 data = [acta.toJSON() for acta in Acta.objects.all()]
-                print(data)
+                print("actas", data)
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
+            print('errrrr',str(e) )
             data['error'] = str(e)
         return HttpResponse(json.dumps(data), content_type='application/json')
 
@@ -44,14 +45,14 @@ class ActaCreateView(TemplateView):
     def post(self, request, *args, **kwargs):
         # Obtener los datos del cuerpo de la solicitud
         data = json.loads(request.body)
-        
+
         codigo_predio = data.get('codigo_predio')
         if Acta.objects.filter(codigo_predio=codigo_predio).exists():
             return JsonResponse({'message': f'El código {codigo_predio} ya está en uso'}, status=400)
-        
+
         # Crear una instancia de Acta
         acta = Acta()
-
+        print(acta)
         # Llenar los campos de Acta
         acta.posesion_informal_id = data.get('id_posesion_informal')
         acta.fecha = data.get('fecha')
@@ -75,8 +76,12 @@ class ActaCreateView(TemplateView):
         # 4.- BOCETO DEL PREDIO
         acta.hitos_consolidados = data.get('list-radio-hitos-consolidado')
         acta.acceso_a_via = data.get('list-radio-acceso-via')
-        acta.requiere_subdivision = data.get('list-radio-subdivion')
-        acta.cantidad_lotes = data.get('numero-lotes')
+
+        requiere_subdivision = data.get('list-radio-subdivion')
+        acta.requiere_subdivision = requiere_subdivision
+        if requiere_subdivision == 'si':
+            acta.cantidad_lotes = data.get('numero-lotes')
+
         acta.requiere_alineamiento = data.get('list-radio-alineamiento')
         acta.apertura_de_via = data.get('list-radio-apertura-via')
         acta.libre_de_riesgo = data.get('list-radio-libre-riesgo')
@@ -93,8 +98,11 @@ class ActaCreateView(TemplateView):
         # acta.operador = data.get('operador')
         # acta.equipo_tp = data.get('equipo-tp')
         # 8.- ADICIONALES:
-        acta.casos_toma_predio = data.get('list-radio-casos')
-        acta.descripcion_toma_predio = data.get('descripcion-documentos-casos-si')
+        casos_toma_predio = data.get('list-radio-casos')
+        acta.casos_toma_predio = casos_toma_predio
+        if casos_toma_predio == 'si':
+            acta.descripcion_toma_predio = data.get('descripcion-documentos-casos-si')
+        
         # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
         acta.comentario3 = data.get('firma-actores-intervinientes-comentario-observaciones')
 
@@ -115,10 +123,12 @@ class ActaCreateView(TemplateView):
             toma_fotografica_predio_imagen_content = ContentFile(base64.b64decode(toma_fotografica_predio_imagen_base64), name='toma.png')
             archivos_acta.toma_predio_imagen.save('toma.png', toma_fotografica_predio_imagen_content)
         # documentos-casos-si-pdf
-        documentos_casos_si_pdf_base64 = data['documentos-casos-si-pdf']
-        if documentos_casos_si_pdf_base64:
-            documentos_casos_si_pdf_base64_content = ContentFile(base64.b64decode(documentos_casos_si_pdf_base64), name='documentos_predio.pdf')
-            archivos_acta.documento_predio_pdf.save('documentos_predio.pdf', documentos_casos_si_pdf_base64_content)
+        if casos_toma_predio == 'si':
+            documentos_casos_si_pdf_base64 = data['documentos-casos-si-pdf']
+            if documentos_casos_si_pdf_base64:
+                documentos_casos_si_pdf_base64_content = ContentFile(base64.b64decode(documentos_casos_si_pdf_base64), name='documentos_predio.pdf')
+                archivos_acta.documento_predio_pdf.save('documentos_predio.pdf', documentos_casos_si_pdf_base64_content)
+
         # archivo_firmas_pdf
         firmas_pdf_base64 = data['documentos-casos-si-pdf']
         if firmas_pdf_base64:
@@ -140,10 +150,10 @@ class ActaCreateView(TemplateView):
                 poseedor.nombres = titular_data.get('nombres')
                 poseedor.estado_civil = titular_data.get('estadoCivil')
                 poseedor.num_doc = titular_data.get('dni')
-                
+
                 # Guardar la instancia de Posesion en la base de datos
                 poseedor.save()
-                
+
             titular = Titular()
             titular.copia_doc_identidad = titular_data.get('copiaDoc')
             titular.apellidos = titular_data.get('apellidos')
@@ -163,7 +173,7 @@ class ActaCreateView(TemplateView):
             titular.save()
 
         return JsonResponse({'message': 'Acta creada exitosamente'}, status=201)
-        
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         posesiones_matriz = PosesionInformal.objects.filter(is_matriz=True)
@@ -184,7 +194,7 @@ class ActaView(TemplateView):
             return JsonResponse({**data, 'message': 'ok'}, status=200)
         except Acta.DoesNotExist:
             return JsonResponse({'message': 'Acta no existente'}, status=404)
-    
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ActaUpdateView(TemplateView):
     model = Acta
@@ -199,10 +209,9 @@ class ActaUpdateView(TemplateView):
         # print(f'pk {pk}')
         # print(data)
         # return JsonResponse({'message': 'Acta actualizada exitosamente'}, status=201)
-        
+
         # Crear una instancia de Acta
         acta = get_object_or_404(Acta, pk=pk)
-        print(acta)
         # Llenar los campos de Acta
         acta.fecha = data.get('fecha')
         acta.cel_wsp = data.get('cel-wssp')
@@ -224,14 +233,19 @@ class ActaUpdateView(TemplateView):
         # 4.- BOCETO DEL PREDIO
         acta.hitos_consolidados = data.get('list-radio-hitos-consolidado')
         acta.acceso_a_via = data.get('list-radio-acceso-via')
-        acta.requiere_subdivision = data.get('list-radio-subdivion')
-        acta.cantidad_lotes = data.get('numero-lotes')
+        requiere_subdivision = data.get('list-radio-subdivion')
+        acta.requiere_subdivision = requiere_subdivision
+        if requiere_subdivision == 'si':
+            acta.cantidad_lotes = data.get('numero-lotes')
+        else:
+            acta.cantidad_lotes = None
+
         acta.requiere_alineamiento = data.get('list-radio-alineamiento')
         acta.apertura_de_via = data.get('list-radio-apertura-via')
         acta.libre_de_riesgo = data.get('list-radio-libre-riesgo')
         acta.req_transf_de_titular = data.get('list-radio-transf-titular')
         acta.litigio_denuncia = data.get('list-radio-litigio-denuncia-etc')
-        # acta.area_segun_el_titular_representante = data.get('area-segun-titular-representante')
+        acta.area_segun_el_titular_representante = data.get('area-segun-titular-representante')
         acta.comentario1 = data.get('comentario1')
         # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
         acta.codigo_dlt = data.get('codigo')
@@ -242,10 +256,14 @@ class ActaUpdateView(TemplateView):
         # acta.operador = data.get('operador')
         # acta.equipo_tp = data.get('equipo-tp')
         # 8.- ADICIONALES:
-        acta.casos_toma_predio = data.get('list-radio-casos')
-        # descripcion_toma_predio
-        acta.descripcion_toma_predio = data.get('descripcion-documentos-casos-si')
-        print("'descripcion-documentos-casos-si'", data.get('descripcion-documentos-casos-si'))
+        casos_toma_predio = data.get('list-radio-casos')
+        acta.casos_toma_predio = casos_toma_predio
+        if casos_toma_predio == 'si':
+            # descripcion_toma_predio
+            acta.descripcion_toma_predio = data.get('descripcion-documentos-casos-si')
+        else:
+            acta.descripcion_toma_predio = ''
+
         # 9.- FIRMA DEL OPERADOR TOPOGRÁFICO, REPRESENTANTE DE LA COMISIÓN Y SUPERVISOR DE CAMPO
         acta.comentario3 = data.get('firma-actores-intervinientes-comentario-observaciones')
 
@@ -259,17 +277,20 @@ class ActaUpdateView(TemplateView):
         if boceto_predio_pdf_base64:
             boceto_predio_pdf_content = ContentFile(base64.b64decode(boceto_predio_pdf_base64), name='boceto.pdf')
             archivos_acta.boceto_pdf.save('boceto.pdf', boceto_predio_pdf_content)
-        
+
         # toma-fotografica-predio-imagen
         toma_fotografica_predio_imagen_base64 = data['toma-fotografica-predio-imagen']
         if toma_fotografica_predio_imagen_base64:
             toma_fotografica_predio_imagen_content = ContentFile(base64.b64decode(toma_fotografica_predio_imagen_base64), name='toma.png')
             archivos_acta.toma_predio_imagen.save('toma.png', toma_fotografica_predio_imagen_content)
         # documentos-casos-si-pdf
-        documentos_casos_si_pdf_base64 = data['documentos-casos-si-pdf']
-        if documentos_casos_si_pdf_base64:
-            documentos_casos_si_pdf_base64_content = ContentFile(base64.b64decode(documentos_casos_si_pdf_base64), name='documentos_predio.pdf')
-            archivos_acta.documento_predio_pdf.save('documentos_predio.pdf', documentos_casos_si_pdf_base64_content)
+        if casos_toma_predio == 'si':
+            documentos_casos_si_pdf_base64 = data['documentos-casos-si-pdf']
+            if documentos_casos_si_pdf_base64:
+                documentos_casos_si_pdf_base64_content = ContentFile(base64.b64decode(documentos_casos_si_pdf_base64), name='documentos_predio.pdf')
+                archivos_acta.documento_predio_pdf.save('documentos_predio.pdf', documentos_casos_si_pdf_base64_content)
+        else:
+            archivos_acta.documento_predio_pdf = None
         # archivo_firmas_pdf
         firmas_pdf_base64 = data['firmas-operador-topografo-representante-comision-supervisor-de-campo-pdf']
         if firmas_pdf_base64:
@@ -315,7 +336,7 @@ class ActaUpdateView(TemplateView):
 class ActaDeleteView(DeleteView):
     model = Acta
     template_name = 'crm/acta/delete.html'
-    success_url = reverse_lazy('acta_list') 
+    success_url = reverse_lazy('acta_list')
 
     def post(self, request, *args, **kwargs):
         data = {}
@@ -335,6 +356,6 @@ class ActaDeleteView(DeleteView):
         # Agrega el título de la página
         context['title'] = 'Notificación de eliminación'
         # Agrega la URL de redirección después de eliminar el Acta
-        context['list_url'] = self.success_url  
+        context['list_url'] = self.success_url
         context['registro'] = self.kwargs.get('pk')
         return context

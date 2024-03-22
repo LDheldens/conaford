@@ -11,7 +11,8 @@ from core.reports.forms import ReportForm
 from core.security.mixins import PermissionMixin
 
 
-class CtasCollectListView(PermissionMixin, FormView):
+class CtasCollectListView(FormView):
+# class CtasCollectListView(PermissionMixin, FormView):
     template_name = 'frm/ctascollect/list.html'
     permission_required = 'view_ctascollect'
     form_class = ReportForm
@@ -56,7 +57,8 @@ class CtasCollectListView(PermissionMixin, FormView):
         return context
 
 
-class CtasCollectCreateView(PermissionMixin, CreateView):
+class CtasCollectCreateView(CreateView):
+# class CtasCollectCreateView(PermissionMixin, CreateView):
     model = CtasCollect
     template_name = 'frm/ctascollect/create.html'
     form_class = PaymentsCtaCollectForm

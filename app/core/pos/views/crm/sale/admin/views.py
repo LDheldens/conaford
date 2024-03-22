@@ -14,8 +14,8 @@ from core.pos.forms import *
 from core.reports.forms import ReportForm
 from core.security.mixins import PermissionMixin
 
-
-class SaleAdminListView(PermissionMixin, FormView):
+# class SaleAdminListView(PermissionMixin, FormView):
+class SaleAdminListView(FormView):
     template_name = 'crm/sale/admin/list.html'
     permission_required = 'view_sale'
     form_class = ReportForm
@@ -161,6 +161,7 @@ class SaleAdminCreateView(CreateView):
                     item['dscto'] = '0.00'
                     item['total_dscto'] = '0.00'
                     data.append(item)
+                    
             elif action == 'search_client':
                 data = []
                 term = request.POST['term']

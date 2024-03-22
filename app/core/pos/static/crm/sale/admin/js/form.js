@@ -765,17 +765,15 @@ $(function () {
             fvSale.disableValidator('card_number');
             fvSale.disableValidator('titular');
             fvSale.disableValidator('amount_debited');
-            fvSale.disableValidator('cash');
+            // fvSale.disableValidator('cash');
             fvSale.disableValidator('change');
             switch (id) {
                 case "contado":
-                    console.log('contado')
                     fvSale.disableValidator('end_credit');
                     select_paymentmethod.prop('disabled', false).val('efectivo').trigger('change');
                     break;
                 case "credito":
                     fvSale.enableValidator('end_credit');
-                    console.log('credito')
                     hideRowsVents([{'pos': 2, 'enable': true}]);
                     select_paymentmethod.prop('disabled', true);
                     break;

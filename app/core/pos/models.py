@@ -89,11 +89,12 @@ class Product(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['category'] = self.category.toJSON()
-        item['price'] = format(self.price, '.2f')
-        item['price_promotion'] = format(self.get_price_promotion(), '.2f')
-        item['price_current'] = format(self.get_price_current(), '.2f')
+        # item['price'] = format(self.price, '.2f')
+        # item['price_promotion'] = format(self.get_price_promotion(), '.2f')
+        # item['price_current'] = format(self.get_price_current(), '.2f')
         item['pvp'] = format(self.pvp, '.2f')
-        item['image'] = self.get_image()
+        # item['image'] = self.get_image()
+        print(item)
         return item
 
     class Meta:
@@ -139,6 +140,7 @@ class Sale(models.Model):
     total_dscto = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total_igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+    # cash = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     initial = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     change = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
@@ -323,8 +325,8 @@ class PosesionInformal(models.Model):
     departamento = models.CharField(max_length=100)
     provincia = models.CharField(max_length=100)
     distrito = models.CharField(max_length=100)
-    coordenada_x = models.DecimalField(max_digits=30, decimal_places=4) 
-    coordenada_y = models.DecimalField(max_digits=30, decimal_places=4)
+    coordenada_x = models.DecimalField(max_digits=30, decimal_places=4, blank=True, null=True) 
+    coordenada_y = models.DecimalField(max_digits=30, decimal_places=4, blank=True, null=True)
     tipo_posecion_informal = models.CharField(max_length=100)
     denominacion_segun_inei= models.CharField(max_length=200)
     #forma de asentamiento
@@ -333,16 +335,16 @@ class PosesionInformal(models.Model):
     aciones_de_formalizacion = models.CharField(max_length = 150)
     #accesibilidad
     tipo_calzada = models.CharField(max_length = 150)
-    tipo_calzada_distancia = models.CharField(max_length=100)
+    tipo_calzada_distancia = models.DecimalField(max_digits=6, decimal_places=3, blank=True, null=True)
     referencia_local = models.CharField(max_length=200)
     referencia_local_tiempo = models.TimeField()
     ruta = models.CharField(max_length = 100)
     ruta_especifica = models.CharField(max_length = 200)
     #configuracion urbana
     tipo_configuracion_urbana = models.CharField(max_length=20)
-    numero_lotes = models.IntegerField()
-    numero_manzanas = models.IntegerField()
-    porcentaje_vivencia = models.DecimalField(max_digits=6, decimal_places=3)
+    numero_lotes = models.IntegerField(blank=True, null=True)
+    numero_manzanas = models.IntegerField(blank=True, null=True)
+    porcentaje_vivencia = models.DecimalField(max_digits=6, decimal_places=3, blank=True, null=True)
     equipamientos = models.JSONField()
     material_predominante = models.JSONField()
     servicios_basicos = models.JSONField()
@@ -353,7 +355,7 @@ class PosesionInformal(models.Model):
     zonas_arquelogicas_o_reservas = models.BooleanField()
     zonas_a_o_r_nombre = models.CharField(null=True, blank=True,max_length=200)
     zonas_a_o_r_ubicacion = models.CharField(null=True, blank=True,max_length=200)
-    zonas_arquelogicas_o_reservas_pdf = models.FileField(upload_to='posesion_informal/archivos', null=True)
+    zonas_arquelogicas_o_reservas_pdf = models.FileField(upload_to='posesion_informal/archivos', blank=True, null=True)
 
     zonas_riesgo = models.BooleanField()
     zonas_riesgo_nombre = models.CharField(null=True, blank=True,max_length=200)
@@ -426,19 +428,19 @@ class Acta(models.Model):
     hitos_consolidados = models.CharField(max_length=10)
     acceso_a_via = models.CharField(max_length=10)
     requiere_subdivision = models.CharField(max_length=10)
-    cantidad_lotes = models.IntegerField()
+    cantidad_lotes = models.IntegerField(blank=True, null=True)
     requiere_alineamiento = models.CharField(max_length=10)
     apertura_de_via = models.CharField(max_length=10)
     libre_de_riesgo = models.CharField(max_length=10)
     req_transf_de_titular = models.CharField(max_length=10)
     litigio_denuncia = models.CharField(max_length=10)
-    area_segun_el_titular_representante = models.FloatField()
+    area_segun_el_titular_representante = models.FloatField(blank=True, null=True)
     comentario1 = models.TextField()
     # carta_poder = models.CharField(null=True, blank=True,max_length=10)
     # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
     codigo_dlt = models.CharField(max_length=50)
     hora = models.TimeField()
-    n_punto = models.IntegerField()
+    n_punto = models.IntegerField(blank=True, null=True)
     tiempo_atmosferico = models.CharField(max_length = 20)
     # operador = models.CharField(max_length=100)
     # equipo_tp = models.CharField(max_length=100)
@@ -476,7 +478,7 @@ class Acta(models.Model):
         item['porcentaje_llenado'] = self.calcular_porcentaje_llenado()
         item['fecha'] = fecha_str
         item['hora'] = hora_str
-        item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
+        # item['area_segun_el_titular_representante'] = float(self.area_segun_el_titular_representante)
         item['primer_titular'] = f"{primer_titular.nombres} {primer_titular.apellidos}" if primer_titular else None
         item['num_titulares'] = num_titulares
         
