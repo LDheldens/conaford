@@ -39,7 +39,6 @@ class ClientListView(TemplateView):
 
 
 class ClientCreateView(CreateView):
-# class ClientCreateView(PermissionMixin, CreateView):
     model = Client
     template_name = 'crm/client/create.html'
     form_class = ClientForm

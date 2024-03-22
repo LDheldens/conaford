@@ -22,7 +22,6 @@ class CategoryListView(ListView):
 
 
 class CategoryCreateView(CreateView):
-# class CategoryCreateView(PermissionMixin, CreateView):
     model = Category
     template_name = 'scm/category/create.html'
     form_class = CategoryForm
