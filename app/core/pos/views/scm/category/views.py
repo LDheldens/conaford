@@ -20,7 +20,7 @@ class CategoryListView(PermissionMixin, ListView):
         return context
 
 
-class CategoryCreateView(PermissionMixin, CreateView):
+class CategoryCreateView(CreateView):
     model = Category
     template_name = 'scm/category/create.html'
     form_class = CategoryForm

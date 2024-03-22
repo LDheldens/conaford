@@ -1,5 +1,5 @@
 import json
-
+import logging
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.db.models import Q
@@ -85,6 +85,7 @@ class SaleAdminCreateView(CreateView):
         return form
 
     def post(self, request, *args, **kwargs):
+        
         action = request.POST['action']
         data = {}
         try:
@@ -98,6 +99,7 @@ class SaleAdminCreateView(CreateView):
                     sale.type_voucher = request.POST['type_voucher']
                     sale.igv = float(Company.objects.first().igv) / 100
                     sale.dscto = float(request.POST['dscto']) / 100
+                    sale.initial = float(request.POST['initial'])
                     sale.save()
 
                     for i in json.loads(request.POST['products']):
@@ -105,10 +107,10 @@ class SaleAdminCreateView(CreateView):
                         saledetail = SaleDetail()
                         saledetail.sale_id = sale.id
                         saledetail.product_id = prod.id
-                        saledetail.price = float(i['price_current'])
+                        saledetail.price = float(i['total'])
                         saledetail.cant = int(i['cant'])
                         saledetail.subtotal = saledetail.price * saledetail.cant
-                        saledetail.dscto = float(i['dscto']) / 100
+                        saledetail.dscto = float(i['total_dscto']) / 100
                         saledetail.total_dscto = saledetail.dscto * saledetail.subtotal
                         saledetail.total = saledetail.subtotal - saledetail.total_dscto
                         saledetail.save()
@@ -120,6 +122,7 @@ class SaleAdminCreateView(CreateView):
                         sale.end_credit = request.POST['end_credit']
                         sale.cash = 0.00
                         sale.change = 0.00
+                        sale.initial = request.POST['initial']
                         sale.save()
                         ctascollect = CtasCollect()
                         ctascollect.sale_id = sale.id

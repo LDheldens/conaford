@@ -78,24 +78,28 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name='Nombre')
     category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='Categoría')
-    # price = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Precio de Compra')
+    price = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Precio de Compra')
     pvp = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Precio de Venta')
     # image = models.ImageField(upload_to='product/%Y/%m/%d', verbose_name='Imagen', null=True, blank=True)
 
     def __str__(self):
         return self.name
 
-
     def toJSON(self):
-        item = model_to_dict(self)
-        item['category'] = self.category.toJSON()
-        item['price'] = format(self.price, '.2f')
-        item['price_promotion'] = format(self.get_price_promotion(), '.2f')
-        item['price_current'] = format(self.get_price_current(), '.2f')
-        item['pvp'] = format(self.pvp, '.2f')
-        item['image'] = self.get_image()
+        item = {
+            'id': self.id,
+            'name': self.name,
+            'pvp':format(self.pvp, '.2f'),
+            'category': self.category.name if self.category else "",  # Solo el nombre de la categoría si existe
+            'cant': 1,  # Ejemplo de cantidad, reemplazar con el valor real
+            'price': format(self.price, '.2f'),
+            'sub': format(self.pvp * 1, '.2f'),  # Subtotal calculado
+            'dsct': 0,  # Ejemplo de descuento, reemplazar con el valor real
+            'total_dsct': 0,  # Ejemplo de valor de descuento, reemplazar con el valor real
+            'tot': format(self.pvp * 1, '.2f'),  # Ejemplo de subtotal final, reemplazar con el valor real
+        }
         return item
-
+    
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
@@ -105,7 +109,6 @@ class Product(models.Model):
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     mobile = models.CharField(max_length=10, unique=True, verbose_name='Teléfono')
-    birthdate = models.DateField(default=datetime.now, verbose_name='Fecha de nacimiento')
     address = models.CharField(max_length=500, null=True, blank=True, verbose_name='Dirección')
 
     def __str__(self):
@@ -117,7 +120,7 @@ class Client(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['user'] = self.user.toJSON()
-        item['birthdate'] = self.birthdate.strftime('%Y-%m-%d')
+        # item['birthdate'] = self.birthdate.strftime('%Y-%m-%d')
         return item
 
     class Meta:
@@ -141,6 +144,7 @@ class Sale(models.Model):
     total_igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     initial = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
+    cash = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     change = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     card_number = models.CharField(max_length=30, null=True, blank=True)
     titular = models.CharField(max_length=30, null=True, blank=True)

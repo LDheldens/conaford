@@ -37,7 +37,7 @@ class ClientListView(PermissionMixin, TemplateView):
         return context
 
 
-class ClientCreateView(PermissionMixin, CreateView):
+class ClientCreateView(CreateView):
     model = Client
     template_name = 'crm/client/create.html'
     form_class = ClientForm

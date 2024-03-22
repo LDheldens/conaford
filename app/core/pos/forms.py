@@ -62,7 +62,7 @@ class ClientForm(ModelForm):
 
     class Meta:
         model = Client
-        fields = 'first_name', 'last_name', 'dni', 'email', 'mobile', 'birthdate', 'address'
+        fields = 'first_name', 'last_name', 'dni', 'mobile', 'address'
         widgets = {
             'mobile': forms.TextInput(
                 attrs={
@@ -87,14 +87,14 @@ class ClientForm(ModelForm):
         'placeholder': 'Ingrese sus nombres'
     }), label='Nombres', max_length=50)
 
-    birthdate = forms.DateField(input_formats=['%Y-%m-%d'], widget=forms.TextInput(
-        attrs={
-            'class': 'form-control datetimepicker-input',
-            'id': 'birthdate',
-            'value': datetime.now().strftime('%Y-%m-%d'),
-            'data-toggle': 'datetimepicker',
-            'data-target': '#birthdate'
-        }), label='Fecha de nacimiento')
+    # birthdate = forms.DateField(input_formats=['%Y-%m-%d'], widget=forms.TextInput(
+    #     attrs={
+    #         'class': 'form-control datetimepicker-input',
+    #         'id': 'birthdate',
+    #         'value': datetime.now().strftime('%Y-%m-%d'),
+    #         'data-toggle': 'datetimepicker',
+    #         'data-target': '#birthdate'
+    #     }), label='Fecha de nacimiento')
 
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
@@ -108,16 +108,16 @@ class ClientForm(ModelForm):
         'placeholder': 'Ingrese su número de cedula'
     }), label='Número de cedula', max_length=10)
 
-    email = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'autocomplete': 'off',
-        'placeholder': 'Ingrese su email'
-    }), label='Email', max_length=50)
+    # email = forms.CharField(widget=forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'autocomplete': 'off',
+    #     'placeholder': 'Ingrese su email'
+    # }), label='Email', max_length=50)
 
-    image = forms.ImageField(widget=forms.FileInput(attrs={
-        'class': 'form-control',
-        'autocomplete': 'off'
-    }), label='Imagen')
+    # image = forms.ImageField(widget=forms.FileInput(attrs={
+    #     'class': 'form-control',
+    #     'autocomplete': 'off'
+    # }), label='Imagen')
 
 
 class SaleForm(ModelForm):
@@ -153,7 +153,7 @@ class SaleForm(ModelForm):
             }),
             'initial': forms.TextInput(attrs={
                 'class': 'form-control form-control-sm',
-                # 'disabled': True
+                'disabled': True,
                 'id':'initial-input'
             }),
             'igv': forms.TextInput(attrs={

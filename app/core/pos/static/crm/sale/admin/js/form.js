@@ -8,6 +8,7 @@ var input_birthdate;
 var select_paymentcondition;
 var select_paymentmethod;
 var input_cash;
+let input_initial;
 var input_cardnumber;
 var input_amountdebited;
 var input_titular;
@@ -36,8 +37,8 @@ var vents = {
         var total = 0.00;
         $.each(this.details.products, function (i, item) {
             item.cant = parseInt(item.cant);
-            item.subtotal = item.cant * parseFloat(item.price_current);
-            item.total_dscto = (parseFloat(item.dscto) / 100) * item.subtotal;
+            item.subtotal = parseInt(item.cant) * parseFloat(item.pvp);
+            item.total_dscto = (parseFloat(item.dscto) / 100) * parseFloat(item.subtotal);
             item.total = item.subtotal - item.total_dscto;
             total += item.total;
         });
@@ -72,40 +73,26 @@ var vents = {
             columns: [
                 {data: "id"},
                 {data: "name"},
-                //{data: "category.name"},
                 {data: "cant"},
-                {data: "price_current"},
-                {data: "subtotal"},
-                {data: "dscto"},
-                {data: "total_dscto"},
-                {data: "total"},
+                {data: "pvp"},
+                {data: "sub"},
+                {data: "dsct"},
+                {data: "total_dsct"},
+                {data: "tot"},
             ],
             columnDefs: [
                 {
                     targets: [2],
                     class: 'text-center',
                     render: function (data, type, row) {
-                    }
-                },
-                {
-                    targets: [-6],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        return '<input type="text" class="form-control input-sm" style="width: 100px;" autocomplete="off" name="cant" value="' + row.cant + '">';
+                        return '<input type="text" class="form-control input-sm" style="width: 68px;" autocomplete="off" name="cant" value="' + String(row.cant) + '">';
                     }
                 },
                 {
                     targets: [-3],
                     class: 'text-center',
                     render: function (data, type, row) {
-                        return '<input type="text" class="form-control input-sm" style="width: 100px;" autocomplete="off" name="dscto_unitary" value="' + row.dscto + '">';
-                    }
-                },
-                {
-                    targets: [-1, -2, -4, -5],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        return 'S/.' + parseFloat(data).toFixed(2);
+                        return '<input type="text" class="form-control input-sm" style="width: 80px;" autocomplete="off" name="dscto_unitary" value="' + String(row.dscto) + '">';
                     }
                 },
                 {
@@ -327,8 +314,15 @@ document.addEventListener('DOMContentLoaded', function (e) {
 document.addEventListener('DOMContentLoaded', function (e) {
     function validateChange() {
         var cash = parseFloat(input_cash.val())
+        let initial = parseFloat(input_initial.val())
         var method_payment = select_paymentmethod.val();
+        let payment_condition = select_paymentcondition.val();
         var total = parseFloat(vents.details.total);
+        if (payment_condition==='credito') {
+            if (initial < total) {
+                return {valid: false, message: 'El monto inicial debe ser mayor o igual al total a pagar'};
+            }
+        }
         if (method_payment === 'efectivo') {
             if (cash < total) {
                 return {valid: false, message: 'El efectivo debe ser mayor o igual al total a pagar'};
@@ -386,6 +380,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {
                             message: 'Seleccione un método de pago'
+                        },
+                    }
+                },
+                initial:{
+                    validators: {
+                        notEmpty: {
+                            message: 'Ingresa un monto inicial'
                         },
                     }
                 },
@@ -487,6 +488,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
             parameters.append('action', $('input[name="action"]').val());
             parameters.append('payment_method', select_paymentmethod.val());
             parameters.append('payment_condition', select_paymentcondition.val());
+            parameters.append('initial',input_initial.val())
             parameters.append('end_credit', input_endcredit.val());
             parameters.append('cash', input_cash.val());
             parameters.append('change', input_change.val());
@@ -546,6 +548,7 @@ $(function () {
     input_cardnumber = $('input[name="card_number"]');
     input_amountdebited = $('input[name="amount_debited"]');
     input_cash = $('input[name="cash"]');
+    input_initial = $('input[name="initial"]');
     input_change = $('input[name="change"]');
     input_titular = $('input[name="titular"]');
     inputs_vents = $('.rowVents');
@@ -596,19 +599,21 @@ $(function () {
 
     $('#tblProducts tbody')
         .off()
-        .on('change', 'input[name="cant"]', function () {
+        .on('input', 'input[name="cant"]', function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
             vents.details.products[tr.row].cant = parseInt($(this).val());
             vents.calculate_invoice();
-            $('td:eq(5)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].subtotal.toFixed(2));
+            $('td:eq(4)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].subtotal.toFixed(2));
             $('td:eq(8)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
+            console.log(vents.details)
         })
         .on('change', 'input[name="dscto_unitary"]', function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
             vents.details.products[tr.row].dscto = parseFloat($(this).val());
             vents.calculate_invoice();
-            $('td:eq(7)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total_dscto.toFixed(2));
-            $('td:eq(8)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
+            $('td:eq(6)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total_dscto.toFixed(2));
+            $('td:eq(7)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
+            console.log(vents.details)
         })
         .on('click', 'a[rel="remove"]', function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
@@ -638,24 +643,23 @@ $(function () {
             scrollCollapse: true,
             columns: [
                 {data: "name"},
-                {data: "category.name"},
+                {data: "category"},
                 {data: "pvp"},
-                {data: "price_promotion"},
                 {data: "id"},
             ],
             columnDefs: [
-                {
-                    targets: [-3, -4],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        return 'S/.' + parseFloat(data).toFixed(2);
-                    }
-                },
+                // {
+                //     targets: [-3, -4],
+                //     class: 'text-center',
+                //     render: function (data, type, row) {
+                //         return 'S/.' + parseFloat(row.price).toFixed(2);
+                //     }
+                // },
                 {
                     targets: [-2],
                     class: 'text-center',
                     render: function (data, type, row) {
-
+                        return 'S/.' + parseFloat(row.pvp).toFixed(2);
                     }
                 },
                 {
@@ -765,19 +769,21 @@ $(function () {
             fvSale.disableValidator('card_number');
             fvSale.disableValidator('titular');
             fvSale.disableValidator('amount_debited');
-            fvSale.disableValidator('cash');
+            // fvSale.disableValidator('cash');
             fvSale.disableValidator('change');
             switch (id) {
                 case "contado":
                     console.log('contado')
                     fvSale.disableValidator('end_credit');
                     select_paymentmethod.prop('disabled', false).val('efectivo').trigger('change');
+                    input_initial.prop('disabled', true)
                     break;
                 case "credito":
                     fvSale.enableValidator('end_credit');
                     console.log('credito')
                     hideRowsVents([{'pos': 2, 'enable': true}]);
                     select_paymentmethod.prop('disabled', true);
+                    input_initial.prop('disabled', false)
                     break;
             }
         });
