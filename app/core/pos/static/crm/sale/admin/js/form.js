@@ -73,7 +73,6 @@ var vents = {
             columns: [
                 {data: "id"},
                 {data: "name"},
-                {data: "cant"},
                 {data: "pvp"},
                 {data: "sub"},
                 {data: "dsct"},
@@ -81,13 +80,13 @@ var vents = {
                 {data: "tot"},
             ],
             columnDefs: [
-                {
-                    targets: [2],
-                    class: 'text-center',
-                    render: function (data, type, row) {
-                        return '<input type="text" class="form-control input-sm" style="width: 68px;" autocomplete="off" name="cant" value="' + String(row.cant) + '">';
-                    }
-                },
+                // {
+                //     targets: [2],
+                //     class: 'text-center',
+                //     render: function (data, type, row) {
+                //         return '<input type="text" class="form-control input-sm" style="width: 68px;" autocomplete="off" name="cant" value="' + String(row.cant) + '">';
+                //     }
+                // },
                 {
                     targets: [-3],
                     class: 'text-center',
@@ -604,15 +603,15 @@ $(function () {
             vents.details.products[tr.row].cant = parseInt($(this).val());
             vents.calculate_invoice();
             $('td:eq(4)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].subtotal.toFixed(2));
-            $('td:eq(8)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
+            $('td:eq(7)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
             console.log(vents.details)
         })
         .on('change', 'input[name="dscto_unitary"]', function () {
             var tr = tblProducts.cell($(this).closest('td, li')).index();
             vents.details.products[tr.row].dscto = parseFloat($(this).val());
             vents.calculate_invoice();
-            $('td:eq(6)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total_dscto.toFixed(2));
-            $('td:eq(7)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
+            $('td:eq(5)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total_dscto.toFixed(2));
+            $('td:eq(6)', tblProducts.row(tr.row).node()).html('S/.' + vents.details.products[tr.row].total.toFixed(2));
             console.log(vents.details)
         })
         .on('click', 'a[rel="remove"]', function () {

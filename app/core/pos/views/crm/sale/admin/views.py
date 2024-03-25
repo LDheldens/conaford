@@ -1,5 +1,5 @@
 import json
-import logging
+from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.models import Group
 from django.db import transaction
 from django.db.models import Q
@@ -22,26 +22,27 @@ class SaleAdminListView(FormView):
 
     def post(self, request, *args, **kwargs):
         data = {}
-        action = request.POST['action']
+        action = request.POST.get('action')
         try:
             if action == 'search':
                 data = []
-                start_date = request.POST['start_date']
-                end_date = request.POST['end_date']
+                start_date = request.POST.get('start_date')
+                end_date = request.POST.get('end_date')
                 search = Sale.objects.filter()
-                if len(start_date) and len(end_date):
+                if start_date and end_date:
                     search = search.filter(date_joined__range=[start_date, end_date])
                 for i in search:
                     data.append(i.toJSON())
             elif action == 'search_detproducts':
                 data = []
-                for det in SaleDetail.objects.filter(sale_id=request.POST['id']):
+                for det in SaleDetail.objects.filter(sale_id=request.POST.get('id')):
                     data.append(det.toJSON())
             else:
                 data['error'] = 'No ha ingresado una opción'
         except Exception as e:
             data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        # Serialize data using DjangoJSONEncoder
+        return HttpResponse(json.dumps(data, cls=DjangoJSONEncoder), content_type='application/json')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

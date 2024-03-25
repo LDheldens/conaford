@@ -56,9 +56,6 @@ class ClientCreateView(CreateView):
             elif type == 'mobile':
                 if Client.objects.filter(mobile=obj):
                     data['valid'] = False
-            elif type == 'email':
-                if User.objects.filter(email=obj):
-                    data['valid'] = False
         except:
             pass
         return JsonResponse(data)
@@ -68,23 +65,20 @@ class ClientCreateView(CreateView):
         action = request.POST['action']
         try:
             if action == 'add':
+                # return print(request.POST)
                 with transaction.atomic():
                     user = User()
                     user.first_name = request.POST['first_name']
                     user.last_name = request.POST['last_name']
                     user.dni = request.POST['dni']
                     user.username = user.dni
-                    if 'image' in request.FILES:
-                        user.image = request.FILES['image']
                     user.create_or_update_password(user.dni)
-                    user.email = request.POST['email']
                     user.save()
 
                     client = Client()
                     client.user_id = user.id
                     client.mobile = request.POST['mobile']
                     client.address = request.POST['address']
-                    client.birthdate = request.POST['birthdate']
                     client.save()
 
                     group = Group.objects.get(pk=settings.GROUPS.get('client'))

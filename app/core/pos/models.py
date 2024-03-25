@@ -180,15 +180,15 @@ class Sale(models.Model):
         item['payment_condition'] = {'id': self.payment_condition, 'name': self.get_payment_condition_display()}
         item['payment_method'] = {'id': self.payment_method, 'name': self.get_payment_method_display()}
         item['type_voucher'] = {'id': self.type_voucher, 'name': self.get_type_voucher_display()}
-        item['subtotal'] = format(self.subtotal, '.2f')
-        item['dscto'] = format(self.dscto, '.2f')
-        item['total_dscto'] = format(self.total_dscto, '.2f')
-        item['igv'] = format(self.igv, '.2f')
-        item['total_igv'] = format(self.total_igv, '.2f')
-        item['total'] = format(self.total, '.2f')
-        item['cash'] = format(self.cash, '.2f')
-        item['change'] = format(self.change, '.2f')
-        item['amount_debited'] = format(self.amount_debited, '.2f')
+        item['subtotal'] = '{:.2f}'.format(self.subtotal)
+        item['dscto'] = '{:.2f}'.format(self.dscto)
+        item['total_dscto'] = '{:.2f}'.format(self.total_dscto)
+        item['igv'] = '{:.2f}'.format(self.igv)
+        item['total_igv'] = '{:.2f}'.format(self.total_igv)
+        item['total'] = '{:.2f}'.format(self.total)
+        item['cash'] = '{:.2f}'.format(self.cash)
+        item['change'] = '{:.2f}'.format(self.change)
+        item['amount_debited'] = '{:.2f}'.format(self.amount_debited)
         return item
 
     def calculate_invoice(self):
@@ -282,9 +282,10 @@ class CtasCollect(models.Model):
         item['sale'] = self.sale.toJSON()
         item['date_joined'] = self.date_joined.strftime('%Y-%m-%d')
         item['end_date'] = self.end_date.strftime('%Y-%m-%d')
-        item['debt'] = format(self.debt, '.2f')
-        item['saldo'] = format(self.saldo, '.2f')
+        item['debt'] = float(self.debt)
+        item['saldo'] = float(self.saldo)
         return item
+
 
     class Meta:
         verbose_name = 'Cuenta por cobrar'

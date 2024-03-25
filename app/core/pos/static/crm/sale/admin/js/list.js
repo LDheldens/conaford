@@ -113,7 +113,7 @@ $(function () {
                 scrollCollapse: true,
                 columns: [
                     {data: "product.name"},
-                    {data: "product.category.name"},
+                    {data: "product.category"},
                     {data: "price"},
                     {data: "cant"},
                     {data: "subtotal"},

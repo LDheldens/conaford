@@ -20,34 +20,18 @@ function getData() {
         columns: [
             {data: "id"},
             {data: "name"},
-            {data: "category.name"},
-            {data: "category.inventoried"},
-            {data: "image"},
+            {data: "category"},
+            // {data: "category.inventoried"},
+            // {data: "image"},
             {data: "price"},
             {data: "pvp"},
-            {data: "price_promotion"},
+            // {data: "price_promotion"},
             {data: "id"},
         ],
         columnDefs: [
+
             {
-                targets: [3],
-                class: 'text-center',
-                render: function (data, type, row) {
-                    if (row.category.inventoried) {
-                        return 'Si';
-                    }
-                    return 'No';
-                }
-            },
-            {
-                targets: [4],
-                class: 'text-center',
-                render: function (data, type, row) {
-                    return '<img src="' + row.image + '" class="img-fluid d-block mx-auto" style="width: 20px; height: 20px;">';
-                }
-            },
-            {
-                targets: [-4, -5, -3],
+                targets: [-3, -2],
                 class: 'text-center',
                 render: function (data, type, row) {
                     return 'S/.' + parseFloat(data).toFixed(2);
