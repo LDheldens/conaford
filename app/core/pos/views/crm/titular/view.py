@@ -7,12 +7,13 @@ from django.core.files.storage import default_storage
 from django.http import JsonResponse, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, View
-
+from core.security.mixins import ModuleMixin, PermissionMixin
 from core.pos.models import Titular, Acta, Colindancia
 # vistas creadas por Daniel
-class TitularListView(TemplateView):
+class TitularListView(PermissionMixin,TemplateView):
     template_name = 'crm/titular/list.html'
-
+    permission_required = 'view_titular'
+    
     def post(self, request, *args, **kwargs):
         data = {}
         try:

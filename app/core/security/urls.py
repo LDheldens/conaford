@@ -14,6 +14,7 @@ urlpatterns = [
     path('module/type/delete/<int:pk>/', TypeDeleteView.as_view(), name='moduletype_delete'),
     # module
     path('module/', ModuleListView.as_view(), name='module_list'),
+    #/security/group/add/
     path('module/add/', ModuleCreateView.as_view(), name='module_create'),
     path('module/update/<int:pk>/', ModuleUpdateView.as_view(), name='module_update'),
     path('module/delete/<int:pk>/', ModuleDeleteView.as_view(), name='module_delete'),

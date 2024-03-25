@@ -62,7 +62,7 @@ class Dashboard(models.Model):
 
 class ModuleType(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='Nombre')
-    icon = models.CharField(max_length=100, unique=True, verbose_name='Icono')
+    icon = models.CharField(max_length=100, verbose_name='Icono')
     is_active = models.BooleanField(default=True, verbose_name='Estado')
 
     def __str__(self):
