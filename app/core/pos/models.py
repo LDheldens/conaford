@@ -268,7 +268,7 @@ class CtasCollect(models.Model):
     #     return '{} / {} / ${}'.format(self.sale.client.user.get_full_name(), self.date_joined.strftime('%Y-%m-%d'),
     #                                   format(self.debt, '.2f'))
     def __str__(self):
-        return f'{self.sale.client.user.get_full_name()} / {self.date_joined.strftime("%Y-%m-%d")} / ${self.debt:.2f} / Saldo: ${self.saldo:.2f} '
+        return f'{self.sale.client.user.get_full_name()}  |  {self.date_joined.strftime("%Y-%m-%d")}  |  S/. {self.debt:.2f}  |  Saldo: S/. {self.saldo:.2f} '
 
 
     def validate_debt(self):
