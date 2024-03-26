@@ -1,4 +1,6 @@
 import json
+import math
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
@@ -15,8 +17,6 @@ import base64
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from datetime import date, datetime
-
-
 
 
 class UfitListView(TemplateView):
@@ -94,6 +94,65 @@ class UfitCreateView(TemplateView):
         context['action'] = 'add'
         return context
 
+@method_decorator(csrf_exempt, name='dispatch')
+class UfitUpdateView(TemplateView):
+    template_name = 'crm/ufit/update.html'
+    list_url = 'ufit_list'
+    success_url = reverse_lazy('ufit_list')
+    
+    def post(self, request, *args, **kwargs):
+        dataGeneral = json.loads(request.body)
+        acta_id = dataGeneral['acta_id']
+        data = dataGeneral['data']
+        numero_lote = data['numeroLote']
+        numero_manzana = data['numeroManzana']
+        area = data['area']
+        perimetro = data['perimetro']
+        frente = data['frente']
+        derecha = data['derecha']
+        izquierda = data['izquierda']
+        fondo = data['fondo']
+
+        # Obtener el ID del objeto desde la URL
+        ufit_id = kwargs.get('pk')
+
+        # Obtener la instancia existente de ColindanciaUfin
+        colindancia_ufin = get_object_or_404(ColindanciaUfin, pk=ufit_id)
+
+        # Actualizar los campos de la instancia existente
+        colindancia_ufin.frente_descripcion = frente['descripcion']
+        colindancia_ufin.frente_distancia = frente['distancia']
+        colindancia_ufin.frente_n_tramos = frente['cantidad_tramos']
+        colindancia_ufin.frente_tramos = frente['tramos']
+        colindancia_ufin.derecha_descripcion = derecha['descripcion']
+        colindancia_ufin.derecha_distancia = derecha['distancia']
+        colindancia_ufin.derecha_n_tramos = derecha['cantidad_tramos']
+        colindancia_ufin.derecha_tramos = derecha['tramos']
+        colindancia_ufin.izquierda_descripcion = izquierda['descripcion']
+        colindancia_ufin.izquierda_distancia = izquierda['distancia']
+        colindancia_ufin.izquierda_n_tramos = izquierda['cantidad_tramos']
+        colindancia_ufin.izquierda_tramos = izquierda['tramos']
+        colindancia_ufin.fondo_descripcion = fondo['descripcion']
+        colindancia_ufin.fondo_distancia = fondo['distancia']
+        colindancia_ufin.fondo_n_tramos = fondo['cantidad_tramos']
+        colindancia_ufin.fondo_tramos = fondo['tramos']
+        colindancia_ufin.numero_lote = numero_lote
+        colindancia_ufin.numero_manzana = numero_manzana
+        colindancia_ufin.area = area
+        colindancia_ufin.perimetro = perimetro
+
+        # Guardar los cambios en la base de datos
+        colindancia_ufin.save()
+
+        return HttpResponseRedirect(self.success_url)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['list_url'] = self.success_url
+        context['title'] = 'Actualizar registro de una ficha de identificacion preliminar'
+        context['action'] = 'update'
+        return context
+
 class UfitDeleteView(DeleteView):
     model = ColindanciaUfin
     template_name = 'crm/ufit/delete.html'
@@ -120,3 +179,52 @@ class UfitDeleteView(DeleteView):
         context['list_url'] = self.success_url  
         context['registro'] = self.kwargs.get('pk')
         return context
+
+class ColindanciaUfinDetailView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        # Obtener el ID del acta desde la URL
+        acta_id = self.kwargs.get('pk')
+        # Obtener el registro de ColindanciaUfin asociado al ID del acta
+        try:
+            colindancia_ufin = ColindanciaUfin.objects.get(acta_id=acta_id)
+        except ColindanciaUfin.DoesNotExist:
+            # Si no se encuentra el registro, devolver un objeto JSON vacío
+            return JsonResponse({})
+        
+        # Serializar el objeto a JSON y devolverlo como respuesta
+        data = {
+    'id':colindancia_ufin.id,
+    'data': {
+        'frente': {
+            'descripcion': colindancia_ufin.frente_descripcion,
+            'cantidad_tramos': colindancia_ufin.frente_n_tramos,
+            'tramos': colindancia_ufin.frente_tramos,
+            'distancia': str(colindancia_ufin.frente_distancia)
+        },
+        'derecha': {
+            'descripcion': colindancia_ufin.derecha_descripcion,
+            'cantidad_tramos': colindancia_ufin.derecha_n_tramos,
+            'tramos': colindancia_ufin.derecha_tramos,
+            'distancia': str(colindancia_ufin.derecha_distancia)
+        },
+        'izquierda': {
+            'descripcion': colindancia_ufin.izquierda_descripcion,
+            'cantidad_tramos': colindancia_ufin.izquierda_n_tramos,
+            'tramos': colindancia_ufin.izquierda_tramos,
+            'distancia': str(colindancia_ufin.izquierda_distancia)
+        },
+        'fondo': {
+            'descripcion': colindancia_ufin.fondo_descripcion,
+            'cantidad_tramos': colindancia_ufin.fondo_n_tramos,
+            'tramos': colindancia_ufin.fondo_tramos,
+            'distancia': str(colindancia_ufin.fondo_distancia)
+        },
+        'area': str(math.floor(colindancia_ufin.area)),
+        'perimetro': str(math.floor(colindancia_ufin.perimetro)),
+        'numeroManzana': colindancia_ufin.numero_manzana,
+        'numeroLote': colindancia_ufin.numero_lote
+    },
+    'acta_id': acta_id
+}
+
+        return JsonResponse(data)

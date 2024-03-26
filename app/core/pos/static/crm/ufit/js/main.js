@@ -1,7 +1,9 @@
 let acta_id = null;
+let ufit_id = null
+let colindanciaUfit = {}
+
+const btnAgregarColindancia = document.querySelector('#btn-agregar-colindancia')
 document.addEventListener('DOMContentLoaded', function() {
-
-
     function cargarActas() {
         fetch('/pos/api/actas/')
         .then(response => response.json())
@@ -34,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     inputCodigo.value = acta.codigo_predio;
                     resultadosDiv.classList.add('hidden');
                     acta_id = acta.id;
+                    obtenerDetallesColindanciaUfin(acta_id)
                 });
                 li.textContent = `Código: ${acta.codigo_predio}`;
                 li.classList.add('cursor-pointer','hover:bg-slate-500','hover:text-white','p-1','rounded');
@@ -43,7 +46,79 @@ document.addEventListener('DOMContentLoaded', function() {
             resultadosDiv.classList.add('hidden');
         }
     }
+    function obtenerDetallesColindanciaUfin(acta_id) {
+        // Realizar una solicitud AJAX a la ruta correspondiente en Django
+        fetch(`/pos/crm/ufit/acta/${acta_id}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Object.keys(data).length!=0) {
+                    ufit_id = data.id
+                    colindanciaUfit = data.data
+                }
+                if (Object.keys(colindanciaUfit).length !== 0) {
+                    ufit_id = data.id
+                    console.log(colindanciaUfit)
+                    llenarFormulario(colindanciaUfit);
+                    console.log()
+                    document.getElementById('btn-create').textContent = 'Guardar Cambios'
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                // Aquí puedes manejar cualquier error que ocurra durante la solicitud AJAX
+            });
+    }
+    function llenarFormulario(data) {
+        document.getElementById('area-levantamiento').value = data.area;
+        document.getElementById('perimetro-levantamiento').value = data.perimetro;
 
+        // Llenar los campos de número de manzana y número de lote
+        document.getElementById('numero-manzana').value = data.numeroManzana;
+        document.getElementById('numero-lote').value = data.numeroLote;
+
+        // Llenar los campos de colindantes
+        const colindantes = ['frente', 'derecha', 'izquierda', 'fondo'];
+        colindantes.forEach(colindante => {
+            const datos = colindanciaUfit[colindante];
+            document.getElementById(colindante).value = datos.descripcion;
+            document.getElementById(`cantidad-tramos${colindantes.indexOf(colindante) + 1}`).value = datos.cantidad_tramos;
+            const cantidadTramos = datos.cantidad_tramos
+            const tramos = datos.tramos;
+            const contenedor = document.getElementById(`contenedor-${colindante}`)
+
+            const divContenedor = document.createElement('DIV');
+            divContenedor.classList.add('flex', 'gap-1', 'flex-wrap');
+            
+            for (let index = 1; index <= cantidadTramos; index++) {
+                const divHijo = document.createElement('DIV');
+                divHijo.classList.add('tramo-generado','max-w-[100px]'); // Agregar clase para identificar los tramos generados
+                if (cantidadTramos>=5) {
+                    divHijo.style.margin = '0 auto'
+                }
+                divHijo.innerHTML = `
+                    <label 
+                        class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold" for="tramo-${index}"
+                    >
+                        Tramo ${index}:
+                    </label>
+                    <input 
+                        type="number"
+                        class="text-sm ${colindante} w-full p-2 text-gray-700 border-2 border-black shadow-sm focus:outline-none focus:border-[#A7CF42] focus:ring focus:ring-[#D8E3C2] hover:border-[#A7CF42]" type="text" id="tramo-${index}" name="tramo-${index}" value="${tramos[`tramo${index}`]}"
+                    >
+                `;
+                divContenedor.appendChild(divHijo)
+            }
+            contenedor.appendChild(divContenedor)
+        });
+        btnAgregarColindancia.click()
+    }
+
+    // cargas todas las actas
     cargarActas();
 });
 
@@ -52,11 +127,10 @@ const btnAgregarColindante = document.getElementById("btn-agregar-colindantes");
 const modalUfit = document.querySelector('.modal-ufit')
 const btnModal = document.querySelector('.btn-cerrar-modal')
 const contenedorTramos = document.querySelector('#contenedor-inputs');
-const btnAgregarColindancia = document.querySelector('#btn-agregar-colindancia')
+
 
 // Agregar un event listener para el clic en el botón
 btnAgregarColindante.addEventListener("click", function() {
-    
     modalUfit.classList.toggle('flex')
     modalUfit.classList.toggle('hidden')
 });
@@ -244,6 +318,9 @@ registrarUfit.addEventListener('click',()=>{
         });
         return;
     }
+    console.log(areaSegunL.value)
+    console.log(perimetroSegunL.value)
+
     data.area = parseInt(areaSegunL.value)
     data.perimetro = parseInt(perimetroSegunL.value) 
     data.numeroManzana = inputNumeroManzana.value
@@ -254,10 +331,33 @@ registrarUfit.addEventListener('click',()=>{
         acta_id,
     }
     console.log(dataCompleta)
-    fetch('/pos/crm/ufit/add', {
+
+    function getCSRFToken() {
+        const csrfTokenCookie = document.cookie.split(';')
+            .map(cookie => cookie.trim())
+            .find(cookie => cookie.startsWith('csrftoken='));
+        if (csrfTokenCookie) {
+            return csrfTokenCookie.split('=')[1];
+        }
+        return null;
+    }
+    
+    let url;
+    let action;
+
+    if (Object.keys(colindanciaUfit).length !== 0 && ufit_id != null) {
+        url = `/pos/crm/ufit/update/${ufit_id}/`;
+        action = 'actualizado';
+    } else {
+        url = '/pos/crm/ufit/add';
+        action = 'agregado';
+    }
+
+    fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCSRFToken()
         },
         body: JSON.stringify(dataCompleta)
     })
@@ -268,7 +368,7 @@ registrarUfit.addEventListener('click',()=>{
             Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
-                text: 'Los datos se han enviado correctamente',
+                text: `Los datos se han ${action} correctamente`,
             });
             window.location.href = '/pos/crm/ufit/';
         } else {

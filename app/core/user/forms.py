@@ -19,7 +19,7 @@ class UserForm(ModelForm):
             'first_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus nombres'}),
             'last_name': forms.TextInput(attrs={'placeholder': 'Ingrese sus apellidos'}),
             'username': forms.TextInput(attrs={'placeholder': 'Ingrese un username'}),
-            'dni': forms.TextInput(attrs={'placeholder': 'Ingrese su número de cedula'}),
+            'dni': forms.TextInput(attrs={'placeholder': 'Ingrese su número de DNI'}),
             'email': forms.TextInput(attrs={'placeholder': 'Ingrese su correo electrónico'}),
             'password': forms.PasswordInput(render_value=True, attrs={'placeholder': 'Ingrese un password'}),
             'groups': forms.SelectMultiple(attrs={'class': 'select2', 'multiple': 'multiple', 'style': 'width:100%'}),

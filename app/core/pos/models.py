@@ -142,7 +142,6 @@ class Sale(models.Model):
     total_dscto = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total_igv = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
-    # cash = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     initial = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     cash = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
@@ -541,7 +540,7 @@ class Colindancia(models.Model):
     
 
 class ColindanciaUfin(models.Model):
-    acta = models.ForeignKey(Acta, on_delete=models.CASCADE, related_name='colindanciasUfin')
+    acta = models.OneToOneField(Acta, on_delete=models.CASCADE, related_name='colindancia_ufin')
     frente_descripcion = models.CharField(max_length=100)
     frente_distancia = models.DecimalField(max_digits=10, decimal_places=2)
     frente_n_tramos = models.IntegerField()
