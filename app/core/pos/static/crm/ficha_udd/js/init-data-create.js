@@ -131,7 +131,6 @@ const getInfoCheckbox = (options) => {
                             }
                             return acc;
                         }, [ ]);
-    console.log(info)
     return info;
 };
 
