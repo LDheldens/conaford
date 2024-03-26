@@ -92,7 +92,7 @@ class SaleAdminCreateView(CreateView):
         data = {}
         try:
             if action == 'add':
-                # return print(request.POST)
+                print(request.POST)
                 with transaction.atomic():
                     sale = Sale()
                     sale.employee_id = request.user.id
@@ -110,10 +110,10 @@ class SaleAdminCreateView(CreateView):
                         saledetail = SaleDetail()
                         saledetail.sale_id = sale.id
                         saledetail.product_id = prod.id
-                        saledetail.price = float(i['total'])
+                        saledetail.price = float(i['price'])
                         saledetail.cant = int(i['cant'])
-                        saledetail.subtotal = saledetail.price * saledetail.cant
-                        saledetail.dscto = float(i['total_dscto']) / 100
+                        saledetail.subtotal = saledetail.price * 1
+                        saledetail.dscto = float(i['dscto']) / 100
                         saledetail.total_dscto = saledetail.dscto * saledetail.subtotal
                         saledetail.total = saledetail.subtotal - saledetail.total_dscto
                         saledetail.save()
@@ -134,6 +134,16 @@ class SaleAdminCreateView(CreateView):
                         ctascollect.debt = sale.total
                         ctascollect.saldo = sale.total
                         ctascollect.save()
+                        
+                        # Crear el pago inicial asociado a la instancia de CtasCollect y guardarlo
+                        payment_initial = PaymentsCtaCollect()
+                        payment_initial.ctascollect_id = ctascollect.id
+                        payment_initial.date_joined = sale.date_joined
+                        payment_initial.valor = sale.initial
+                        payment_initial.desc = 'Pago inicial'
+                        payment_initial.save()
+                        
+                        ctascollect.validate_debt()
                     elif sale.payment_condition == 'contado':
                         if sale.payment_method == 'efectivo':
                             sale.cash = float(request.POST['cash'])

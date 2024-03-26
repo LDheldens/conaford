@@ -124,9 +124,11 @@ $(function () {
                 return queryParameters;
             },
             processResults: function (data) {
+                console.log(data)
                 return {
                     results: data
                 };
+                
             },
         },
         placeholder: 'Ingrese una descripción',
@@ -135,8 +137,9 @@ $(function () {
         .on('select2:select', function (e) {
             fv.revalidateField('ctascollect');
             var data = e.params.data;
-            $('.deuda').html('Deuda: $' + parseFloat(data.saldo).toFixed(2));
+            $('.deuda').html('Saldo: $' + parseFloat(data.saldo).toFixed(2));
             $('input[name="valor"]').trigger("touchspin.updatesettings", {max: parseFloat(data.saldo)});
+            console.log(data)
         })
         .on('select2:clear', function (e) {
             fv.revalidateField('|');

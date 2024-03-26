@@ -1,5 +1,5 @@
 import json
-
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 from django.views.generic import FormView
 
@@ -25,11 +25,13 @@ class SaleReportView(ModuleMixin, FormView):
                     search = search.filter(date_joined__range=[start_date, end_date])
                 for i in search:
                     data.append(i.toJSON())
+                # Serializar objetos datetime usando DjangoJSONEncoder
+                data = json.dumps(data, cls=DjangoJSONEncoder)
             else:
                 data['error'] = 'No ha ingresado una opción'
         except Exception as e:
             data['error'] = str(e)
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return HttpResponse(data, content_type='application/json')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

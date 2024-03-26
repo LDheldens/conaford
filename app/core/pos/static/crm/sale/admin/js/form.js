@@ -257,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
 });
 
 document.addEventListener('DOMContentLoaded', function (e) {
+    $('.rowInitial').hide();
     function validateChange() {
         var cash = parseFloat(input_cash.val())
         let initial = parseFloat(input_initial.val())
@@ -333,6 +334,10 @@ document.addEventListener('DOMContentLoaded', function (e) {
                         notEmpty: {
                             message: 'Ingresa un monto inicial'
                         },
+                        // greaterThan: {
+                        //     value: 0,
+                        //     message: 'El monto inicial debe ser mayor que cero'
+                        // }
                     }
                 },
                 type_voucher: {
@@ -705,7 +710,6 @@ $(function () {
         fvClient.revalidateField('birthdate');
     });
 
-    /* Sale */
 
     select_paymentcondition
         .on('change', function () {
@@ -714,19 +718,23 @@ $(function () {
             fvSale.disableValidator('card_number');
             fvSale.disableValidator('titular');
             fvSale.disableValidator('amount_debited');
-            // fvSale.disableValidator('cash');
             fvSale.disableValidator('change');
+
             switch (id) {
                 case "contado":
                     fvSale.disableValidator('end_credit');
+                    
                     select_paymentmethod.prop('disabled', false).val('efectivo').trigger('change');
                     input_initial.prop('disabled', true)
+                    $('.rowInitial').hide(); // Oculta la fila 'Inicial'
                     break;
                 case "credito":
                     fvSale.enableValidator('end_credit');
                     hideRowsVents([{'pos': 2, 'enable': true}]);
                     select_paymentmethod.prop('disabled', true);
+                    $('.rowInitial').show(); 
                     input_initial.prop('disabled', false)
+
                     break;
             }
         });

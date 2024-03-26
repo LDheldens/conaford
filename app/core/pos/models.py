@@ -188,6 +188,7 @@ class Sale(models.Model):
         item['cash'] = '{:.2f}'.format(self.cash)
         item['change'] = '{:.2f}'.format(self.change)
         item['amount_debited'] = '{:.2f}'.format(self.amount_debited)
+        item['initial'] = '{:.2f}'.format(self.initial)  
         return item
 
     def calculate_invoice(self):
@@ -263,9 +264,12 @@ class CtasCollect(models.Model):
     saldo = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
     state = models.BooleanField(default=True)
 
+    # def __str__(self):
+    #     return '{} / {} / ${}'.format(self.sale.client.user.get_full_name(), self.date_joined.strftime('%Y-%m-%d'),
+    #                                   format(self.debt, '.2f'))
     def __str__(self):
-        return '{} / {} / ${}'.format(self.sale.client.user.get_full_name(), self.date_joined.strftime('%Y-%m-%d'),
-                                      format(self.debt, '.2f'))
+        return f'{self.sale.client.user.get_full_name()} / {self.date_joined.strftime("%Y-%m-%d")} / ${self.debt:.2f} / Saldo: ${self.saldo:.2f} '
+
 
     def validate_debt(self):
         try:
