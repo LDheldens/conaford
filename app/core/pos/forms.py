@@ -131,10 +131,10 @@ class SaleForm(ModelForm):
                 'class': 'form-control form-control-sm',
                 'disabled': True
             }),
-            'initial': forms.TextInput(attrs={
+            'initial': forms.NumberInput(attrs={
                 'class': 'form-control form-control-sm',
                 'disabled': True,
-                'id':'initial-input'
+                'id':'initial-input',
             }),
             'igv': forms.TextInput(attrs={
                 'class': 'form-control form-control-sm',

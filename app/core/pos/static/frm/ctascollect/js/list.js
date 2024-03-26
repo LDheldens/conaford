@@ -33,6 +33,7 @@ function getData(all) {
             {data: "date_joined"},
             {data: "end_date"},
             {data: "debt"},
+            {data: "sale.initial"},
             {data: "saldo"},
             {data: "state"},
             {data: "state"},
@@ -66,7 +67,7 @@ function getData(all) {
                 }
             },
             {
-                targets: [4, 5],
+                targets: [4, 5,6],
                 orderable: false,
                 class: 'text-center',
                 render: function (data, type, row) {
