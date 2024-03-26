@@ -87,15 +87,6 @@ class ClientForm(ModelForm):
         'placeholder': 'Ingrese sus nombres'
     }), label='Nombres', max_length=50)
 
-    # birthdate = forms.DateField(input_formats=['%Y-%m-%d'], widget=forms.TextInput(
-    #     attrs={
-    #         'class': 'form-control datetimepicker-input',
-    #         'id': 'birthdate',
-    #         'value': datetime.now().strftime('%Y-%m-%d'),
-    #         'data-toggle': 'datetimepicker',
-    #         'data-target': '#birthdate'
-    #     }), label='Fecha de nacimiento')
-
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
         'autocomplete': 'off',
@@ -105,19 +96,8 @@ class ClientForm(ModelForm):
     dni = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
         'autocomplete': 'off',
-        'placeholder': 'Ingrese su número de cedula'
-    }), label='Número de cedula', max_length=10)
-
-    # email = forms.CharField(widget=forms.TextInput(attrs={
-    #     'class': 'form-control',
-    #     'autocomplete': 'off',
-    #     'placeholder': 'Ingrese su email'
-    # }), label='Email', max_length=50)
-
-    # image = forms.ImageField(widget=forms.FileInput(attrs={
-    #     'class': 'form-control',
-    #     'autocomplete': 'off'
-    # }), label='Imagen')
+        'placeholder': 'Ingrese su número de DNI'
+    }), label='Número de DNI', max_length=10)
 
 
 class SaleForm(ModelForm):

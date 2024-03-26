@@ -69,9 +69,9 @@ class SaleAdminCreateView(CreateView):
             elif type == 'mobile':
                 if Client.objects.filter(mobile=obj):
                     data['valid'] = False
-            elif type == 'email':
-                if User.objects.filter(email=obj):
-                    data['valid'] = False
+            # elif type == 'email':
+            #     if User.objects.filter(email=obj):
+            #         data['valid'] = False
         except:
             pass
         return JsonResponse(data)
@@ -88,9 +88,11 @@ class SaleAdminCreateView(CreateView):
     def post(self, request, *args, **kwargs):
         
         action = request.POST['action']
+        
         data = {}
         try:
             if action == 'add':
+                # return print(request.POST)
                 with transaction.atomic():
                     sale = Sale()
                     sale.employee_id = request.user.id
@@ -102,7 +104,7 @@ class SaleAdminCreateView(CreateView):
                     sale.dscto = float(request.POST['dscto']) / 100
                     sale.initial = float(request.POST['initial'])
                     sale.save()
-
+                    
                     for i in json.loads(request.POST['products']):
                         prod = Product.objects.get(pk=i['id'])
                         saledetail = SaleDetail()
@@ -187,14 +189,13 @@ class SaleAdminCreateView(CreateView):
                     if 'image' in request.FILES:
                         user.image = request.FILES['image']
                     user.create_or_update_password(user.dni)
-                    user.email = request.POST['email']
+                    # user.email = request.POST['email']
                     user.save()
 
                     client = Client()
                     client.user_id = user.id
                     client.mobile = request.POST['mobile']
                     client.address = request.POST['address']
-                    client.birthdate = request.POST['birthdate']
                     client.save()
 
                     group = Group.objects.get(pk=settings.GROUPS.get('client'))

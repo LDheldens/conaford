@@ -80,13 +80,6 @@ var vents = {
                 {data: "tot"},
             ],
             columnDefs: [
-                // {
-                //     targets: [2],
-                //     class: 'text-center',
-                //     render: function (data, type, row) {
-                //         return '<input type="text" class="form-control input-sm" style="width: 68px;" autocomplete="off" name="cant" value="' + String(row.cant) + '">';
-                //     }
-                // },
                 {
                     targets: [-3],
                     class: 'text-center',
@@ -168,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 10
+                            min: 8
                         },
                         digits: {},
                         remote: {
@@ -212,60 +205,13 @@ document.addEventListener('DOMContentLoaded', function (e) {
                         }
                     }
                 },
-                email: {
-                    validators: {
-                        notEmpty: {},
-                        stringLength: {
-                            min: 5
-                        },
-                        regexp: {
-                            regexp: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/i,
-                            message: 'El formato email no es correcto'
-                        },
-                        remote: {
-                            url: pathname,
-                            data: function () {
-                                return {
-                                    obj: frmClient.querySelector('[name="email"]').value,
-                                    type: 'email',
-                                    action: 'validate_client'
-                                };
-                            },
-                            message: 'El email ya se encuentra registrado',
-                            method: 'POST',
-                            headers: {
-                                'X-CSRFToken': csrftoken
-                            },
-                        }
-                    }
-                },
+                
                 address: {
                     validators: {
                         stringLength: {
                             min: 4,
                         }
                     }
-                },
-                image: {
-                    validators: {
-                        file: {
-                            extension: 'jpeg,jpg,png',
-                            type: 'image/jpeg,image/png',
-                            maxFiles: 1,
-                            message: 'Introduce una imagen válida'
-                        }
-                    }
-                },
-                birthdate: {
-                    validators: {
-                        notEmpty: {
-                            message: 'La fecha es obligatoria'
-                        },
-                        date: {
-                            format: 'YYYY-MM-DD',
-                            message: 'La fecha no es válida'
-                        }
-                    },
                 },
             },
         }
