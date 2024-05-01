@@ -64,6 +64,7 @@ class ModuleType(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='Nombre')
     icon = models.CharField(max_length=100, verbose_name='Icono')
     is_active = models.BooleanField(default=True, verbose_name='Estado')
+    name_menu = models.CharField(max_length = 10, blank=True)
 
     def __str__(self):
         return self.name
@@ -120,6 +121,7 @@ class Module(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='Estado')
     is_visible = models.BooleanField(default=True, verbose_name='Visible')
     permits = models.ManyToManyField(Permission, verbose_name='Permisos', blank=True)
+    name_menu = models.CharField(max_length = 10, blank=True)
 
     def __str__(self):
         return '{} [{}]'.format(self.name, self.url)

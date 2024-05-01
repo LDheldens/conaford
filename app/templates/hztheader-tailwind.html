@@ -1,7 +1,6 @@
 {% load security_extras %}
 <nav class="bg-[#007BFF] w-full">
     <div class="mx-auto p-4 max-w-7xl flex sm:flex-row flex-col sm:justify-between">
-
         <div class="flex sm:flex-row flex-row-reverse justify-between items-center gap-4">
             <a href="{% url 'dashboard' %}" class="flex justify-center gap-1 items-center">
                 <img src="{{ dshboard.get_image }}" alt="AdminLTE Logo" class="brand-image"
@@ -20,10 +19,6 @@
                     id="dropdownNavbar">
                     
                     <ul class="py-2 text-sm text-gray-700">
-                        <!-- <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
-                </li> -->
-                        <!-- Dropdown menu -->
                         {% if request.session.group %}
                             {% for mt in request.session.group.id|getmoduletype %}
                                 <li class="relative group">

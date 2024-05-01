@@ -29,69 +29,54 @@
                 <button type="button" id="button-dni">Buscar</button>
             </div>
             <div class="group_3 mt">
-                <label for="apellidos">APELLIDOS:</label>
-                <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos">
-                <label for="nombres">NOMBRES:</label>
-                <input type="text" name="nombres" id="nombres" placeholder="Nombres">
-                
-            </div>
-            <h2 class="title mt">ESTADO CIVIL:</h2>
-            <div class="group_4 mtp">
                 <div>
-                    <div class="radio">
-                        <input type="radio" value="soltero" name="estado_civil" id="soltero">
-                        <label for="soltero">S</label>
-                    </div>
-                    <div class="radio">
-                        <input type="radio" value="casado" name="estado_civil" id="casado">
-                        <label for="casado">C</label>
-                    </div>
-                    <div class="radio">
-                        <input type="radio" value="viudo" name="estado_civil" id="viudo">
-                        <label for="viudo">V</label>
-                    </div>
-                    <div class="radio">
-                        <input type="radio" value="divorciado" name="estado_civil" id="divorciado">
-                        <label for="divorciado">D</label>
-                    </div>
-                    <div class="error-radio">
-                        Seleccione una opcion
-                    </div>
+                    <label for="apellidos">APELLIDOS:</label>
+                    <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos">
+                </div>
+                <div>
+                    <label for="nombres">NOMBRES:</label>
+                    <input type="text" name="nombres" id="nombres" placeholder="Nombres">
+
                 </div>
             </div>
-            <div class="group_5 mt">
-                <label for="numero-doc">N° DOCUMENTO:</label>
-                <input name="num_doc" type="text" id="numero-doc" placeholder="N° Doc.">
+            <div class="cont-ec-nd">
+            
+                <div class="group_4 mtp">
+                    <h2 class="title mt">ESTADO CIVIL:</h2>
+                    <div>
+                        <div class="radio">
+                            <input type="radio" value="soltero" name="estado_civil" id="soltero">
+                            <label for="soltero">S</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" value="casado" name="estado_civil" id="casado">
+                            <label for="casado">C</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" value="viudo" name="estado_civil" id="viudo">
+                            <label for="viudo">V</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" value="divorciado" name="estado_civil" id="divorciado">
+                            <label for="divorciado">D</label>
+                        </div>
+                        <div class="error-radio">
+                            Seleccione una opcion
+                        </div>
+                    </div>
+                </div>
+                <div class="group_5 mt">
+                    <label for="numero-doc">N° DOCUMENTO:</label>
+                    <input name="num_doc" type="text" id="numero-doc" placeholder="N° Doc.">
+                </div>
             </div>
-            {% comment %} <h2 class="title mt">Tipo de documento:</h2>
-            <div class="group_6 mtp">
-                <div class="radio">
-                    <input type="radio" value="dni" name="tipo_doc" id="dni-doc">
-                    <label for="dni-doc">DNI</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" value="pn" name="tipo_doc" id="pn-doc">
-                    <label for="pn-doc">PN</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" value="ce" name="tipo_doc" id="ce-doc">
-                    <label for="ce-doc">CE</label>
-                </div>
-                <div class="error-radio">
-                    Seleccione una opcion
-                </div>
-            </div> {% endcomment %}
+            
+
+            <div class="mt">
+                <textarea id="observaciones-modal" name="Observaciones" rows="3" class="form-control" placeholder="Observaciones"></textarea>
+
+            </div>
             <div class="group_7 mt">
-                {% comment %} <div>
-                    <label for="firma">Subir firma:</label>
-                    <input onchange="previewImage(this, 'firma_titular_preview')" type="file" name="img_firma" accept="image/*" id="firma">
-                    <img id="firma_titular_preview" class="img-none img-titular" alt="Vista previa de la imagen" >
-                </div>
-                <div class="mt">
-                    <label for="huella">Subir huella:</label>
-                    <input onchange="previewImage(this, 'huella_supervisor_preview')" type="file" name="img_huella" accept="image/*" id="huella">
-                    <img id="huella_supervisor_preview" class="img-none img-titular" alt="Vista previa de la imagen" >
-                </div> {% endcomment %}
                 <div class="mt">
                     <label for="pdf_documento">Subir PDF con los documentos:</label>
                     <input onchange="showPdfButton(this)" type="file" name="pdf_documento" accept="application/pdf" id="pdf_documento">

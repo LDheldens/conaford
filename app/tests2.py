@@ -28,27 +28,10 @@ company.save()
 type = ModuleType()
 type.name = 'UDD'
 type.icon = 'fas fa-suitcase'
+type.name_menu='project'
 type.save()
 print('insertado {}'.format(type.name))
 
-type = ModuleType()
-type.name = 'UFIN'
-type.icon = 'fas fa-suitcase'
-type.save()
-print('insertado {}'.format(type.name))
-
-type = ModuleType()
-type.name = 'UFIT'
-type.icon = 'fas fa-suitcase'
-type.save()
-print('insertado {}'.format(type.name))
-
-
-type = ModuleType()
-type.name = 'UPL'
-type.icon = 'fas fa-suitcase'
-type.save()
-print('insertado {}'.format(type.name))
 
 # MODULOS UDD
 module = Module()
@@ -61,7 +44,7 @@ module.is_visible = True
 module.icon = 'fas fa-file'
 module.description = 'Permite Registrar una ficha preliminar'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=PosesionInformal._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('insertado {}'.format(module.name))
 
@@ -75,12 +58,19 @@ module.is_visible = True
 module.icon = 'fas fa-list'
 module.description = 'Permite ver el listado de fichas preliminares'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=PosesionInformal._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
+
+
+type = ModuleType()
+type.name = 'UFIN'
+type.icon = 'fas fa-suitcase'
+type.name_menu='project'
+type.save()
+print('insertado {}'.format(type.name))
 #MODULOS UFIN
-# Agregar módulo "Ficha de Levantamiento"
 module = Module()
 module.moduletype_id = 2  # ID correspondiente al tipo de módulo UFIN
 module.name = 'Ficha de Levantamiento'
@@ -91,7 +81,7 @@ module.is_visible = True
 module.icon = 'fas fa-file-alt'  # Icono adecuado para Ficha de Levantamiento
 module.description = 'Permite registrar una ficha de levantamiento'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Acta._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -106,24 +96,10 @@ module.is_visible = True
 module.icon = 'fas fa-list-alt'  # Icono adecuado para Listado de Fichas
 module.description = 'Permite ver el listado de fichas de levantamiento'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Acta._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
-# Agregar módulo "Titulares"
-module = Module()
-module.moduletype_id = 2  # ID correspondiente al tipo de módulo UFIN
-module.name = 'Titulares'
-module.url = '/pos/crm/titular/'
-module.is_active = True
-module.is_vertical = True
-module.is_visible = True
-module.icon = 'fas fa-user'  # Icono adecuado para Titulares
-module.description = 'Permite administrar los titulares de los terrenos'
-module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
-print('Insertado {}'.format(module.name))
 
 # Agregar módulo "Antecedentes"
 module = Module()
@@ -136,7 +112,7 @@ module.is_visible = True
 module.icon = 'fas fa-history'  # Icono adecuado para Antecedentes
 module.description = 'Permite administrar los antecedentes de los terrenos'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Acta._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -151,9 +127,17 @@ module.is_visible = True
 module.icon = 'fas fa-key'  # Icono adecuado para Posesión
 module.description = 'Permite administrar la posesión de los terrenos'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Posesion._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
+
+
+type = ModuleType()
+type.name = 'UFIT'
+type.icon = 'fas fa-suitcase'
+type.name_menu='project'
+type.save()
+print('insertado {}'.format(type.name))
 
 # MODULOS UFIT
 module = Module()
@@ -166,7 +150,7 @@ module.is_visible = True
 module.icon = 'fas fa-poll'  # Icono adecuado para Nuevo Análisis
 module.description = 'Permite registrar un nuevo análisis'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=ColindanciaUfin._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -181,13 +165,20 @@ module.is_visible = True
 module.icon = 'fas fa-clipboard-list'  # Icono adecuado para Listado de Fichas
 module.description = 'Permite ver el listado de fichas de análisis'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=ColindanciaUfin._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
 
-# MODULOS UPL
 
+type = ModuleType()
+type.name = 'Beneficiarios' ## ex UPL
+type.icon = 'fas fa-suitcase'
+type.save()
+print('insertado {}'.format(type.name))
+
+
+# MODULOS UPL/Beneficiarios
 module = Module()
 module.moduletype_id = 4  # ID correspondiente al tipo de módulo UPL
 module.name = 'Clientes'
@@ -198,7 +189,22 @@ module.is_visible = True
 module.icon = 'fas fa-user-friends'  # Icono adecuado para Clientes
 module.description = 'Permite administrar los clientes del sistema'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Client._meta.label.split('.')[1].lower()):
+    module.permits.add(p)
+print('Insertado {}'.format(module.name))
+
+# Agregar módulo "Titulares"
+module = Module()
+module.moduletype_id = 4  # ID correspondiente al tipo de módulo UFIN
+module.name = 'Titulares'
+module.url = '/pos/crm/titular/'
+module.is_active = True
+module.is_vertical = True
+module.is_visible = True
+module.icon = 'fas fa-user'  # Icono adecuado para Titulares
+module.description = 'Permite administrar los titulares de los terrenos'
+module.save()
+for p in Permission.objects.filter(content_type__model=Titular._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -213,7 +219,7 @@ module.is_visible = True
 module.icon = 'fas fa-tags'  # Icono adecuado para Categorías
 module.description = 'Permite administrar las categorías de los servicios'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Category._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -228,7 +234,7 @@ module.is_visible = True
 module.icon = 'fas fa-box'  # Icono adecuado para Productos
 module.description = 'Permite administrar los servicios del sistema'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Product._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -243,7 +249,7 @@ module.is_visible = True
 module.icon = 'fas fa-shopping-cart'  # Icono adecuado para Ventas
 module.description = 'Permite administrar las ventas de los servicios'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=Sale._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -258,7 +264,7 @@ module.is_visible = True
 module.icon = 'fas fa-hand-holding-usd'  # Icono adecuado para Cuentas por Cobrar
 module.description = 'Permite administrar las cuentas por cobrar de los clientes'
 module.save()
-for p in Permission.objects.filter(content_type__model=ModuleType._meta.label.split('.')[1].lower()):
+for p in Permission.objects.filter(content_type__model=CtasCollect._meta.label.split('.')[1].lower()):
     module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
@@ -309,8 +315,6 @@ for module in Module.objects.filter(moduletype__name='UPL'):
     group_module.module = module
     group_module.group = Group.objects.get(name='UPL')
     group_module.save()
-
-
 
 
 type = ModuleType()
@@ -455,6 +459,7 @@ module.is_active = True
 module.is_vertical = False
 module.is_visible = True
 module.icon = 'fas fa-key'
+module.name_menu = 'config'
 module.description = 'Permite cambiar tu password de tu cuenta'
 module.save()
 print('insertado {}'.format(module.name))
@@ -466,18 +471,19 @@ module.is_active = True
 module.is_vertical = False
 module.is_visible = True
 module.icon = 'fas fa-user'
+module.name_menu = 'config'
 module.description = 'Permite cambiar la información de tu cuenta'
 module.save()
 print('insertado {}'.format(module.name))
 
 module = Module()
-module.name = 'Compañia'
+module.name = 'Empresa'
 module.url = '/pos/crm/company/update/'
 module.is_active = True
 module.is_vertical = False
 module.is_visible = True
 module.icon = 'fas fa-building'
-module.description = 'Permite gestionar la información de la compañia'
+module.description = 'Permite gestionar la información de la empresa'
 module.save()
 print('insertado {}'.format(module.name))
 

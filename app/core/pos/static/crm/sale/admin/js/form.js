@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 8
+                            min: 8,
                         },
                         digits: {},
                         remote: {
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 7
+                            min: 9
                         },
                         digits: {},
                         remote: {

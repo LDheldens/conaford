@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import requires_csrf_token
 from django.views.generic import TemplateView
 
-from core.pos.models import Product, Sale, Client, Category, Company
+from core.pos.models import Product, Sale, Client, Category, Company, PosesionInformal
 from core.reports.choices import months
 from core.security.models import Dashboard
 
@@ -33,7 +33,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['title'] = 'Panel de administración'
         context['company'] = Company.objects.first()
         context['clients'] = Client.objects.all().count()
-        #context['provider'] = Provider.objects.all().count()
+        context['matrix'] = PosesionInformal.objects.all().count()
         context['category'] = Category.objects.filter().count()
         context['product'] = Product.objects.all().count()
         context['sale'] = Sale.objects.filter().order_by('-id')[0:10]

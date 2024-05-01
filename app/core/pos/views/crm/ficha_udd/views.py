@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, CreateView, UpdateView, DeleteView, ListView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 
@@ -291,20 +291,22 @@ class LoginFichaView(TemplateView):
             user.save()  # Guardar los cambios en la base de datos
             
             pk = self.kwargs.get('pk')
+            request.session['pi'] = pk
             posesion_informal = get_object_or_404(PosesionInformal, pk=pk)
             
-            # Cambiar el campo 'is_matriz' y guardar el objeto
             posesion_informal.is_matriz = True
             posesion_informal.save()
-            # Redirigir a una página de inicio o a donde desees
             
-            return redirect('dashboard')  # Cambia 'pagina_de_inicio' por el nombre de tu URL
+
+            # Redirige al usuario a la URL construida
+            return redirect('acta_list') # Cambia 'pagina_de_inicio' por el nombre de tu URL
         else:
             # Si la autenticación falla, mostrar un mensaje de error o manejarlo de otra manera
             return redirect(reverse('ficha_udd_login', kwargs={'pk': self.kwargs.get('pk')}))
 
-class FichaUddListView(TemplateView):
+class FichaUddListView(ListView):
     template_name = 'crm/ficha_udd/list.html'
+    queryset = PosesionInformal.objects.all()
         
     def post(self, request, *args, **kwargs):
         data = {}

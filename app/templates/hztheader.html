@@ -1,6 +1,11 @@
 {% load static %}
 {% load security_extras %}
 <nav class="main-header navbar navbar-expand-md {{ dshboard.navbar }}">
+    {% if request.session.pi %}
+        El valor de PI en la sesión es: {{ request.session.pi }}
+    {% else %}
+        No hay ningún valor de PI almacenado en la sesión.
+    {% endif %}
     <div class="container">
         <a href="{% url 'dashboard' %}" class="navbar-brand {{ dshboard.brand_logo }}">
             <img src="{{ dshboard.get_image }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
@@ -15,39 +20,138 @@
                 <li class="nav-item dropdown">
                     <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
                        class="nav-link dropdown-toggle">
-                        <i class="fas fa-folder-open"></i> Módulos
+                       <i class="fas fa-folder-open"></i> Modulos
                     </a>
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
                         style="left: 0; right: inherit;">
                         {% if request.session.group %}
                             {% for mt in request.session.group.id|getmoduletype %}
-                                <li class="dropdown-submenu dropdown-hover">
-                                    <a id="dropdownSubMenu{{ mt.id }}" href="#" role="button" data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" class="dropdown-item dropdown-toggle">
-                                        <i class="{{ mt.icon }}"></i> {{ mt.name }}
-                                    </a>
-                                    <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
-                                        class="dropdown-menu border-0 shadow">
-                                        {% for m in mt.get_modules_vertical %}
-                                            <li>
-                                                <a tabindex="-1" href="{{ m.url }}" class="dropdown-item">
-                                                    <i class="{{ m.icon }}"></i> {{ m.name }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </li>
+                                {% if mt.name_menu != "config" and mt.name_menu != "project" %}
+                                    <li class="dropdown-submenu dropdown-hover">
+                                        <a id="dropdownSubMenu{{ mt.id }}" href="#" role="button" data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                            <i class="{{ mt.icon }}"></i> {{ mt.name }}
+                                        </a>
+                                        <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                            class="dropdown-menu border-0 shadow">
+                                            {% for m in mt.get_modules_vertical %}
+                                                <li>
+                                                    <a tabindex="-1" href="{{ m.url }}" class="dropdown-item">
+                                                        <i class="{{ m.icon }}"></i> {{ m.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                         {% for m in request.session.group.id|getmodulehorizontal %}
-                            <li>
-                                <a href="{{ m.url }}" class="dropdown-item">
-                                    <i class="{{ m.icon }}"></i> {{ m.name }}
-                                </a>
-                            </li>
+                            {% if m.name_menu != "config" %}
+                                <li>
+                                    <a href="{{ m.url }}" class="dropdown-item">
+                                        <i class="{{ m.icon }}"></i> {{ m.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                       class="nav-link dropdown-toggle">
+                       <i class="fas fa-cog"></i> Configuración
+                    </a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
+                        style="left: 0; right: inherit;">
+                        {% if request.session.group %}
+                            {% for mt in request.session.group.id|getmoduletype %}
+                                {% if mt.name_menu == "config" %}
+                                    <li class="dropdown-submenu dropdown-hover">
+                                        <a id="dropdownSubMenu{{ mt.id }}" href="#" role="button" data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                            <i class="{{ mt.icon }}"></i> {{ mt.name }}
+                                        </a>
+                                        <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                            class="dropdown-menu border-0 shadow">
+                                            {% for m in mt.get_modules_vertical %}
+                                                <li>
+                                                    <a tabindex="-1" href="{{ m.url }}" class="dropdown-item">
+                                                        <i class="{{ m.icon }}"></i> {{ m.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% for m in request.session.group.id|getmodulehorizontal %}
+                            {% if m.name_menu == "config" %}
+                                <li>
+                                    <a href="{{ m.url }}" class="dropdown-item">
+                                        <i class="{{ m.icon }}"></i> {{ m.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                       class="nav-link dropdown-toggle">
+                       <i class="fas fa-project-diagram"></i> Proyectos
+                    </a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow"
+                        style="left: 0; right: inherit;">
+                        {% if request.session.group %}
+                            {% for mt in request.session.group.id|getmoduletype %}
+                                {% if mt.name_menu == "project" %}
+                                    <li class="dropdown-submenu dropdown-hover">
+                                        <a id="dropdownSubMenu{{ mt.id }}" href="#" role="button" data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false" class="dropdown-item dropdown-toggle">
+                                            <i class="{{ mt.icon }}"></i> {{ mt.name }}
+                                        </a>
+                                        <ul aria-labelledby="dropdownSubMenu{{ mt.id }}"
+                                            class="dropdown-menu border-0 shadow">
+                                            {% for m in mt.get_modules_vertical %}
+                                                <li>
+                                                    <a tabindex="-1" href="{{ m.url }}" class="dropdown-item">
+                                                        <i class="{{ m.icon }}"></i> {{ m.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% for m in request.session.group.id|getmodulehorizontal %}
+                            {% if m.name_menu == "project" %}
+                                <li>
+                                    <a href="{{ m.url }}" class="dropdown-item">
+                                        <i class="{{ m.icon }}"></i> {{ m.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                       class="nav-link dropdown-toggle">
+                       <i class="fas fa-file-alt"></i> Informes
+                    </a>
+                    
                 </li>
             </ul>
         </div>

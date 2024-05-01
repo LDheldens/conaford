@@ -1,12 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const formTitular = document.getElementById('form-titular');
 
+    let dni = document.getElementById('dni')
+    const btnSearchDni = document.querySelector('#button-dni')
+    console.log(btnSearchDni)
     formTitular.addEventListener('submit', (e) => {
         e.preventDefault();
 
         let apellidos = document.getElementById('apellidos').value.trim();
         let nombres = document.getElementById('nombres').value.trim();
-        let dni = document.getElementById('dni').value.trim();
         let numDoc = document.getElementById('numero-doc').value.trim();
         const pdfInput = document.getElementById('pdf_documento');
         
@@ -26,14 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = false;
         } else {
             markAsValid('nombres');
-            isValid=true
-        }
-        
-        if (dni === '') {
-            markAsInvalid('dni');
-            isValid = false;
-        } else {
-            markAsValid('dni');
             isValid=true
         }
         
@@ -65,19 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const estadoCivilGroup = document.querySelector('.group_4');
             estadoCivilGroup.querySelector('.error-radio').style.display = 'none';
         }
-        
-        // if (document.querySelector('input[name="tipo_doc"]:checked') === null) {
-        //     isValid = false;
-        //     const tipoDocGroup = document.querySelector('.group_6');
-        //     tipoDocGroup.querySelector('.error-radio').style.display = 'block';
-        // } else {
-        //     isValid = true
-        //     const tipoDocGroup = document.querySelector('.group_6');
-        //     tipoDocGroup.querySelector('.error-radio').style.display = 'none';
-        // }
-
-        // Si la validación fue exitosa, envía el formulario
-        // Validación para el campo de PDF
         
         const pdfFile = pdfInput.files[0];
         if (!pdfFile || pdfFile.type !== 'application/pdf') {

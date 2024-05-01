@@ -45,6 +45,7 @@ class ActaCreateView(TemplateView):
     def post(self, request, *args, **kwargs):
         # Obtener los datos del cuerpo de la solicitud
         data = json.loads(request.body)
+        # return print(data)
 
         codigo_predio = data.get('codigo_predio')
         if Acta.objects.filter(codigo_predio=codigo_predio).exists():

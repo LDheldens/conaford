@@ -89,7 +89,22 @@
 
 .group_1,.group_4>div, .group_6{
     display: flex;
+    justify-items: center;
     gap: 10px;
+}
+.group_3{
+    @media (min-width:768px) { 
+        display: flex;
+        gap: 10px;
+    }
+}
+.cont-ec-nd{
+    @media (min-width:768px) { 
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        justify-items: center;
+    }
 }
 
 input[type="text"]{

@@ -147,50 +147,41 @@
                 <div class="mb-2">
                     <h2 class="text-sm font-medium text-gray-700 asterisk-icon font-gotham-bold">Descripción fisica del
                         predio</h2>
-                    <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
-                        <!-- border-gray-100 sm:flex"> -->
-                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="descripcion-fisica-predio-construido" type="radio" value="construido" name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
-                            {% if acta.descripcion_fisica == 'construido' %}checked{% endif %}
-                            >
-                            <label for="descripcion-fisica-predio-construido" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Construido</label>
-                        </li>
-                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="descripcion-fisica-predio-en-construccion" type="radio" value="en-construccion" name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
-                            {% if acta.descripcion_fisica == 'en-construccion' %}checked{% endif %}
-                            >
-                            <label for="descripcion-fisica-predio-en-construccion" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">En
-                            construcción</label>
-                        </li>
-                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="descripcion-fisica-predio-cercado" type="radio" value="cercado" name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
-                            {% if acta.descripcion_fisica == 'cercado' %}checked{% endif %}
-                            >
-                            <label for="descripcion-fisica-predio-cercado" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Cercado</label>
-                        </li>
-                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="descripcion-fisica-predio-derruido" type="radio" value="derruido" 
-                            name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
-                            {% if acta.descripcion_fisica == 'derruido' %}checked{% endif %}
-                            >
-                            <label for="descripcion-fisica-predio-derruido" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Derruido</label>
-                        </li>
-                        <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
-                            <input id="descripcion-fisica-predio-vacio" type="radio" value="vacio" name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
-                            {% if acta.descripcion_fisica == 'vacio' %}checked{% endif %}
-                            >
-                            <label for="descripcion-fisica-predio-vacio" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Vacio</label>
-                        </li>
-                        <li class="bg-[#00A5A5] flex sm:w-[30%] justify-start items-center gap-x-2 px-2 py-4">
-                            <input id="descripcion-fisica-predio-otros" type="radio" value="otros" name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
-                            {% if acta.descripcion_fisica == 'otros' %}checked{% endif %}
-                            >
-                            <label for="descripcion-fisica-predio-otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
-                            <input type="text" id="descripcion-fisica-predio-otros-value" name="descripcion-fisica-predio-otros-value" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar"
-                            value="{{ acta.descripcion_fisica_otros }}"
-                            >
-                        </li>
-                        </ul>
+
+                    
+                        <ul class="mt-1 text-sm font-medium text-gray-700 sm:flex">
+                            <!-- border-gray-100 sm:flex"> -->
+                            <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                                <input id="descripcion-fisica-predio-construido" type="radio" value="consolidado" 
+                                {% if acta.descripcion_fisica == 'consolidado' %}checked{% endif %}
+                                name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
+                                >
+                                <label for="descripcion-fisica-predio-construido" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Consolidado</label>
+                            </li>
+                            <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                                <input id="descripcion-fisica-predio-en-construccion" type="radio" value="semi consolidado" name="list-radio-descripcion-fisica-predio" class="w-4 h-4"
+                                {% if acta.descripcion_fisica == 'semi consolidado' %}checked{% endif %}
+                                >
+                                <label for="descripcion-fisica-predio-en-construccion" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Semi Consolidado</label>
+                            </li>
+                            <li class="bg-[#00A5A5] flex items-center gap-x-2 px-2 py-4 border-b border-gray-300 sm:border-b-0 sm:border-r">
+                                <input id="descripcion-fisica-predio-cercado" type="radio" value="precario" 
+                                {% if acta.descripcion_fisica == 'precario' %}checked{% endif %}
+                                name="list-radio-descripcion-fisica-predio" class="w-4 h-4">
+                                <label for="descripcion-fisica-predio-cercado" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">precario</label>
+                            </li>
+                            <li class="bg-[#00A5A5] flex sm:w-[30%] justify-start items-center gap-x-2 px-2 py-4">
+                                <input id="descripcion-fisica-predio-otros" type="radio" 
+                                value="otros" 
+                                {% if acta.descripcion_fisica == 'otros' %}checked{% endif %}
+                                name="list-radio-descripcion-fisica-predio" class="w-4 h-4">
+                                <label for="descripcion-fisica-predio-otros" class="font-gotham-bold text-sm font-medium text-gray-100 cursor-pointer hover:text-gray-300">Otros</label>
+                                <input type="text" id="descripcion-fisica-predio-otros-value" name="descripcion-fisica-predio-otros-value" class="flex-1 px-4 py-2 border-2 text-gray-700 shadow-sm focus:outline-none" placeholder="Especificar"
+                                value="{{ acta.descripcion_fisica_otros }}"
+                                >
+                            </li>
+                            </ul>
+                        
                 </div>
                 <!-- Uso-->
                 <div class="mb-2">
@@ -702,35 +693,9 @@
                         placeholder="Comentario/observaciones.">{{ acta.comentario3 }}</textarea>
                 </div>
 
-                <p class="font-gotham-book text-justify">
-                    El presente formato fue elaborado acorde a los estamentos de la Ley N°31560 - Ley que Otorga
-                    Funciones
-                    Compartidas a los Gobiernos Locales en los Procesos de Formalización de la Propiedad Informal, Ley
-                    N°28687 - Ley de Desarrollo y Complementaria de Formalización de la Propiedad Informal, Acceso al
-                    Suelo
-                    y Dotación de Servicios Básicos, modificada según Ley 31056 - Ley Que Amplia Los Plazos De La
-                    Titulación
-                    De Terrenos Ocupados Por Posesiones Informales y Dicta Medidas Para La Formaliación,
-                    D.S.N°006-2006-VIVIENDA - Reglamento del Título I de la Ley N° 28687, referido a "Formalización de
-                    la
-                    Propiedad Informal de Terrenos Ocupados por Posesiones informales, Centros Urbanos Informales y
-                    Urbanizaciones Populares", D.S.N°002-2021-VIVIENDA - Reglamento de la Ley N°31056, Ley que amplia
-                    los
-                    plazos de la titulación de terrenos ocupados por posesiones informales y dicta medidas para la
-                    formalización, el D.S.N°013-99-MTC - Reglamento de Formalización de la Propiedad a cargo de la
-                    COFOPRI y
-                    Convenio entre la Municipalidad Distrital de Huamancaca Chico y la Empresa CONAFORP E.I.R.L.
-                </p>
             </div>
             <!-- next && prev -->
             <div class="flex justify-start sm:justify-center gap-4 sm:end hidden">
-                <!-- <div>
-                    <button type="button" class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]"
-                    id="btn-cancelar-titular">
-                    <a href="/pos/crm/acta/"
-                    ><i class="fas fa-times"></i> Cancelar</a>
-                    </button>
-                </div> -->
 
                 <div>
                     <button type="button"

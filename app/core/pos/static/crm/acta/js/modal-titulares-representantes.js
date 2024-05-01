@@ -174,9 +174,7 @@ const editRow = (options) => {
 };
 
 const addRow = (options) => {
-    const {
-        isTitular,
-    } = options;
+    const {isTitular,} = options;
     const {
         apellidos,
         nombres,
@@ -185,7 +183,6 @@ const addRow = (options) => {
         copiaDoc,
         cartaPoder,
         representante,
-        // docPdf,
         docPdfValue,
         observaciones,
     } = options.data || { };
@@ -199,7 +196,7 @@ const addRow = (options) => {
     /*html*/
 `
 <td class="px-6 py-4 text-justify">
-        ${ cartaPoder }
+    ${ cartaPoder }
 </td>
 `;
 const representanteHtml = !isTitular? '':
@@ -210,56 +207,55 @@ const representanteHtml = !isTitular? '':
 </td>
 `;
 
-    const row = 
-    /*html*/
-`
-<tr class="odd:bg-white even:bg-gray-50 border-b" id="row${ no }">
-    <td class="px-6 py-4 text-justify">
-        ${ apellidos }
-    </td>
-    <td class="px-6 py-4 text-justify">
-        ${ nombres }
-    </td>
-    <td class="px-6 py-4 text-justify">
-        ${ dni }
-    </td>
-    <td class="px-6 py-4 text-justify">
-        ${ estadoCivil }
-    </td>
-    <td class="px-6 py-4 text-justify">
-        ${ copiaDoc }
-    </td>
-    ${ cartaPoderHtml }
-    <td class="px-6 py-4 text-justify">
-    ${
-        docPdfValue?
-        `
-        <a id="pdfLink" href="data:application/pdf;base64,${docPdfValue}" download="documentos.pdf" target="_blank" class="font-bold"><i class="fa-solid fa-download"></i> Descargar PDF</a>
-        `:
-        `
-        <a id="pdfLink" href="#null" class="font-bold"></i> Sin documentos</a>
-        `
 
-    }
-        <!-- <a id="pdfLink" href="data:application/pdf;base64,${docPdfValue}" target="_blank" class="font-bold"><i class="fa-solid fa-download"></i> Descargar PDF</a> -->
-    </td>
-    <td class="px-6 py-4 text-justify">
-        ${ observaciones }
-    </td>
-    ${ representanteHtml }
-    <td class="px-6 py-4">
-        <div class="flex gap-2">
-            <button id="edit${no}" type="button"
-            class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">
-                <i class="fa-solid fa-pen"></i>
-            </button>
-            <button id="delete${no}" type="button"
-                class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]">
-                <i class="fa-solid fa-trash"></i>
-            </button>
-        </div>
-    </td>
-</tr>
+const row = `
+    <tr class="${representante=='si' ? 'bg-green-400 text-black' :'bg-gray-50 '} border-b" id="row${ no }">
+        <td class="px-6 py-4 text-justify">
+            ${ apellidos }
+        </td>
+        <td class="px-6 py-4 text-justify">
+            ${ nombres }
+        </td>
+        <td class="px-6 py-4 text-justify">
+            ${ dni }
+        </td>
+        <td class="px-6 py-4 text-justify">
+            ${ estadoCivil }
+        </td>
+        <td class="px-6 py-4 text-justify">
+            ${ copiaDoc }
+        </td>
+        ${ cartaPoderHtml }
+        <td class="px-6 py-4 text-justify">
+        ${
+            docPdfValue?
+            `
+            <a id="pdfLink" href="data:application/pdf;base64,${docPdfValue}" download="documentos.pdf" target="_blank" class="font-bold"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+            `:
+            `
+            <a id="pdfLink" href="#null" class="font-bold"></i> Sin documentos</a>
+            `
+
+        }
+            <!-- <a id="pdfLink" href="data:application/pdf;base64,${docPdfValue}" target="_blank" class="font-bold"><i class="fa-solid fa-download"></i> Descargar PDF</a> -->
+        </td>
+        <td class="px-6 py-4 text-justify">
+            ${ observaciones }
+        </td>
+        ${ representanteHtml }
+        <td class="px-6 py-4">
+            <div class="flex gap-2">
+                <button id="edit${no}" type="button"
+                class="mb-2 bg-[#003c8b] font-gotham-bold p-2 rounded text-white hover:bg-[#355887]">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button id="delete${no}" type="button"
+                    class="mb-2 bg-[#8b0031] font-gotham-bold p-2 rounded text-white hover:bg-[#6d3b4c]">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
 `;
     container.insertAdjacentHTML('beforeend', row);
     const btnDeleteRow = container.querySelector(`#delete${no}`);
@@ -480,10 +476,6 @@ const handleModal = (options) => {
 function makeModal(html) {
 
     return Swal.fire({
-        // title:
-        // /*html*/`
-        // <div><h2>HELLO</h2></div>
-        // `,
         scrollbarPadding: false,
         padding: '0',
         margin: '0',
@@ -521,9 +513,6 @@ function makeModal(html) {
                     selectorsModal.docPdfValue = result;
                 });
             });
-            
-            // usernameInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
-            // passwordInput.onkeyup = (event) => event.key === 'Enter' && Swal.clickConfirm()
         },
         preConfirm: () => {
             const popup = Swal.getPopup();
@@ -569,10 +558,3 @@ btnAgregarTitular.addEventListener('click', () => {
         isTitular: true,
     });
 });
-
-// btnAgregarRepresentante.addEventListener('click', () => {
-//     console.log('representante');
-//     handleModal({
-//         isTitular: false,
-//     });
-// });

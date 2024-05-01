@@ -97,7 +97,7 @@ class ClientForm(ModelForm):
         'class': 'form-control',
         'autocomplete': 'off',
         'placeholder': 'Ingrese su número de DNI'
-    }), label='Número de DNI', max_length=10)
+    }), label='Número de DNI', max_length=8)
 
 
 class SaleForm(ModelForm):

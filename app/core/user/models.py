@@ -12,7 +12,7 @@ from config import settings
 
 
 class User(AbstractUser):
-    dni = models.CharField(max_length=13, unique=True, verbose_name='DNI')
+    dni = models.CharField(max_length=8, unique=True, verbose_name='DNI')
     image = models.ImageField(upload_to='users/%Y/%m/%d', verbose_name='Imagen', null=True, blank=True)
     is_change_password = models.BooleanField(default=False)
     token = models.UUIDField(primary_key=False, editable=False, null=True, blank=True, default=uuid.uuid4, unique=True)

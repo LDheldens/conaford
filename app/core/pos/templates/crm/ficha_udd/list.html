@@ -11,12 +11,17 @@
     <th class="text-center">Distrito</th>
     <th>Nombre - Poseción</th>
     <th class="text-center">Porcentaje - avance</th>
-    <th class="text-center">Opciones</th>
+    <th class="text-center">Opciones</th> 
 
 {% endblock %}
 
 {% block rows %}
-
+    {% comment %} {% for posesion in object_list %}
+        <div>
+            <i style="font-size: 50px;" class="fas fa-folder"></i>
+            <p>EJEMPLO DE POSESI</p>
+        </div>
+    {% endfor %} {% endcomment %}
 {% endblock %}
 
 {% block javascript_list %}

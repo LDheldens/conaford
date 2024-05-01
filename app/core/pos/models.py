@@ -108,7 +108,7 @@ class Product(models.Model):
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    mobile = models.CharField(max_length=10, unique=True, verbose_name='Teléfono')
+    mobile = models.CharField(max_length=9, unique=True, verbose_name='Teléfono')
     address = models.CharField(max_length=500, null=True, blank=True, verbose_name='Dirección')
 
     def __str__(self):
@@ -445,7 +445,7 @@ class Acta(models.Model):
     comentario1 = models.TextField()
     # carta_poder = models.CharField(null=True, blank=True,max_length=10)
     # 5.- DEL LEVANTAMIENTO TOPOGRÁFICO:
-    codigo_dlt = models.CharField(max_length=50)
+    codigo_dlt = models.CharField(max_length=50,blank=True, null=True)
     hora = models.TimeField()
     n_punto = models.IntegerField(blank=True, null=True)
     tiempo_atmosferico = models.CharField(max_length = 20)
@@ -498,8 +498,8 @@ class Posesion(models.Model):
     nombres = models.CharField(max_length=100)
     estado_civil = models.CharField(max_length=20)
     num_doc = models.CharField(max_length=20)
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin = models.DateField(blank=True, null=True)
     anios_posesion = models.IntegerField(default=1)
     pdf_documento = models.FileField(upload_to='posesion/', blank=True, null=True)
 

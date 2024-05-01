@@ -35,8 +35,8 @@ const stepInit = () => {
     const condition = {
         0: ['part1', 'part2'],
         1: ['part3', 'part4'],
-        2: ['part5', 'part6'],
-        3: ['part7', 'part8', 'part9'],
+        2: ['part5', 'part6','part7', 'part8', 'part9'],
+        // 3: [],
     };
     // add listener click element li
     for (let [index, liElement] of Object.entries(liElements)) {

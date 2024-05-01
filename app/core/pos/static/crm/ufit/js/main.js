@@ -430,3 +430,22 @@ inputNumeroLote.addEventListener('input', function() {
     }
 });
 
+areaSegunL.addEventListener('input', function(event) {
+    const regex = /^\d+(\.\d{1,2})?$/; // Expresión regular para números con máximo dos decimales
+    const valor = this.value.trim();
+    const contenedor = areaSegunL.parentElement;
+    const parrafo = contenedor.querySelector('p');
+
+    if (!regex.test(valor)) {
+        event.preventDefault(); // Detener la propagación del evento si la validación falla
+        parrafo.textContent = 'El área no cumple con el formato, tiene que ser un número entero con máximo 2 decimales.';
+        parrafo.classList.remove('text-green-500'); // Elimina el color verde del texto si estaba presente
+        parrafo.classList.add('text-red-500'); // Agrega el color rojo al texto
+        event.preventDefault();
+    } else {
+        parrafo.textContent = 'Formato válido.';
+        parrafo.classList.remove('text-red-500'); // Elimina el color rojo del texto si estaba presente
+        parrafo.classList.add('text-green-500'); // Agrega el color verde al texto
+    }
+});
+
