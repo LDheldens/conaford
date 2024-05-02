@@ -20,8 +20,7 @@ class Dashboard(models.Model):
     layout = models.IntegerField(default=1, verbose_name='Diseño', blank=True, null=True, choices=layout_options)
     card = models.CharField(max_length=50, verbose_name='Card', choices=card, default=card[0][0])
     navbar = models.CharField(max_length=50, verbose_name='Navbar', choices=navbar, default=navbar[0][0])
-    brand_logo = models.CharField(max_length=50, verbose_name='Brand Logo', choices=brand_logo,
-                                  default=brand_logo[0][0])
+    brand_logo = models.CharField(max_length=50, verbose_name='Brand Logo', choices=brand_logo,default=brand_logo[0][0])
     sidebar = models.CharField(max_length=50, verbose_name='Sidebar', choices=sidebar, default=sidebar[0][0])
 
     def __str__(self):

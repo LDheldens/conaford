@@ -87,7 +87,7 @@
     margin-top: 5px;
 }
 
-.group_1,.group_4>div, .group_6{
+.group_1,.group_4>div{
     display: flex;
     justify-items: center;
     gap: 10px;
@@ -107,14 +107,14 @@
     }
 }
 
-input[type="text"]{
+input[type="number"],input[type="text"]{
     padding: 5px;
     outline: none;
     border: solid 1px rgb(230, 223, 223);
     border-radius: 3px;
     width: 100%;
 }
-input[type="text"]:focus{
+input[type="number"]:focus,input[type="text"]:focus{
     border: solid 1px rgb(125, 125, 255);
 }
 #button-dni{

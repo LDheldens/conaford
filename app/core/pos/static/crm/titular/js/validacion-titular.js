@@ -1,9 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const formTitular = document.getElementById('form-titular');
 
+    let apellidos = document.getElementById('apellidos')
+    let nombres = document.getElementById('nombres')
+    let numDoc = document.getElementById('numero-doc')
+
     let dni = document.getElementById('dni')
     const btnSearchDni = document.querySelector('#button-dni')
-    console.log(btnSearchDni)
+
+    btnSearchDni.addEventListener('click',(e)=>{
+        obtenerDatosUsuario()
+    })
+    btnSearchDni.addEventListener('input', event => event.target.value = event.target.value.replace(/\D/g, ''));
+
     formTitular.addEventListener('submit', (e) => {
         e.preventDefault();
 
@@ -100,6 +109,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         }
     });
+    function capitalize(str) {
+        return str.replace(/\b\w/g, function(l) {
+            return l.toUpperCase();
+        }).replace(/\B\w+/g, function(l) {
+            return l.toLowerCase();
+        });
+    }
+    
+    function obtenerDatosUsuario() {
+        fetch('/tools/search-dni-pe/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dni: dni.value.trim(),
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener la respuesta del servidor.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // return console.log(data)
+            // Aquí puedes manipular los datos obtenidos de la respuesta
+            apellidos.value = `${capitalize(data.apellidoPaterno || '')} ${capitalize(data.apellidoMaterno || '')}`;
+            nombres.value = capitalize(data.nombres || '');
+            numDoc.value = dni.value;
+        })
+        .catch(error => {
+            console.error(error.message);
+            const initial = btnSearchDni.innerText;
+            btnSearchDni.innerText = 'Error del servidor!';
+            setTimeout(() => {
+                btnSearchDni.innerText = initial;
+            }, 2000);
+        });
+    }
 
     function markAsInvalid(inputId) {
         document.getElementById(inputId).classList.add('invalid');

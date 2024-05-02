@@ -52,6 +52,7 @@ class TitularCreateView(TemplateView):
         estado_civil = request.POST.get('estado_civil')
         num_doc = request.POST.get('num_doc')
         pdf_documento = request.FILES.get('pdf_documento')
+        observaciones = request.POST.get('observaciones')
 
         # generar nombre unico para el PDF
         pdf_documento.name = self.generar_nombre_pdf()
@@ -69,7 +70,8 @@ class TitularCreateView(TemplateView):
             estado_civil=estado_civil,
             num_doc=num_doc,
             copia_doc_identidad=copia_doc_identidad,
-            pdf_documento = pdf_documento
+            pdf_documento = pdf_documento,
+            observaciones = observaciones
         )
         titular.save()
         

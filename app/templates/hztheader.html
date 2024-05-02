@@ -1,11 +1,15 @@
 {% load static %}
 {% load security_extras %}
-<nav class="main-header navbar navbar-expand-md {{ dshboard.navbar }}">
-    {% if request.session.pi %}
-        El valor de PI en la sesión es: {{ request.session.pi }}
-    {% else %}
-        No hay ningún valor de PI almacenado en la sesión.
-    {% endif %}
+<nav style="position: relative;" class="main-header navbar navbar-expand-md {{ dshboard.navbar }}">
+    <div style="position: absolute;top: 80%;">
+        {% if request.session.pi %}
+            <div style="border-radius: 5px;" class="bg-info">
+                Estas en la posesión informal: <b>{{ request.session.posesion}} </b>
+            </div>
+        {% else %}
+            No selecionaste ninguna posesion informal
+        {% endif %}
+    </div>
     <div class="container">
         <a href="{% url 'dashboard' %}" class="navbar-brand {{ dshboard.brand_logo }}">
             <img src="{{ dshboard.get_image }}" alt="AdminLTE Logo" class="brand-image" style="opacity: .8">
@@ -184,37 +188,6 @@
                     {% endif %}
                 </li>
             {% endif %}
-            {#            <li class="nav-item dropdown">#}
-            {#                <a class="nav-link" data-toggle="dropdown" href="#">#}
-            {#                    <i class="fas fa-users-cog"></i>#}
-            {#                </a>#}
-            {#                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">#}
-            {#                    <span class="dropdown-header">#}
-            {#                        <small>#}
-            {#                            Último Acceso: {{ request.user.last_login|date }}<br>#}
-            {#                            {{ request.user.email }}#}
-            {#                         </small>#}
-            {#                    </span>#}
-            {#                    <div class="dropdown-divider"></div>#}
-            {#                    <a href="{% url 'user_update_profile' %}" class="dropdown-item">#}
-            {#                        <i class="fas fa-edit"></i> Editar perfil#}
-            {#                    </a>#}
-            {#                    <div class="dropdown-divider"></div>#}
-            {#                    <a href="{% url 'user_update_profile' %}" class="dropdown-item">#}
-            {#                        <i class="fas fa-lock"></i> Editar password#}
-            {#                    </a>#}
-            {#                    <div class="dropdown-divider"></div>#}
-            {#                    <a href="#" class="dropdown-item dropdown-footer">#}
-            {#                        {% if not request.session.group is None %}#}
-            {#                            <p>#}
-            {#                                <b>Bienvenido al sistema, su perfil#}
-            {#                                    es {{ request.session.group.name }}</b><br>#}
-            {#                                <small>Este sistema te permitira realizar diferentes actividades</small>#}
-            {#                            </p>#}
-            {#                        {% endif %}#}
-            {#                    </a>#}
-            {#                </div>#}
-            {#            </li>#}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">
                     <i class="fas fa-power-off"></i>

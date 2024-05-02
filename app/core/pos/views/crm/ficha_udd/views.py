@@ -286,13 +286,13 @@ class LoginFichaView(TemplateView):
         if user is not None:
             # Si el usuario es autenticado correctamente, iniciar sesión
             login(request, user)
-            # Cambiar el campo 'auth_login_dashboard' del usuario
             user.auth_login_dashboard = True
-            user.save()  # Guardar los cambios en la base de datos
+            user.save()
             
             pk = self.kwargs.get('pk')
             request.session['pi'] = pk
             posesion_informal = get_object_or_404(PosesionInformal, pk=pk)
+            request.session['posesion'] = posesion_informal.denominacion_segun_inei
             
             posesion_informal.is_matriz = True
             posesion_informal.save()

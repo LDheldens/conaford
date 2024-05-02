@@ -33,14 +33,17 @@
                     {% csrf_token %}
                     {# Forms Visible #}
                     {% for field in form.visible_fields %}
+                        {% if field.name != 'layout' %}
+                        
                         <div class="form-group">
                             <label>{{ field.label }}:</label>
                             {% if field|is_checkbox %}
-                                 <br>{{ field }}
+                                <br>{{ field }}
                             {% else %}
                                 {{ field|add_class:'form-control'|attr:"autocomplete:off" }}
                             {% endif %}
                         </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
