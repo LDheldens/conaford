@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 10,
+                            min: 8,
                         },
                         digits: {},
                         remote: {

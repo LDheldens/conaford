@@ -12,8 +12,8 @@ from core.security.mixins import ModuleMixin, PermissionMixin
 
 from core.pos.models import Titular
 
-class ClientListView(TemplateView):
-# class ClientListView(PermissionMixin, TemplateView):
+# class ClientListView(TemplateView):
+class ClientListView(PermissionMixin, TemplateView):
     template_name = 'crm/client/list.html'
     permission_required = 'view_client'
 

@@ -486,8 +486,6 @@ module.name_menu = 'informe'
 module.icon = 'fas fa-list'
 module.description = 'Permite ver el listado de fichas preliminares'
 module.save()
-for p in Permission.objects.filter(content_type__model=PosesionInformal._meta.label.split('.')[1].lower()):
-    module.permits.add(p)
 print('Insertado {}'.format(module.name))
 
 module = Module()

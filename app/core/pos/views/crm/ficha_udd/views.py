@@ -16,11 +16,13 @@ import base64
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from datetime import date, datetime
+from core.security.mixins import ModuleMixin, PermissionMixin
 
 @method_decorator(csrf_exempt, name='dispatch')
-class FichaUddCreateView(TemplateView):
+class FichaUddCreateView(PermissionMixin, TemplateView):
     template_name = 'crm/ficha_udd/create.html'
     success_url = reverse_lazy('ficha_udd_list')
+    permission_required = 'add_posesioninformal'
     
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
