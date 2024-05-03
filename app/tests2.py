@@ -465,6 +465,32 @@ module.save()
 print('insertado {}'.format(module.name))
 
 module = Module()
+module.name = 'Cuentas por Cobrar'
+module.url = '/reports/ctas/collect/'
+module.is_active = True
+module.is_vertical = False
+module.is_visible = True
+module.name_menu = 'informe'
+module.icon = 'fas fa-chart-bar'
+module.description = 'Permite ver los reportes de las cuentas por cobrar'
+module.save()
+print('insertado {}'.format(module.name))
+
+module = Module()
+module.name = 'Listado de Fichas'
+module.url = '/pos/crm/acta/'
+module.is_active = True
+module.is_vertical = False
+module.is_visible = True
+module.name_menu = 'informe'
+module.icon = 'fas fa-list'
+module.description = 'Permite ver el listado de fichas preliminares'
+module.save()
+for p in Permission.objects.filter(content_type__model=PosesionInformal._meta.label.split('.')[1].lower()):
+    module.permits.add(p)
+print('Insertado {}'.format(module.name))
+
+module = Module()
 module.name = 'Editar perfil'
 module.url = '/user/update/profile/'
 module.is_active = True

@@ -297,11 +297,8 @@ class LoginFichaView(TemplateView):
             posesion_informal.is_matriz = True
             posesion_informal.save()
             
-
-            # Redirige al usuario a la URL construida
-            return redirect('acta_list') # Cambia 'pagina_de_inicio' por el nombre de tu URL
+            return redirect('acta_list')
         else:
-            # Si la autenticación falla, mostrar un mensaje de error o manejarlo de otra manera
             return redirect(reverse('ficha_udd_login', kwargs={'pk': self.kwargs.get('pk')}))
 
 class FichaUddListView(ListView):

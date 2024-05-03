@@ -109,7 +109,7 @@ class ModuleType(models.Model):
 
 
 class Module(models.Model):
-    url = models.CharField(max_length=100, verbose_name='Url', unique=True)
+    url = models.CharField(max_length=100, verbose_name='Url')
     name = models.CharField(max_length=100, verbose_name='Nombre')
     moduletype = models.ForeignKey(ModuleType, null=True, blank=True, verbose_name='Tipo de Módulo',
                                    on_delete=models.PROTECT)

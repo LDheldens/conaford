@@ -101,5 +101,4 @@ urlpatterns = [
     path('crm/porcentaje_llenado/acta/', PorcentajeLlenadoActaView.as_view(), name='porcentaje_llenado_acta'),
     
     path('crm/porcentaje_llenado/posesion-informal/', PorcentajeLlenadoPosesionInformalView.as_view(), name='porcentaje_llenado_posesion_informal'),
-
 ]

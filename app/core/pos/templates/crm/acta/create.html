@@ -98,6 +98,13 @@
                     <!-- ACTUALIZAR FICHA DE LEVANTAMIENTO {{ acta_id }} -->
                     <i class="fa-solid fa-plus"></i> AÑADIR FICHA DE LEVANTAMIENTO 
                 </h1>
+                <h2 class="text-center text-lg mb-4 text-gray-700">
+                    {% if request.session.pi %}
+                        "Estas en la posesión informal: <b>{{ request.session.posesion}} "</b>
+                    {% else %}
+                        "No selecionaste ninguna posesion informal"
+                    {% endif %}
+                </h2>
                 <!-- linea -->
                 <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-emerald-200">
                     <div style="width: 10%"
