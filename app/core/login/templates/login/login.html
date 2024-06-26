@@ -10,9 +10,10 @@
             <div class="card">
                 <div class="card-body login-card-body">
                     <div class="contact-image">
-                        <img style="width: 100px;" src="{% static 'login/img/conaford.jpg' %}" alt="">
+                        {% comment %} <img style="width: 100px;" src="{% static 'login/img/conaford.jpg' %}" alt=""> {% endcomment %}
+                        <h1 class="text-center">Terrafirma</h1>
                     </div>
-                    <p class="login-box-msg">Inicio de Sesión</p>
+                    <p class="login-box-msg">Inicio de Ses</p>
                     <form method="post" id="frmLogin">
                         {% csrf_token %}
                         <input type="hidden" name="next" value="{{ next }}">
