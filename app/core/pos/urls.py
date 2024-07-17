@@ -35,6 +35,7 @@ urlpatterns = [
     path('frm/ctas/collect/', CtasCollectListView.as_view(), name='ctascollect_list'),
     path('frm/ctas/collect/add/', CtasCollectCreateView.as_view(), name='ctascollect_create'),
     path('frm/ctas/collect/delete/<int:pk>/', CtasCollectDeleteView.as_view(), name='ctascollect_delete'),
+    path('frm/ctas/collect/print/voucher/<int:pk>/', PaymentPrintVoucherView.as_view(), name='ctas_collect_print_ticket'),
     # client
     path('crm/client/', ClientListView.as_view(), name='client_list'),
     path('crm/client/add/', ClientCreateView.as_view(), name='client_create'),

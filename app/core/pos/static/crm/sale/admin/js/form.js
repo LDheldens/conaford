@@ -458,6 +458,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 pathname,
                 parameters,
                 function (request) {
+                    console.log(request)
                     dialog_action('Notificación', '¿Desea Imprimir el Comprobante?', function () {
                         window.open('/pos/crm/sale/print/voucher/' + request.id + '/', '_blank');
                         location.href = urlrefresh;

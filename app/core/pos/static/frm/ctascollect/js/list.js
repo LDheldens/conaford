@@ -164,7 +164,13 @@ $(function () {
                         targets: [-1],
                         class: 'text-center',
                         render: function (data, type, row) {
-                            return '<a rel="delete" class="btn btn-danger btn-xs btn-flat"><i class="fas fa-times"></i></a>';
+                            return `
+                                <a rel="delete" class="btn btn-danger btn-xs btn-flat">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                                <a rel="print" href="/pos/frm/ctas/collect/print/voucher/${row.id}/" target="_blank" class="btn btn-info btn-xs btn-flat" style="margin-left: 5px;">
+                                    <i class="fas fa-print"></i>
+                                </a>`;
                         }
                     }
                 ],

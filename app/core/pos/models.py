@@ -287,6 +287,7 @@ class CtasCollect(models.Model):
         item['end_date'] = self.end_date.strftime('%Y-%m-%d')
         item['debt'] = float(self.debt)
         item['saldo'] = float(self.saldo)
+        item['payment_count'] = self.paymentsctacollect_set.count()
         return item
 
 
@@ -307,9 +308,10 @@ class PaymentsCtaCollect(models.Model):
     date_joined = models.DateField(default=datetime.now, verbose_name='Fecha de registro')
     desc = models.CharField(max_length=500, null=True, blank=True, verbose_name='Detalles')
     valor = models.DecimalField(max_digits=9, decimal_places=2, default=0.00, verbose_name='Valor')
+    paymentNumber = models.IntegerField(default=1, verbose_name='Número de pago')
 
     def __str__(self):
-        return self.ctascollect.id
+        return f'Pago {self.id} para CtaCollect {self.ctascollect.id}'
 
     def toJSON(self):
         item = model_to_dict(self, exclude=['ctascollect'])

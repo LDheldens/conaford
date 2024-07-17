@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.pos.models import Titular, Acta, Colindancia, ImagenActa, Posesion, PosesionInformal, ColindanciaUfin, Product, Sale, Category, Client, SaleDetail
+from core.pos.models import *
 # Register your models here.
 
 admin.site.register(Titular)
@@ -14,3 +14,5 @@ admin.site.register(Sale)
 admin.site.register(SaleDetail)
 admin.site.register(Category)
 admin.site.register(Client)
+admin.site.register(CtasCollect)
+admin.site.register(PaymentsCtaCollect)

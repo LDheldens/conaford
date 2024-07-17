@@ -2,6 +2,15 @@ var fv;
 var input_datejoined;
 var select_ctascollect;
 
+// variable que alert,macena la cantidad de cuantas cuotas ya se pagaron
+let payment_count
+
+// variable que almacena el numero de pago a relizar ahora
+let paymentNumber
+
+// variable que almacena el valor a pagar ahora
+let paymentAmount;
+
 document.addEventListener('DOMContentLoaded', function (e) {
     const form = document.getElementById('frmForm');
     fv = FormValidation.formValidation(form, {
@@ -81,14 +90,24 @@ document.addEventListener('DOMContentLoaded', function (e) {
             $.each($(fv.form).serializeArray(), function (key, item) {
                 parameters[item.name] = item.value;
             })
-            console.log(parameters);
+            parameters.paymentNumber = paymentNumber
+
+            if (Number(parameters.valor) != paymentAmount) {
+                alert(`El monto a pagar tiene que ser de S./ ${paymentAmount}`)
+                return
+            }
 
             submit_with_ajax('Notificación',
                 '¿Estas seguro de realizar la siguiente acción?',
                 pathname,
                 parameters,
-                function () {
-                    location.href = fv.form.getAttribute('data-url');
+                function (request) {
+
+                    window.open('/pos/frm/ctas/collect/print/voucher/' + request.id + '/', '_blank');
+                    
+                    setTimeout(function () {
+                        location.href = fv.form.getAttribute('data-url');
+                    }, 500);  
                 }
             );
 
@@ -139,7 +158,18 @@ $(function () {
             var data = e.params.data;
             $('.deuda').html('Saldo: $' + parseFloat(data.saldo).toFixed(2));
             $('input[name="valor"]').trigger("touchspin.updatesettings", {max: parseFloat(data.saldo)});
-            console.log(data)
+
+            const {saldo} = data
+
+            payment_count = data.payment_count
+
+            paymentAmount = (saldo / (3 - payment_count)).toFixed(2);
+
+            paymentNumber = payment_count + 1; 
+
+            $('input[name="valor"]').val(paymentAmount);
+            $('textarea[name="desc"]').val(`Pago N.º ${paymentNumber}`);
+            
         })
         .on('select2:clear', function (e) {
             fv.revalidateField('|');
