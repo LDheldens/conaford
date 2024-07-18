@@ -55,7 +55,7 @@
         <b>NO. FACTURA:</b> {{ sale.id }}<br>
         <b>Cajero:</b> {{ sale.employee.get_full_name }}<br>
         <b>Cliente:</b> {{ sale.client.user.get_full_name }}<br>
-        <b>Número de cedula:</b> {{ sale.client.user.dni }}<br>
+        <b>Número de DNI:</b> {{ sale.client.user.dni }}<br>
         <b>Fecha de venta:</b> {{ sale.date_joined|date:'c' }}<br>
         <b>Forma de pago:</b> {{ sale.get_payment_condition_display }}<br>
         {% if sale.payment_condition == 'contado' %}

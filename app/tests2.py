@@ -241,7 +241,7 @@ print('Insertado {}'.format(module.name))
 # Agregar módulo "Ventas" a UPL
 module = Module()
 module.moduletype_id = 4  # ID correspondiente al tipo de módulo UPL
-module.name = 'Ventas'
+module.name = 'Asesoría'
 module.url = '/pos/crm/sale/admin/'
 module.is_active = True
 module.is_vertical = True
