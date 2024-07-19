@@ -1,0 +1,77 @@
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Node modules and lock files
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django stuff:
+# Ignore all log files
+*.log
+# Ignore all translation files
+*.pot
+# Ignore bytecode files
+*.pyc
+*.pyo
+# Ignore database files
+*.db
+*.sqlite3
+*.sqlite
+
+# Specific to a SQLite database
+db.sqlite3
+
+# Ignore the static files directory
+staticfiles/
+static/
+
+# Ignore media files
+media/
+
+# Local environment files
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+#
