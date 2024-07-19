@@ -16,3 +16,4 @@ admin.site.register(Category)
 admin.site.register(Client)
 admin.site.register(CtasCollect)
 admin.site.register(PaymentsCtaCollect)
+

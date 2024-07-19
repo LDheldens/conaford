@@ -21,6 +21,9 @@ var input_searchproducts;
 var input_endcredit;
 var inputs_vents;
 
+// id del predio, el codigo para esto está al final del archivo
+let id_predio = null;
+
 var vents = {
     details: {
         subtotal: 0.00,
@@ -452,6 +455,9 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 return false;
             }
             parameters.append('products', JSON.stringify(vents.details.products));
+            if (id_predio!=null) {
+                parameters.append('id_predio',id_predio)
+            }
             let urlrefresh = fvSale.form.getAttribute('data-url');
             submit_formdata_with_ajax('Notificación',
                 '¿Estas seguro de realizar la siguiente acción?',
@@ -910,3 +916,81 @@ $(function () {
     $('i[data-field="client"]').hide();
     $('i[data-field="searchproducts"]').hide();
 });
+
+document.addEventListener('DOMContentLoaded',()=>{
+    // código para el buscador por DNI
+    const btnSearch = document.querySelector('.btn-search-client')
+    const inputDni = document.querySelector('#id_dni')
+
+    btnSearch.addEventListener('click',()=>{
+        if (inputDni.value=='') {
+            return alert('Ingresa el número de DNI')
+        }
+        fetch('/tools/search-dni-pe/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dni: inputDni.value.trim(),
+            }),
+        })
+        .then(response => response.json())
+        .then(resuls => llenarInpusForm(resuls))
+        })
+
+    function llenarInpusForm(results){
+        console.log(results)
+        if (results.nombres == '') {
+            return alert('No se encontraron resultados')
+        }
+        document.querySelector('#id_first_name').value= results.nombres
+        document.querySelector('#id_last_name').value= results.apellidoPaterno + ' ' + results.apellidoMaterno
+    }
+
+    function cargarActas() {
+        fetch('/pos/api/actas/')
+        .then(response => response.json())
+        .then(actas => {
+            console.log(actas)
+            const inputCodigo = document.querySelector('#codigo');
+            const resultadosDiv = document.querySelector('.resultados ');
+            inputCodigo.addEventListener('input', function() {
+                const valorInput = this.value.trim().toLowerCase();
+                const actasFiltradas = filtrarActasPorCodigo(valorInput, actas);
+                mostrarResultados(actasFiltradas, resultadosDiv, inputCodigo);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener las actas:', error);
+        });
+    }
+
+    function filtrarActasPorCodigo(codigo, actas) {
+        return actas.filter(acta => acta.codigo_predio.toLowerCase().includes(codigo));
+    }
+
+    function mostrarResultados(actasFiltradas, resultadosDiv, inputCodigo) {
+        resultadosDiv.innerHTML = '';
+        if (actasFiltradas.length > 0) {
+            resultadosDiv.classList.remove('hidden');
+            actasFiltradas.forEach(acta => {
+                const li = document.createElement('LI');
+                li.addEventListener('click', () => {
+                    inputCodigo.value = acta.codigo_predio;
+                    resultadosDiv.classList.add('d-none');
+                    id_predio = acta.id;
+                    console.log(id_predio)
+                    // obtenerDetallesColindanciaUfin(acta_id)
+                });
+                li.textContent = `Código: ${acta.codigo_predio}`;
+                li.classList.add('cursor-pointer','hover:bg-slate-500','hover:text-white','p-1','rounded');
+                resultadosDiv.appendChild(li);
+            });
+        } else {
+            resultadosDiv.classList.add('d-none');
+        }
+    }
+
+    cargarActas()
+})

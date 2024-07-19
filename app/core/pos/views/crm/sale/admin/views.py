@@ -93,6 +93,7 @@ class SaleAdminCreateView(CreateView):
         try:
             if action == 'add':
                 print(request.POST)
+
                 with transaction.atomic():
                     sale = Sale()
                     sale.employee_id = request.user.id
@@ -103,6 +104,10 @@ class SaleAdminCreateView(CreateView):
                     sale.igv = float(Company.objects.first().igv) / 100
                     sale.dscto = float(request.POST['dscto']) / 100
                     sale.initial = float(request.POST['initial'])
+                    
+                    id_predio = request.POST.get('id_predio', None)
+                    sale.predio_id = int(id_predio) if id_predio is not None else None
+                    
                     sale.save()
                     
                     for i in json.loads(request.POST['products']):

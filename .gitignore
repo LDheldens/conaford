@@ -3,3 +3,96 @@ pnpm-lock.yaml
 package-lock.json
 node_modules/
 app/media
+
+# Byte-compiled / optimized / DLL files
+/app/__pycache__/
+/app/*.py[cod]
+/app/*$py.class
+
+# C extensions
+/app/*.so
+
+# Distribution / packaging
+/app/.Python
+/app/build/
+/app/develop-eggs/
+/app/dist/
+/app/downloads/
+/app/eggs/
+/app/.eggs/
+/app/lib/
+/app/lib64/
+/app/parts/
+/app/sdist/
+/app/var/
+/app/wheels/
+/app/share/python-wheels/
+/app/*.egg-info/
+/app/.installed.cfg
+/app/*.egg
+/app/MANIFEST
+
+# Django stuff:
+# Ignore all log files
+/app/*.log
+# Ignore all translation files
+/app/*.pot
+# Ignore all bytecode files
+/app/*.pyc
+/app/*.pyo
+# Ignore database files
+/app/*.db
+/app/*.sqlite3
+/app/*.sqlite
+
+# Specific to a SQLite database
+/app/db.sqlite3
+
+# Ignore the static files directory
+/app/staticfiles/
+/app/static/
+
+# Ignore media files
+/app/media/
+
+# Local environment files
+/app/.env
+/app/.env.*
+
+# OS generated files
+/app/.DS_Store
+/app/Thumbs.db
+
+# Node modules and lock files
+/app/node_modules/
+/app/pnpm-lock.yaml
+/app/package-lock.json
+
+# Editor directories and files
+/app/.vscode/
+/app/.idea/
+/app/*.sublime-project
+/app/*.sublime-workspace
+
+# Virtual environments
+/app/venv/
+/app/ENV/
+/app/env/
+/app/.venv/
+
+# Coverage reports
+/app/htmlcov/
+/app/.tox/
+/app/.coverage
+/app/.coverage.*
+/app/.cache
+/app/nosetests.xml
+/app/coverage.xml
+/app/*.cover
+/app/.hypothesis/
+
+# MyPy
+/app/.mypy_cache/
+
+# Pytest
+/app/.pytest_cache/

@@ -94,7 +94,7 @@ class ClientForm(ModelForm):
     }), label='Apellidos', max_length=50)
 
     dni = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control',
+        'class': 'form-control w-100',
         'autocomplete': 'off',
         'placeholder': 'Ingrese su número de DNI'
     }), label='Número de DNI', max_length=8)

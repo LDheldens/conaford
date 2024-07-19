@@ -1,6 +1,9 @@
 var fv;
 
 document.addEventListener('DOMContentLoaded', function (e) {
+
+
+
     const form = document.getElementById('frmForm');
     fv = FormValidation.formValidation(form, {
             locale: 'es_ES',
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                     validators: {
                         notEmpty: {},
                         stringLength: {
-                            min: 10,
+                            min: 9,
                         },
                         digits: {},
                     }
@@ -155,7 +158,7 @@ $(function () {
             boostat: 5,
             verticalbuttons: true,
             maxboostedstep: 10,
-            prefix: 'S/.'
+            prefix: '%'
         })
         .on('change touchspin.on.min touchspin.on.max', function () {
             fv.revalidateField('igv');

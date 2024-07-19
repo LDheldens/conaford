@@ -31,6 +31,14 @@
                 <div class="container-fluid">
                     {% csrf_token %}
                     <input type="hidden" id="action" name="action" value="{{ action }}">
+                    <div class="form-group mb-4 position-relative" style="max-width: 300px;margin: 0 auto;">
+                        <Label for="codigo">Busque el predio por su código:</Label>
+                        <input name="codigo" id="codigo" class="form-control" type="search" placeholder="Código de predio">
+
+                        <div class="resultados position-relative bottom-0">
+
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12 col-lg-8 card p-3 pb-0">
                             <h3 class="mb-0"><b><i class="fas fa-boxes"></i> Detalle de Venta</b></h3><br>
@@ -278,28 +286,44 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="container-fluid">
-                            {% for field in frmClient.visible_fields %}
-                                {% if forloop.first %}
-                                    <div class="row">
-                                {% endif %}
+                        <div class="container-fluid row">
+                            <div class="col-lg-12">
+                                <div class="col-lg-6 mx-auto d-flex justify-center align-items-center gap-4">
+                                    <div class="form-group w-100">
+                                        <label class="control-label">{{frmClient.dni.label}}:</label>
+                                        {{ frmClient.dni }}
+                                    </div>
+                                    <button type="button" class="ml-2 btn-search-client btn mt-3 btn-primary">
+                                        Buscar
+                                    </button>
+                                </div>
+                                
+                            </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>{{ field.label }}:</label>
-                                    {% if field|is_checkbox %}
-                                        <br>
-                                    {% endif %}
-                                    {{ field }}
+                                    <label>{{frmClient.first_name.label}}:</label>
+                                    {{ frmClient.first_name }}
                                 </div>
                             </div>
-                            {% if forloop.last %}
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>{{frmClient.last_name.label}}:</label>
+                                    {{ frmClient.last_name }}
                                 </div>
-                            {% elif forloop.counter|divisibleby:2 %}
-                                </div>
-                                <div class="row">
-                            {% endif %}
-                            {% endfor %}
                             </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>{{frmClient.mobile.label}}:</label>
+                                    {{ frmClient.mobile }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>{{frmClient.address.label}}:</label>
+                                    {{ frmClient.address }}
+                                </div>
+                            </div>
+                        </div>   
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-flat btn-block">
